@@ -1,0 +1,57 @@
+﻿name: Publish Packages
+
+on:
+  push:
+    tags:
+      - 'v*.*.*' # Match version tags like v1.0.0
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.x' # Adjust the version as needed
+
+      - name: Install dependencies
+        run: dotnet restore
+
+      - name: Build the solution
+        run: dotnet build --no-restore
+
+        # Ensure that the tests must pass 
+        # The job will fail automatically if any test fails because `dotnet test` exits with a non-zero code
+      - name: Run tests
+        run: dotnet test --no-build --verbosity normal
+
+  publish:
+    
+    runs-on: ubuntu-latest
+    
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '9.x'
+
+      - name: Restore dependencies
+        run: dotnet restore DependencyInjection.sln
+
+      - name: Build
+        run: dotnet build DependencyInjection.sln --configuration Release --no-restore
+
+      - name: Publish to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        run: |
+          dotnet nuget push src/TEMPLATE/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
