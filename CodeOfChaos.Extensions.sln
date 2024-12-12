@@ -12,6 +12,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{AF1A203C
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.CodeOfChaos.Extensions", "src\Tools.CodeOfChaos.Extensions\Tools.CodeOfChaos.Extensions.csproj", "{ADEADD97-0AFA-4D9E-970B-9FFB932949B3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOfChaos.Extensions.EntityFrameworkCore", "src\CodeOfChaos.Extensions.EntityFrameworkCore\CodeOfChaos.Extensions.EntityFrameworkCore.csproj", "{411473A5-2921-4758-B78C-E66BCFFE6303}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.CodeOfChaos.Extensions.EntityFrameworkCore", "tests\Tests.CodeOfChaos.Extensions.EntityFrameworkCore\Tests.CodeOfChaos.Extensions.EntityFrameworkCore.csproj", "{0A198DE2-E404-4BC4-9C6C-A4E1B4397463}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,10 +34,20 @@ Global
 		{ADEADD97-0AFA-4D9E-970B-9FFB932949B3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{ADEADD97-0AFA-4D9E-970B-9FFB932949B3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{ADEADD97-0AFA-4D9E-970B-9FFB932949B3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{411473A5-2921-4758-B78C-E66BCFFE6303}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{411473A5-2921-4758-B78C-E66BCFFE6303}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{411473A5-2921-4758-B78C-E66BCFFE6303}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{411473A5-2921-4758-B78C-E66BCFFE6303}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A198DE2-E404-4BC4-9C6C-A4E1B4397463}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A198DE2-E404-4BC4-9C6C-A4E1B4397463}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A198DE2-E404-4BC4-9C6C-A4E1B4397463}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A198DE2-E404-4BC4-9C6C-A4E1B4397463}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{26284571-0E09-4BAF-8C2B-DF87DCC1BA0B} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 		{64B26DED-68C3-47FF-B409-1C8FAD4F9176} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
 		{ADEADD97-0AFA-4D9E-970B-9FFB932949B3} = {AF1A203C-6EF1-440E-BB3C-55B1DBFE9C19}
+		{411473A5-2921-4758-B78C-E66BCFFE6303} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
+		{0A198DE2-E404-4BC4-9C6C-A4E1B4397463} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 	EndGlobalSection
 EndGlobal
