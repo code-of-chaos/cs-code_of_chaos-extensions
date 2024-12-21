@@ -28,7 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Content Include="..\..\LICENSE" Link="LICENSE" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="" />
         <None Include="README.md" Pack="true" PackagePath="" />
         <None Include="../../assets/icon.png" Pack="true" PackagePath="" />
     </ItemGroup>
