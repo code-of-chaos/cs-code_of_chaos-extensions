@@ -4,10 +4,30 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        
+        <!-- Main package name -->
+        <PackageId>CodeOfChaos.Extensions.EntityFrameworkCore</PackageId>
+        <Version>0.20.0-preview.0</Version>
+        <Authors>Anna Sas</Authors>
+        <Description>A Library of broadly used extensions for EntityFrameworkCore</Description>
+        <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
+        <PackageTags>extensions linq EntityFrameworkCore</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <DebugType>embedded</DebugType>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
 
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
     </ItemGroup>
-
+    
+    <ItemGroup>
+        <Content Include="..\..\LICENSE" Link="LICENSE" CopyToOutputDirectory="Always" CopyToPublishDirectory="Always" />
+        <None Include="README.md" Pack="true" PackagePath="" />
+        <None Include="../../assets/icon.png" Pack="true" PackagePath="" />
+    </ItemGroup>
 </Project>

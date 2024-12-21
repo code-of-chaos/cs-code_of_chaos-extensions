@@ -18,7 +18,7 @@
     },
     "Download Icon": {
       "commandName": "Project",
-      "commandLineArgs": "nuget-download-icon --origin=\"https://avatars.githubusercontent.com/u/102103683\" --projects=\"%PROJECTS%\""
+      "commandLineArgs": "nuget-download-icon --origin=\"https://avatars.githubusercontent.com/u/102103683\" --projects=\"%PROJECTS%\" --root=\"\""
     }
   }
 }

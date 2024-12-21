@@ -1,12 +1,13 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Extensions.Serilog;
 using JetBrains.Annotations;
-using Serilog;
 using Serilog.Core;
 using System.Diagnostics.CodeAnalysis;
 
-namespace CodeOfChaos.Extensions.Serilog;
+// ReSharper disable once CheckNamespace
+namespace Serilog;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
