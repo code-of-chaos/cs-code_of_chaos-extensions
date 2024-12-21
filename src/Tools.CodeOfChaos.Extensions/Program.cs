@@ -25,7 +25,8 @@ public static class Program {
         string projects = string.Join(";", 
             "CodeOfChaos.Extensions", 
             "CodeOfChaos.Extensions.EntityFrameworkCore",
-            "CodeOfChaos.Extensions.AspNetCore"
+            "CodeOfChaos.Extensions.AspNetCore",
+            "CodeOfChaos.Extensions.Serilog"
         );
         string oneLineArgs = InputHelper.ToOneLine(args).Replace("%PROJECTS%", projects);
         
