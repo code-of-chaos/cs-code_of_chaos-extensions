@@ -1,0 +1,24 @@
+﻿{
+  "profiles": {
+    "Major Version Bump": {
+      "commandName": "Project",
+      "commandLineArgs": "git-version-bump --section=\"major\" --projects=\"%PROJECTS%\" --push"
+    },
+    "Minor Version Bump": {
+      "commandName": "Project",
+      "commandLineArgs": "git-version-bump --section=\"minor\" --projects=\"%PROJECTS%\" --push"
+    },
+    "Patch Version Bump": {
+      "commandName": "Project",
+      "commandLineArgs": "git-version-bump --section=\"patch\" --projects=\"%PROJECTS%\" --push"
+    },
+    "Preview Version Bump": {
+      "commandName": "Project",
+      "commandLineArgs": "git-version-bump --section=\"preview\" --projects=\"%PROJECTS%\" --push"
+    },
+    "Download Icon": {
+      "commandName": "Project",
+      "commandLineArgs": "nuget-download-icon --origin=\"https://avatars.githubusercontent.com/u/102103683\" --projects=\"%PROJECTS%\" --root=\"\""
+    }
+  }
+}

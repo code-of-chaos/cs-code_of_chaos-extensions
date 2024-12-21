@@ -1,57 +1,48 @@
 ﻿name: Publish Packages
 
 on:
-  push:
-    tags:
-      - 'v*.*.*' # Match version tags like v1.0.0
+    push:
+        tags:
+            - 'v*.*.*' # Match version tags like v1.0.0
 
 jobs:
-  test:
-    runs-on: ubuntu-latest
+    publish:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout repository
+              uses: actions/checkout@v3
 
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
+            - name: Setup .NET
+              uses: actions/setup-dotnet@v3
+              with:
+                  dotnet-version: '9.x'
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '9.x' # Adjust the version as needed
+            - name: Restore dependencies
+              run: dotnet restore CodeOfChaos.Extensions.sln
 
-      - name: Install dependencies
-        run: dotnet restore
+            - name: Build
+              run: dotnet build CodeOfChaos.Extensions.sln --configuration Release --no-restore
+            
+            # Ensure that the tests must pass 
+            # The job will fail automatically if any test fails because `dotnet test` exits with a non-zero code
+            - name: Run tests - Extensions
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions"
+            - name: Run tests - Extensions.AspNetCore
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.AspNetCore"
+            - name: Run tests - Extensions.EntityFrameworkCore
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.EntityFrameworkCore"
+            - name: Run tests - Extensions.Serilog
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.Serilog"
 
-      - name: Build the solution
-        run: dotnet build --no-restore
-
-        # Ensure that the tests must pass 
-        # The job will fail automatically if any test fails because `dotnet test` exits with a non-zero code
-      - name: Run tests
-        run: dotnet test --no-build --verbosity normal
-
-  publish:
-    
-    runs-on: ubuntu-latest
-    
-    needs: test
-
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v3
-        with:
-          dotnet-version: '9.x'
-
-      - name: Restore dependencies
-        run: dotnet restore DependencyInjection.sln
-
-      - name: Build
-        run: dotnet build DependencyInjection.sln --configuration Release --no-restore
-
-      - name: Publish to NuGet
-        env:
-          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        run: |
-          dotnet nuget push src/TEMPLATE/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+            - name: Publish to NuGet
+              env:
+                  NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+              run: |
+                  dotnet nuget push src/CodeOfChaos.Extensions/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.AspNetCore/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.EntityFrameworkCore/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.Serilog/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate

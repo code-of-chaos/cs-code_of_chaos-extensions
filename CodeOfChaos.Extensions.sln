@@ -16,6 +16,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOfChaos.Extensions.Enti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.CodeOfChaos.Extensions.EntityFrameworkCore", "tests\Tests.CodeOfChaos.Extensions.EntityFrameworkCore\Tests.CodeOfChaos.Extensions.EntityFrameworkCore.csproj", "{0A198DE2-E404-4BC4-9C6C-A4E1B4397463}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOfChaos.Extensions.AspNetCore", "src\CodeOfChaos.Extensions.AspNetCore\CodeOfChaos.Extensions.AspNetCore.csproj", "{53BD8191-6E89-4E6D-AD32-5613ED73C422}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.CodeOfChaos.Extensions.AspNetCore", "tests\Tests.CodeOfChaos.Extensions.AspNetCore\Tests.CodeOfChaos.Extensions.AspNetCore.csproj", "{BC0AB42E-28A5-47FC-9017-1191C6899645}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOfChaos.Extensions.Serilog", "src\CodeOfChaos.Extensions.Serilog\CodeOfChaos.Extensions.Serilog.csproj", "{DCFDADB7-06BE-49BB-A71F-3124A48B0ECF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.CodeOfChaos.Extensions.Serilog", "tests\Tests.CodeOfChaos.Extensions.Serilog\Tests.CodeOfChaos.Extensions.Serilog.csproj", "{8670FBAC-E420-4DC6-82B1-AF0C5BF7F797}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -42,6 +50,22 @@ Global
 		{0A198DE2-E404-4BC4-9C6C-A4E1B4397463}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0A198DE2-E404-4BC4-9C6C-A4E1B4397463}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0A198DE2-E404-4BC4-9C6C-A4E1B4397463}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53BD8191-6E89-4E6D-AD32-5613ED73C422}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53BD8191-6E89-4E6D-AD32-5613ED73C422}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53BD8191-6E89-4E6D-AD32-5613ED73C422}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53BD8191-6E89-4E6D-AD32-5613ED73C422}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BC0AB42E-28A5-47FC-9017-1191C6899645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BC0AB42E-28A5-47FC-9017-1191C6899645}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BC0AB42E-28A5-47FC-9017-1191C6899645}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BC0AB42E-28A5-47FC-9017-1191C6899645}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DCFDADB7-06BE-49BB-A71F-3124A48B0ECF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DCFDADB7-06BE-49BB-A71F-3124A48B0ECF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DCFDADB7-06BE-49BB-A71F-3124A48B0ECF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DCFDADB7-06BE-49BB-A71F-3124A48B0ECF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8670FBAC-E420-4DC6-82B1-AF0C5BF7F797}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8670FBAC-E420-4DC6-82B1-AF0C5BF7F797}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8670FBAC-E420-4DC6-82B1-AF0C5BF7F797}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8670FBAC-E420-4DC6-82B1-AF0C5BF7F797}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{26284571-0E09-4BAF-8C2B-DF87DCC1BA0B} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
@@ -49,5 +73,9 @@ Global
 		{ADEADD97-0AFA-4D9E-970B-9FFB932949B3} = {AF1A203C-6EF1-440E-BB3C-55B1DBFE9C19}
 		{411473A5-2921-4758-B78C-E66BCFFE6303} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
 		{0A198DE2-E404-4BC4-9C6C-A4E1B4397463} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
+		{53BD8191-6E89-4E6D-AD32-5613ED73C422} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
+		{BC0AB42E-28A5-47FC-9017-1191C6899645} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
+		{DCFDADB7-06BE-49BB-A71F-3124A48B0ECF} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
+		{8670FBAC-E420-4DC6-82B1-AF0C5BF7F797} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 	EndGlobalSection
 EndGlobal
