@@ -1,17 +1,13 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using JetBrains.Annotations;
 using System.Linq.Expressions;
-using TUnit.Assertions;
-using TUnit.Assertions.Extensions;
-using TUnit.Core;
 
-namespace Tests.CodeOfChaos.Extensions;
+// ReSharper disable once CheckNamespace
+namespace System.Linq;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-[TestSubject(typeof(LinqExtensions))]
 public class LinqExtensionsTests {
     private readonly List<int> _data = Enumerable.Range(1, 10).ToList();// Data: {1, 2, 3, ... 10}
 
@@ -20,7 +16,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = _data.AsQueryable();
         List<int> result = source.ConditionalWhere(true, predicate: x => x > 5).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             6, 7, 8, 9, 10
         ]);
     }
@@ -30,7 +26,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = _data.AsQueryable();
         List<int> result = source.ConditionalWhere(false, predicate: x => x > 5).ToList();
 
-        await Assert.That(result).IsEqualTo(_data);
+        await Assert.That(result).IsEquivalentTo(_data);
     }
 
     [Test]
@@ -38,7 +34,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = _data.AsQueryable();
         List<int> result = source.ConditionalTake(true, 5).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             1, 2, 3, 4, 5
         ]);
     }
@@ -48,7 +44,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = _data.AsQueryable();
         List<int> result = source.ConditionalTake(false, 5).ToList();
 
-        await Assert.That(result).IsEqualTo(_data);
+        await Assert.That(result).IsEquivalentTo(_data);
     }
 
     [Test]
@@ -56,7 +52,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = _data.AsQueryable();
         List<int> result = source.ConditionalOrderBy(true, orderBy: x => -x).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             10, 9, 8, 7, 6, 5, 4, 3, 2, 1
         ]);
     }
@@ -66,7 +62,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = _data.AsQueryable();
         List<int> result = source.ConditionalOrderBy(false, orderBy: x => -x).ToList();
 
-        await Assert.That(result).IsEqualTo(_data);
+        await Assert.That(result).IsEquivalentTo(_data);
     }
 
     [Test]
@@ -74,7 +70,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = _data.AsQueryable();
         List<int> result = source.ConditionalSkip(true, 5).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             6, 7, 8, 9, 10
         ]);
     }
@@ -84,7 +80,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = _data.AsQueryable();
         List<int> result = source.ConditionalSkip(false, 5).ToList();
 
-        await Assert.That(result).IsEqualTo(_data);
+        await Assert.That(result).IsEquivalentTo(_data);
     }
 
     [Test]
@@ -92,7 +88,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = new List<int> { 1, 2, 2, 3, 3, 3 }.AsQueryable();
         List<int> result = source.ConditionalDistinct(true).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             1, 2, 3
         ]);
     }
@@ -102,7 +98,7 @@ public class LinqExtensionsTests {
         IQueryable<int> source = new List<int> { 1, 2, 2, 3, 3, 3 }.AsQueryable();
         List<int> result = source.ConditionalDistinct(false).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             1, 2, 2, 3, 3, 3
         ]);
     }
@@ -113,7 +109,7 @@ public class LinqExtensionsTests {
         IQueryable<int> second = new List<int> { 3, 4, 5 }.AsQueryable();
         List<int> result = source.ConditionalUnion(true, second).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             1, 2, 3, 4, 5
         ]);
     }
@@ -124,7 +120,7 @@ public class LinqExtensionsTests {
         IQueryable<int> second = new List<int> { 3, 4, 5 }.AsQueryable();
         List<int> result = source.ConditionalUnion(false, second).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             1, 2, 3
         ]);
     }
@@ -135,7 +131,7 @@ public class LinqExtensionsTests {
         IQueryable<int> second = new List<int> { 3, 4, 5 }.AsQueryable();
         List<int> result = source.ConditionalExcept(true, second).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             1, 2
         ]);
     }
@@ -146,7 +142,7 @@ public class LinqExtensionsTests {
         IQueryable<int> second = new List<int> { 3, 4, 5 }.AsQueryable();
         List<int> result = source.ConditionalExcept(false, second).ToList();
 
-        await Assert.That(result).IsEqualTo([
+        await Assert.That(result).IsEquivalentTo([
             1, 2, 3, 4
         ]);
     }

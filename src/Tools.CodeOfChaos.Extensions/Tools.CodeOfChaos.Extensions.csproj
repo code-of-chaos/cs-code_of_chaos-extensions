@@ -8,4 +8,8 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <ItemGroup>
+      <PackageReference Include="CodeOfChaos.CliArgsParser.Library" Version="3.0.3-preview.7" />
+    </ItemGroup>
+
 </Project>
