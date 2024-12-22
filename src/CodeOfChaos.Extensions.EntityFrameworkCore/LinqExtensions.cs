@@ -44,4 +44,10 @@ public static class LinqExtensions {
         orderBy is not null
             ? source.OrderBy(orderBy)
             : source;
+    
+    
+    public static IQueryable<TSource> ConditionalQueryable<TSource>(this IQueryable<TSource> source, bool condition, Func<IQueryable<TSource>, IQueryable<TSource>> queryableFunc) =>
+        condition
+            ? queryableFunc(source)
+            : source;
 }
