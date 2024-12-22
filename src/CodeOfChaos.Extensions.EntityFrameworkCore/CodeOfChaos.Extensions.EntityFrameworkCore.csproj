@@ -7,7 +7,7 @@
         
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions.EntityFrameworkCore</PackageId>
-        <Version>0.20.0-preview.1</Version>
+        <Version>0.21.0</Version>
         <Authors>Anna Sas</Authors>
         <Description>A Library of broadly used extensions for EntityFrameworkCore</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
