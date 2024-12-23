@@ -3,6 +3,8 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Security.Cryptography;
+using System.Text;
 
 // ReSharper disable once CheckNamespace
 namespace System;
@@ -29,5 +31,17 @@ public static class StringExtensions {
         // Because "testing" of the input is done during debug, we can just "blindly" parse during release.
         return Guid.Parse(input); 
         #endif
+    }
+
+    /// <summary>
+    /// Converts a given string into a GUID by hashing it using the SHA256 algorithm.
+    /// </summary>
+    /// <param name="input">The input string to hash and convert into a GUID.</param>
+    /// <returns>A <see cref="Guid"/> created from the hashed value of the input string.</returns>
+    public static Guid ToGuidAsHashed(this string input) {
+        byte[] hash = SHA256.HashData(Encoding.UTF8.GetBytes(input));
+
+        // Use the first 16 bytes of the hash to create a GUID
+        return new Guid(hash.Take(16).ToArray());
     }
 }
