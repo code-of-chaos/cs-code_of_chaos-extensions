@@ -8,7 +8,7 @@
         
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions</PackageId>
-        <Version>0.22.0</Version>
+        <Version>0.22.1</Version>
         <Authors>Anna Sas</Authors>
         <Description>A Library of broadly used extensions for dotnet in general</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
