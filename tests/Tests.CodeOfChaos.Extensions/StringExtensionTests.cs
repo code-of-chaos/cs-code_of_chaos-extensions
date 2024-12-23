@@ -109,15 +109,7 @@ public class StringExtensionTests {
         // Act
 
         // Assert
-        Assert.Throws<TUnitException>(() => input.ToGuid());
-    }
-
-
-    [Test]
-    [Arguments("test", "00000000-0000-0000-0000-000000000000")]
-    public async Task ToGuidAsHash_ShouldReturnSameGuid(string input, string expectedGuidString) {
-        
-        
+        Assert.Throws<FormatException>(() => input.ToGuid());
     }
     
     [Test]
