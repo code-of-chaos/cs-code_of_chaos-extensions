@@ -1,6 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using TUnit.Core.Exceptions;
+
 namespace Tests.CodeOfChaos.Extensions;
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -105,9 +107,33 @@ public class StringExtensionTests {
         // Arrange
 
         // Act
-        Func<Guid> act = input.ToGuid;
 
         // Assert
-        await Assert.That(act).Throws<FormatException>();
+        Assert.Throws<TUnitException>(() => input.ToGuid());
+    }
+
+
+    [Test]
+    [Arguments("test", "00000000-0000-0000-0000-000000000000")]
+    public async Task ToGuidAsHash_ShouldReturnSameGuid(string input, string expectedGuidString) {
+        
+        
+    }
+    
+    [Test]
+    [Arguments("test")]
+    [Arguments("some_data")]
+    [Arguments("1234")]
+    [Arguments("")]
+    public async Task ToGuidAsHash_ShouldReturnSameGuid_ForSameString(string input) {
+        // Arrange
+        
+        // Act
+        Guid guid1 = input.ToGuidAsHashed();
+        Guid guid2 = input.ToGuidAsHashed();
+
+        // Assert
+        await Assert.That(guid1).IsEqualTo(guid2);
+        await Assert.That(guid2).IsEqualTo(guid1);
     }
 }

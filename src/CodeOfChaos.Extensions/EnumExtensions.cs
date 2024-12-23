@@ -1,19 +1,21 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using System.Collections.Concurrent;
+
 // ReSharper disable once CheckNamespace
 namespace System;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public static class EnumExtensions {
-    private static readonly Dictionary<Type, Array> EnumValuesCache = new();
+    private static readonly ConcurrentDictionary<Type, Array> EnumValuesCache = new();
     
     /// <summary>
     /// Retrieves all values of the specified enum type from the cache, falling back to reflection if uncached.
     /// </summary>
     private static IEnumerable<T> GetEnumValues<T>() where T : struct, Enum {
-        if (EnumValuesCache.TryGetValue(typeof(T), out var values)) return (T[])values;
+        if (EnumValuesCache.TryGetValue(typeof(T), out Array? values)) return (T[])values;
 
         values = Enum.GetValues<T>();
         EnumValuesCache[typeof(T)] = values;
