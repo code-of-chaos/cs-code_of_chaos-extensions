@@ -104,4 +104,7 @@ public static class LoggerExtensions {
         logger.Fatal(messageTemplate, propertyValues);
         throw new ExitApplicationException(exitCode, messageTemplate);
     }
+
+
+    public static ILogger ForSectionProperty(this ILogger logger, string sectionName) => logger.ForContext("Section", sectionName);
 }
