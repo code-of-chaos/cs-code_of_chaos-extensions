@@ -1,13 +1,14 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Extensions.Serilog;
 using CodeOfChaos.Extensions.Serilog.Enrichers;
-using Serilog;
 using Serilog.Core;
 using Serilog.Events;
 using Serilog.Sinks.SystemConsole.Themes;
 
-namespace CodeOfChaos.Extensions.Serilog;
+// ReSharper disable once CheckNamespace
+namespace Serilog;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
