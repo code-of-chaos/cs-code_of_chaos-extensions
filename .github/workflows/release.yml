@@ -46,3 +46,4 @@ jobs:
                   dotnet nuget push src/CodeOfChaos.Extensions.AspNetCore/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.EntityFrameworkCore/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.Serilog/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.Analyzers/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
