@@ -38,7 +38,8 @@ public static class LoggingOverrideExtensions {
         builder.Logging.AddSerilog(Log.Logger);
         builder.Services.AddSingleton(Log.Logger);
         builder.Services.AddSingleton<IHostedService, ApplicationShutdownLoggerCleanup>();// Ensure cleanup
-
+        builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(Log.Logger));
+        
         return builder;
     }
     
