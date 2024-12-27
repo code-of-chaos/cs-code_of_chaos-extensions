@@ -9,7 +9,6 @@ using Serilog.Sinks.SystemConsole.Themes;
 
 // ReSharper disable once CheckNamespace
 namespace Serilog;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -24,7 +23,7 @@ public static class LoggerConfigurationExtensions {
         ConsoleTheme? theme = null,
         bool applyThemeToRedirectedOutput = false,
         object? syncRoot = null
-        ) {
+    ) {
         loggerConfiguration.WriteTo.Async(lsc => lsc.Console(
             restrictedToMinimumLevel,
             outputTemplate,
@@ -34,7 +33,8 @@ public static class LoggerConfigurationExtensions {
             theme,
             applyThemeToRedirectedOutput,
             syncRoot
-            ));
+        ));
+
         return loggerConfiguration;
     }
 
@@ -47,12 +47,11 @@ public static class LoggerConfigurationExtensions {
     // -----------------------------------------------------------------------------------------------------------------
     // Opinionated configurations
     // -----------------------------------------------------------------------------------------------------------------
-    public static LoggerConfiguration AsAnnaSasDevServerConsole(this LoggerConfiguration loggerConfiguration) {
-        return loggerConfiguration
-            .WithPaddedSectionEnricher()
+    public static LoggerConfiguration AsAnnaSasDevServerConsole(this LoggerConfiguration loggerConfiguration) =>
+        loggerConfiguration
+            .WithPaddedSectionEnricher(maxLength: 12)
             .WriteToAsyncConsole(
                 outputTemplate: ConsoleOutputTemplates.AnnaSasDevServer,
                 theme: ConsoleThemes.AnnaSasDevTheme
             );
-    }
 }
