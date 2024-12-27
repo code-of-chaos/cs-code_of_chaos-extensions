@@ -4,4 +4,4 @@
 
 Rule ID | Category | Severity | Notes                  
 --------|----------|----------|------------------------
-COCE001 | Usage    | Warning  | ToGuid was not parsable
+CODE001 | Usage | Warning | GuidValidationAnalyzer

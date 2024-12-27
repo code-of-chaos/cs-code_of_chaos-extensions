@@ -15,9 +15,9 @@ namespace CodeOfChaos.Extensions.Analyzers;
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public class GuidValidationAnalyzer : DiagnosticAnalyzer {
     private static readonly DiagnosticDescriptor Rule = new(
-        "COCE001",
+        "CODE001",
         "Invalid GUID in .ToGuid() call",
-        "The string '{0}' is not a valid GUID",
+        "The string '{0}' is not a valid GUID and will raise an exception",
         "Usage",
         DiagnosticSeverity.Warning,
         true,
