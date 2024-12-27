@@ -37,9 +37,11 @@ public static class LoggerConfigurationExtensions {
         return loggerConfiguration;
     }
 
-    public static LoggerConfiguration WithPaddedSectionEnricher(this LoggerConfiguration loggerConfiguration) {
-        return loggerConfiguration.Enrich.With<PaddedSectionEnricher>();
-    }
+    public static LoggerConfiguration WithPaddedSectionEnricher(this LoggerConfiguration loggerConfiguration, int maxLength = 8)
+        => loggerConfiguration.Enrich.With(new PaddedSectionEnricher(maxLength));
+
+    public static LoggerConfiguration WithTruncateSourceContextEnricher(this LoggerConfiguration loggerConfiguration, int maxLength = 8)
+        => loggerConfiguration.Enrich.With(new TruncateSourceContextEnricher(maxLength));
 
     // -----------------------------------------------------------------------------------------------------------------
     // Opinionated configurations
