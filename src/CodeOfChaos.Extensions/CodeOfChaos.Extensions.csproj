@@ -28,4 +28,18 @@
         <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
     </ItemGroup>
 
+    <ItemGroup>
+        <ProjectReference Include="..\CodeOfChaos.Extensions.Analyzers\CodeOfChaos.Extensions.Analyzers.csproj" PrivateAssets="all">
+            <IncludeAssets>compile; runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </ProjectReference>
+    </ItemGroup>
+
+    <!-- Manually include the Analyzer DLL in the package -->
+    <ItemGroup>
+        <None Include="..\CodeOfChaos.Extensions.Analyzers\bin\Release\netstandard2.0\CodeOfChaos.Extensions.Analyzers.dll"
+              Pack="true"
+              PackagePath="analyzers/dotnet/cs"
+              Visible="false" />
+    </ItemGroup>
+
 </Project>
