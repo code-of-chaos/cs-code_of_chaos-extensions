@@ -4,15 +4,10 @@
 using System;
 
 namespace Examples.CodeOfChaos.Extensions.Analyzers;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class ToGuidDiagnostic {
-    public Guid Something() {
-        return "b60fbc5b-86eb-472b-bfc6-0439d9a70e94".ToGuid();
-    }
-    public Guid SomethingWrong() {
-        return "alpha".ToGuid();
-    }
+    public Guid Something() => "b60fbc5b-86eb-472b-bfc6-0439d9a70e94".ToGuid();
+    public Guid SomethingWrong() => "alpha".ToGuid();
 }

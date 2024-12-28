@@ -6,12 +6,11 @@ using Moq;
 using Serilog;
 
 namespace Tests.CodeOfChaos.Extensions.Serilog;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class LoggerExtensionsTests {
-    private Mock<ILogger> _mockLogger = new();
+    private readonly Mock<ILogger> _mockLogger = new();
 
     [Test]
     public async Task ThrowableError_ShouldLogErrorAndThrowException() {
@@ -22,7 +21,7 @@ public class LoggerExtensionsTests {
 
         // Act 
         Exception exception = _mockLogger.Object.ThrowableError(messageTemplate, propertyValues);
-        
+
         // Assert
         await Assert.That(exception).IsNotNull();
         await Assert.That(exception.Message).IsEqualTo(messageTemplate);
@@ -37,7 +36,7 @@ public class LoggerExtensionsTests {
 
         // Act 
         Exception exception = _mockLogger.Object.ThrowableError<InvalidOperationException>(messageTemplate, propertyValues);
-        
+
         // Assert
         await Assert.That(exception).IsNotNull()
             .And.IsTypeOf<InvalidOperationException>();
@@ -53,7 +52,7 @@ public class LoggerExtensionsTests {
 
         // Act 
         Exception exception = _mockLogger.Object.ThrowableFatal(messageTemplate, propertyValues);
-        
+
         // Assert
         await Assert.That(exception).IsNotNull();
         await Assert.That(exception.Message).IsEqualTo(messageTemplate);
@@ -68,7 +67,7 @@ public class LoggerExtensionsTests {
 
         // Act 
         Exception exception = _mockLogger.Object.ThrowableError<InvalidOperationException>(messageTemplate, propertyValues);
-        
+
         // Assert
         await Assert.That(exception).IsNotNull()
             .And.IsTypeOf<InvalidOperationException>();
@@ -84,7 +83,7 @@ public class LoggerExtensionsTests {
         _mockLogger.Setup(logger => logger.Fatal(providedException, messageTemplate, propertyValues));
 
         // Act
-        var exception = _mockLogger.Object.ThrowableFatal(providedException, messageTemplate, propertyValues);
+        InvalidOperationException? exception = _mockLogger.Object.ThrowableFatal(providedException, messageTemplate, propertyValues);
 
         // Assert
         await Assert.That(exception).IsNotNull();
@@ -102,10 +101,10 @@ public class LoggerExtensionsTests {
         _mockLogger.Setup(logger => logger.Fatal(messageTemplate, propertyValues));
 
         // Act
-        var exception = Assert.Throws<ExitApplicationException>(() => 
+        var exception = Assert.Throws<ExitApplicationException>(() =>
             _mockLogger.Object.ExitFatal(exitCode, messageTemplate, propertyValues)
         );
-        
+
         // Assert
         await Assert.That(exception).IsNotNull()
             .And.IsTypeOf<ExitApplicationException>();

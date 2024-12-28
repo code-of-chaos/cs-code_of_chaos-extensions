@@ -7,16 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
+using Serilog.Core;
 using Serilog.Events;
 using ILogger=Serilog.ILogger;
 
 namespace Tests.CodeOfChaos.Extensions.AspNetCore;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class LoggingOverrideExtensionsTests {
-    
+
     [Test]
     public async Task OverrideLoggingWithSerilog_ShouldApplyDefaultSerilogConfiguration() {
         // Arrange
@@ -27,7 +27,7 @@ public class LoggingOverrideExtensionsTests {
 
         // Assert
         ServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
-        ILogger? logger = serviceProvider.GetService<ILogger>();
+        var logger = serviceProvider.GetService<ILogger>();
         await Assert.That(logger)
             .IsNotNull()
             .Because("ILogger should be registered in the service collection.");
@@ -58,7 +58,7 @@ public class LoggingOverrideExtensionsTests {
     public async Task OverrideLoggingWithSerilog_ShouldClearExistingLoggingProviders() {
         // Arrange
         WebApplicationBuilder builder = WebApplication.CreateBuilder();
-        builder.Logging.AddConsole(); // Add a console provider to verify it is cleared
+        builder.Logging.AddConsole();// Add a console provider to verify it is cleared
 
         // Act
         builder.OverrideLoggingWithSerilog();
@@ -101,13 +101,13 @@ public class LoggingOverrideExtensionsTests {
         // Replace the static Serilog Logger with a mock logger
         ILogger originalLogger = Log.Logger;
         Log.Logger = new LoggerConfiguration()
-            .WriteTo.Sink(new DelegatingSink(_ => flushCalled = true)) // Custom sink to detect flush calls
+            .WriteTo.Sink(new DelegatingSink(_ => flushCalled = true))// Custom sink to detect flush calls
             .CreateLogger();
-        
-        
+
+
         // Act
-        Log.Logger.Information("Test log message"); // Log a message to verify it is flushed
-        
+        Log.Logger.Information("Test log message");// Log a message to verify it is flushed
+
         await cleanupService.StartAsync(CancellationToken.None);
         await cleanupService.StopAsync(CancellationToken.None);
 
@@ -115,16 +115,16 @@ public class LoggingOverrideExtensionsTests {
         await Assert.That(flushCalled)
             .IsTrue()
             .Because("Log.CloseAndFlush should be triggered when the application stops.");
-        
+
         // Just to be sure
-        Log.Logger  = originalLogger; // Restore the original logger
+        Log.Logger = originalLogger;// Restore the original logger
     }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Helper Classes
 // ---------------------------------------------------------------------------------------------------------------------
-public class DelegatingSink : Serilog.Core.ILogEventSink {
+public class DelegatingSink : ILogEventSink {
     private readonly Action<LogEvent> _write;
 
     public DelegatingSink(Action<LogEvent> write) {

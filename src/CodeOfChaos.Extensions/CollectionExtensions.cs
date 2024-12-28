@@ -8,6 +8,6 @@ namespace System;
 // ---------------------------------------------------------------------------------------------------------------------
 public static class CollectionExtensions {
     public static bool IsEmpty(this string[] arr) => arr.Length == 0;
-    
+
     public static bool IsEmpty(this IEnumerable<string> arr) => !arr.Any();
 }

@@ -10,9 +10,9 @@ namespace System;
 // ---------------------------------------------------------------------------------------------------------------------
 public static class EnumExtensions {
     private static readonly ConcurrentDictionary<Type, Array> EnumValuesCache = new();
-    
+
     /// <summary>
-    /// Retrieves all values of the specified enum type from the cache, falling back to reflection if uncached.
+    ///     Retrieves all values of the specified enum type from the cache, falling back to reflection if uncached.
     /// </summary>
     private static IEnumerable<T> GetEnumValues<T>() where T : struct, Enum {
         if (EnumValuesCache.TryGetValue(typeof(T), out Array? values)) return (T[])values;
@@ -21,10 +21,10 @@ public static class EnumExtensions {
         EnumValuesCache[typeof(T)] = values;
         return (T[])values;
     }
-    
-    
+
+
     /// <summary>
-    /// Retrieves all flagged values from the given Enum.
+    ///     Retrieves all flagged values from the given Enum.
     /// </summary>
     /// <typeparam name="T">The type of the Enum.</typeparam>
     /// <param name="flagEnum">The enum value to inspect for flags.</param>
@@ -39,16 +39,12 @@ public static class EnumExtensions {
     }
 
     /// <summary>
-    /// Retrieves all flagged values from the given Enum as an array.
+    ///     Retrieves all flagged values from the given Enum as an array.
     /// </summary>
-    public static T[] GetFlagsAsArray<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum {
-        return GetFlags(flagEnum, excludeZeroValue).ToArray();
-    }
+    public static T[] GetFlagsAsArray<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum => GetFlags(flagEnum, excludeZeroValue).ToArray();
 
     /// <summary>
-    /// Retrieves all flagged values from the given Enum as a list.
+    ///     Retrieves all flagged values from the given Enum as a list.
     /// </summary>
-    public static List<T> GetFlagsAsList<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum {
-        return GetFlags(flagEnum, excludeZeroValue).ToList();
-    }
+    public static List<T> GetFlagsAsList<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum => GetFlags(flagEnum, excludeZeroValue).ToList();
 }

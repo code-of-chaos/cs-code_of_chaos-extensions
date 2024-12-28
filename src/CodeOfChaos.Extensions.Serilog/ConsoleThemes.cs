@@ -1,11 +1,10 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using Serilog.Sinks.SystemConsole.Themes;
 using CodeOfChaos.Ansi;
+using Serilog.Sinks.SystemConsole.Themes;
 
 namespace CodeOfChaos.Extensions.Serilog;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -28,5 +27,6 @@ public static class ConsoleThemes {
             [ConsoleThemeStyle.LevelWarning] = AnsiColor.AsFore("gold"),
             [ConsoleThemeStyle.LevelError] = AnsiColor.AsFore("white") + AnsiColor.AsBack("rose"),
             [ConsoleThemeStyle.LevelFatal] = AnsiColor.AsFore("white") + AnsiColor.AsBack("maroon")
-        });
+        }
+    );
 }

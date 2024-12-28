@@ -8,11 +8,9 @@ using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace Serilog;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-
 /// <summary>
 ///     Provides extension methods for the <see cref="ILogger" /> interface.
 /// </summary>
@@ -44,7 +42,7 @@ public static class LoggerExtensions {
         logger.Error(exception, messageTemplate, propertyValues);
         return exception;
     }
-    
+
     /// <summary>
     ///     Throws a fatal log message, logs the exception, and throws it.
     /// </summary>
@@ -99,7 +97,7 @@ public static class LoggerExtensions {
     ///     It then exits the application with the specified <paramref name="exitCode" />.
     /// </remarks>
     [MessageTemplateFormatMethod("messageTemplate")]
-    [DoesNotReturn, AssertionMethod]
+    [DoesNotReturn] [AssertionMethod]
     public static void ExitFatal(this ILogger logger, int exitCode, string messageTemplate, params object?[]? propertyValues) {
         logger.Fatal(messageTemplate, propertyValues);
         throw new ExitApplicationException(exitCode, messageTemplate);

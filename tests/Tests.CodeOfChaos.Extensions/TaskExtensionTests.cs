@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 namespace Tests.CodeOfChaos.Extensions;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -18,7 +17,7 @@ public class TaskExtensionsTest {
         await task.WithCancellation(tokenSource.Token);
 
         // Assert
-        await Assert.That(task.IsCompleted).IsTrue(); // Validate the task is completed
+        await Assert.That(task.IsCompleted).IsTrue();// Validate the task is completed
     }
 
     [Test]
@@ -28,7 +27,7 @@ public class TaskExtensionsTest {
         Task task = Task.Delay(1000, tokenSource.Token);
 
         // Act
-        await tokenSource.CancelAsync(); // Cancel token immediately
+        await tokenSource.CancelAsync();// Cancel token immediately
 
         // Assert
         await Assert.ThrowsAsync<OperationCanceledException>(() => task.WithCancellation(tokenSource.Token));
@@ -45,14 +44,14 @@ public class TaskExtensionsTest {
 
         // Assert
         await Assert.That(task.IsCompleted).IsTrue();
-        await Assert.That(result).IsEqualTo("Completed"); 
+        await Assert.That(result).IsEqualTo("Completed");
     }
 
     [Test]
     public async Task WithCancellation_Generic_ShouldThrowOperationCanceledException_WhenTokenIsCanceled() {
         // Arrange
         var tokenSource = new CancellationTokenSource();
-        Task<string> task = Task.Delay(1000, tokenSource.Token).ContinueWith(_ => "This will not complete", tokenSource.Token);
+        Task<string> task = Task.Delay(1000, tokenSource.Token).ContinueWith(continuationFunction: _ => "This will not complete", tokenSource.Token);
 
         // Act
         await tokenSource.CancelAsync();
@@ -70,13 +69,13 @@ public class TaskExtensionsTest {
         await task.WithTimeout(TimeSpan.FromSeconds(1));
 
         // Assert
-        await Assert.That(task.IsCompleted).IsTrue(); // Validate the task is completed
+        await Assert.That(task.IsCompleted).IsTrue();// Validate the task is completed
     }
 
     [Test]
     public async Task WithTimeout_ShouldThrowTimeoutException_WhenTaskExceedsTimeout() {
         // Arrange
-        Task task = Task.Delay(2000); // Simulate a long-running task
+        Task task = Task.Delay(2000);// Simulate a long-running task
 
         // Assert
         await Assert.ThrowsAsync<TimeoutException>(() => task.WithTimeout(TimeSpan.FromMilliseconds(500)));
@@ -108,10 +107,10 @@ public class TaskExtensionsTest {
     public async Task WithTimeout_AndCancellation_ShouldPrioritizeCancellationOverTimeout() {
         // Arrange
         var tokenSource = new CancellationTokenSource();
-        Task task = Task.Delay(2000, tokenSource.Token); // Simulate a long-running task
+        Task task = Task.Delay(2000, tokenSource.Token);// Simulate a long-running task
 
         // Act
-        await tokenSource.CancelAsync(); // Cancel the task before timeout
+        await tokenSource.CancelAsync();// Cancel the task before timeout
 
         // Assert
         await Assert.ThrowsAsync<OperationCanceledException>(() => task.WithCancellation(tokenSource.Token).WithTimeout(TimeSpan.FromSeconds(5)));
@@ -121,7 +120,7 @@ public class TaskExtensionsTest {
     public async Task WithTimeout_AndCancellation_ShouldCancelGenericTask() {
         // Arrange
         var tokenSource = new CancellationTokenSource();
-        Task<string> task = Task.Delay(2000, tokenSource.Token).ContinueWith(_ => "This will be canceled", tokenSource.Token);
+        Task<string> task = Task.Delay(2000, tokenSource.Token).ContinueWith(continuationFunction: _ => "This will be canceled", tokenSource.Token);
 
         // Act
         await tokenSource.CancelAsync();
@@ -134,11 +133,11 @@ public class TaskExtensionsTest {
     // Helpers
     // -----------------------------------------------------------------------------------------------------------------
     private async Task DummyTask() {
-        await Task.Delay(100); // Simulate a short operation
+        await Task.Delay(100);// Simulate a short operation
     }
 
     private async Task<string> DummyTaskWithResult() {
-        await Task.Delay(100); // Simulate a short operation
+        await Task.Delay(100);// Simulate a short operation
         return "Completed";
     }
 }

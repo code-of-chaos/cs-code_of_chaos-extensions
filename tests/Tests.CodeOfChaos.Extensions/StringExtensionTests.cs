@@ -1,10 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using TUnit.Core.Exceptions;
-
 namespace Tests.CodeOfChaos.Extensions;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -18,12 +15,12 @@ public class StringExtensionTests {
         // Arrange
 
         // Act
-        var output = input.IsNullOrEmpty();
+        bool output = input.IsNullOrEmpty();
 
         // Assert
         await Assert.That(output).IsEqualTo(expected);
     }
-    
+
     [Test]
     [Arguments(null, false)]
     [Arguments("", false)]
@@ -33,12 +30,12 @@ public class StringExtensionTests {
         // Arrange
 
         // Act
-        var output = input.IsNotNullOrEmpty();
+        bool output = input.IsNotNullOrEmpty();
 
         // Assert
         await Assert.That(output).IsEqualTo(expected);
     }
-    
+
     [Test]
     [Arguments(null, true)]
     [Arguments("", true)]
@@ -48,12 +45,12 @@ public class StringExtensionTests {
         // Arrange
 
         // Act
-        var output = input.IsNullOrWhiteSpace();
+        bool output = input.IsNullOrWhiteSpace();
 
         // Assert
         await Assert.That(output).IsEqualTo(expected);
     }
-    
+
     [Test]
     [Arguments(null, false)]
     [Arguments("", false)]
@@ -68,7 +65,7 @@ public class StringExtensionTests {
         // Assert
         await Assert.That(output).IsEqualTo(expected);
     }
-    
+
     [Test]
     [Arguments("test", 10, "test")]
     [Arguments("test", 4, "test")]
@@ -83,7 +80,7 @@ public class StringExtensionTests {
         // Assert
         await Assert.That(output).IsEqualTo(expected);
     }
-    
+
     [Test]
     [Arguments("d3cd4cfa-1cdf-4711-8d41-7e33a8d749fb", "d3cd4cfa-1cdf-4711-8d41-7e33a8d749fb")]
     [Arguments("00000000-0000-0000-0000-000000000000", "00000000-0000-0000-0000-000000000000")]
@@ -111,7 +108,7 @@ public class StringExtensionTests {
         // Assert
         Assert.Throws<FormatException>(() => input.ToGuid());
     }
-    
+
     [Test]
     [Arguments("test")]
     [Arguments("some_data")]
@@ -119,7 +116,7 @@ public class StringExtensionTests {
     [Arguments("")]
     public async Task ToGuidAsHash_ShouldReturnSameGuid_ForSameString(string input) {
         // Arrange
-        
+
         // Act
         Guid guid1 = input.ToGuidAsHashed();
         Guid guid2 = input.ToGuidAsHashed();

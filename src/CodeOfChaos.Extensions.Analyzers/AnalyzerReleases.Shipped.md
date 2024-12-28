@@ -2,6 +2,6 @@
 
 ### New Rules
 
-Rule ID | Category | Severity | Notes                  
---------|----------|----------|------------------------
-CODE001 | Usage | Warning | GuidValidationAnalyzer
+ Rule ID | Category | Severity | Notes                  
+---------|----------|----------|------------------------
+ CODE001 | Usage    | Warning  | GuidValidationAnalyzer 

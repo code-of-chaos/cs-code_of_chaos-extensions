@@ -9,14 +9,16 @@ namespace CodeOfChaos.Extensions.Serilog.Enrichers;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class TruncateSourceContextEnricher : ILogEventEnricher {
-    public int MaxLength { get; } = 8;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
-    public TruncateSourceContextEnricher() { }
-    public TruncateSourceContextEnricher(int maxLength) => MaxLength = maxLength;
-    
+    public TruncateSourceContextEnricher() {}
+    public TruncateSourceContextEnricher(int maxLength) {
+        MaxLength = maxLength;
+    }
+    public int MaxLength { get; } = 8;
+
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------

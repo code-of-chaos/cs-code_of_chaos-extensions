@@ -4,7 +4,6 @@
 using JetBrains.Annotations;
 
 namespace Tests.CodeOfChaos.Extensions;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -14,13 +13,11 @@ public class EnumExtensionsTest {
     [Flags]
     private enum TestFlags {
         None = 0,
-        Flag1 = 1 << 0,   // 1
-        Flag2 = 1 << 1,   // 2
-        Flag3 = 1 << 2,   // 4
-        Flag4 = 1 << 3    // 8
-    }
-
-    // ReSharper disable UnusedMember.Local
+        Flag1 = 1 << 0,// 1
+        Flag2 = 1 << 1,// 2
+        Flag3 = 1 << 2,// 4
+        Flag4 = 1 << 3// 8
+    }// ReSharper disable UnusedMember.Local
     private enum NonFlagsEnum {
         Value1 = 0,
         Value2 = 1,

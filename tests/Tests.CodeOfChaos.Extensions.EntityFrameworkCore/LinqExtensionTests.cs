@@ -6,7 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
 namespace Tests.CodeOfChaos.Extensions.EntityFrameworkCore;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -21,7 +20,7 @@ public class LinqExtensionsTest {
         IQueryable<string> source = input.AsQueryable();
 
         // Act
-        IQueryable<string> output = source.ConditionalInclude(condition, x => x);
+        IQueryable<string> output = source.ConditionalInclude(condition, include: x => x);
 
         // Assert
         await Assert.That(output).IsEquivalentTo(expected);
@@ -35,7 +34,7 @@ public class LinqExtensionsTest {
         IQueryable<string> source = input.AsQueryable();
 
         // Act
-        IQueryable<string> output = source.ConditionalWhere(condition, x => x == filterValue);
+        IQueryable<string> output = source.ConditionalWhere(condition, predicate: x => x == filterValue);
 
         // Assert
         await Assert.That(output).IsEquivalentTo(expected);
@@ -44,7 +43,7 @@ public class LinqExtensionsTest {
     [Test]
     [Arguments(true, 2, new[] { 1, 2, 3, 4 }, new[] { 1, 2 })]
     [Arguments(true, 3, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3 })]
-    [Arguments(true, 0, new[] { 1, 2, 3, 4 }, new int[] { })]
+    [Arguments(true, 0, new[] { 1, 2, 3, 4 }, new int[] {})]
     [Arguments(false, 2, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 })]
     [Arguments(false, 3, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 })]
     [Arguments(false, 0, new[] { 1, 2, 3, 4 }, new[] { 1, 2, 3, 4 })]
@@ -60,8 +59,8 @@ public class LinqExtensionsTest {
     }
 
     [Test]
-    [Arguments(true, 1,3, new[] { 10, 20, 30, 40 }, new[] { 20, 30 })]
-    [Arguments(false, 2,5, new[] { 10, 20, 30, 40 }, new[] { 10, 20, 30, 40 })]
+    [Arguments(true, 1, 3, new[] { 10, 20, 30, 40 }, new[] { 20, 30 })]
+    [Arguments(false, 2, 5, new[] { 10, 20, 30, 40 }, new[] { 10, 20, 30, 40 })]
     public async Task ConditionalTake_WithRange_ShouldReturnCorrectSubset(bool condition, int rangeStart, int rangeEnd, IEnumerable<int> input, IEnumerable<int> expected) {
         // Arrange
         IQueryable<int> source = input.AsQueryable();
@@ -81,7 +80,7 @@ public class LinqExtensionsTest {
         IQueryable<int> source = input.AsQueryable();
 
         // Act
-        IQueryable<int> output = source.ConditionalOrderBy(condition, x => x);
+        IQueryable<int> output = source.ConditionalOrderBy(condition, orderBy: x => x);
 
         // Assert
         await Assert.That(output).IsEquivalentTo(expected);
@@ -96,7 +95,7 @@ public class LinqExtensionsTest {
         comparer ??= StringComparer.Ordinal;
 
         // Act
-        IQueryable<string> output = source.ConditionalOrderBy(condition, x => x, comparer);
+        IQueryable<string> output = source.ConditionalOrderBy(condition, orderBy: x => x, comparer);
 
         // Assert
         await Assert.That(output).IsEquivalentTo(expected);

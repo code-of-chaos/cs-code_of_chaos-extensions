@@ -4,7 +4,7 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        
+
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions.EntityFrameworkCore</PackageId>
         <Version>0.24.3</Version>
@@ -22,12 +22,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false" />
-        <None Include="README.md" Pack="true" PackagePath="" />
-        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false"/>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false"/>
     </ItemGroup>
 </Project>

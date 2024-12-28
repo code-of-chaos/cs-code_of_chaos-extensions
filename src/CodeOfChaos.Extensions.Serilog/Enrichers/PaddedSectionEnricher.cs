@@ -9,13 +9,15 @@ namespace CodeOfChaos.Extensions.Serilog.Enrichers;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class PaddedSectionEnricher : ILogEventEnricher {
-    public int MaxLength { get; } = 8;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
-    public PaddedSectionEnricher() { }
-    public PaddedSectionEnricher(int maxLength) => MaxLength = maxLength;
+    public PaddedSectionEnricher() {}
+    public PaddedSectionEnricher(int maxLength) {
+        MaxLength = maxLength;
+    }
+    public int MaxLength { get; } = 8;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -26,7 +28,7 @@ public class PaddedSectionEnricher : ILogEventEnricher {
             sectionProperty = new ScalarValue(string.Empty);
         }
 
-        string sectionValue = sectionProperty.ToString().Trim('"'); // Remove quotes and trim
+        string sectionValue = sectionProperty.ToString().Trim('"');// Remove quotes and trim
 
         // Left-pad as required to a max of 8 characters
         string paddedSection = sectionValue.PadLeft(MaxLength)[..MaxLength];

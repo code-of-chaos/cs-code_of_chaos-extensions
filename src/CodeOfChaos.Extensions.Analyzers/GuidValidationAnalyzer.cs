@@ -47,7 +47,7 @@ public class GuidValidationAnalyzer : DiagnosticAnalyzer {
             return;
 
         string guidString = literalExpression.Token.ValueText;
-        if (Guid.TryParse(guidString, out _)) return; // If the string is a valid GUID, we don't need to report a diagnostic.
+        if (Guid.TryParse(guidString, out _)) return;// If the string is a valid GUID, we don't need to report a diagnostic.
 
         var diagnostic = Diagnostic.Create(Rule, literalExpression.GetLocation(), guidString);
         context.ReportDiagnostic(diagnostic);

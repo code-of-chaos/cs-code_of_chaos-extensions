@@ -20,8 +20,8 @@
       "commandName": "Project",
       "commandLineArgs": "git-version-bump --section=\"preview\" --projects=\"%PROJECTS%\" --push"
     },
-    "Version Bump : Manual" : {
-      "_readme" : "useful for setting a preview for an upcoming version. Will ask for a prompt of the new version string",
+    "Version Bump : Manual": {
+      "_readme": "useful for setting a preview for an upcoming version. Will ask for a prompt of the new version string",
       "commandName": "Project",
       "commandLineArgs": "git-version-bump --section=\"manual\" --projects=\"%PROJECTS%\" --push"
     }

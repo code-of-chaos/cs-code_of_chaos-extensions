@@ -39,10 +39,10 @@ public static class LoggingOverrideExtensions {
         builder.Services.AddSingleton(Log.Logger);
         builder.Services.AddSingleton<IHostedService, ApplicationShutdownLoggerCleanup>();// Ensure cleanup
         builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(Log.Logger));
-        
+
         return builder;
     }
-    
+
     public class ApplicationShutdownLoggerCleanup : IHostedService {
         public Task StartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
 
@@ -51,5 +51,3 @@ public static class LoggingOverrideExtensions {
         }
     }
 }
-
-
