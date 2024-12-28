@@ -8,7 +8,7 @@
 
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions</PackageId>
-        <Version>0.24.3</Version>
+        <Version>0.25.0</Version>
         <Authors>Anna Sas</Authors>
         <Description>A Library of broadly used extensions for dotnet in general</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
@@ -23,9 +23,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false"/>
-        <None Include="README.md" Pack="true" PackagePath=""/>
-        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false"/>
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false" />
+        <None Include="README.md" Pack="true" PackagePath="" />
+        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
     </ItemGroup>
 
     <ItemGroup>
@@ -36,7 +36,7 @@
 
     <!-- Manually include the Analyzer DLL in the package -->
     <ItemGroup>
-        <None Include="..\CodeOfChaos.Extensions.Analyzers\bin\Release\netstandard2.0\CodeOfChaos.Extensions.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+        <None Include="..\CodeOfChaos.Extensions.Analyzers\bin\Release\netstandard2.0\CodeOfChaos.Extensions.Analyzers.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
 </Project>
