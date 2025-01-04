@@ -19,7 +19,7 @@ public class GuidValidationAnalyzer : DiagnosticAnalyzer {
         "Invalid GUID in .ToGuid() call",
         "The string '{0}' is not a valid GUID and will raise an exception",
         "Usage",
-        DiagnosticSeverity.Warning,
+        DiagnosticSeverity.Error,
         true,
         "Checks if the string used with the ToGuid() method is a valid GUID.");
 

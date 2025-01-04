@@ -4,4 +4,4 @@
 
  Rule ID | Category | Severity | Notes                  
 ---------|----------|----------|------------------------
- CODE001 | Usage    | Warning  | GuidValidationAnalyzer 
+ CODE001 | Usage    | Error    | GuidValidationAnalyzer 
