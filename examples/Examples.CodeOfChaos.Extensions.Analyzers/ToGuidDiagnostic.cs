@@ -9,5 +9,5 @@ namespace Examples.CodeOfChaos.Extensions.Analyzers;
 // ---------------------------------------------------------------------------------------------------------------------
 public class ToGuidDiagnostic {
     public Guid Something() => "b60fbc5b-86eb-472b-bfc6-0439d9a70e94".ToGuid();
-    public Guid SomethingWrong() => "alpha".ToGuid();
+    // public Guid SomethingWrong() => "alpha".ToGuid();
 }
