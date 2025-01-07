@@ -1,6 +1,10 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+#if DEBUG // fixes an issue with tests throwing an error during debug
+using TUnit.Core.Exceptions;
+#endif
+
 namespace Tests.CodeOfChaos.Extensions;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
@@ -101,12 +105,11 @@ public class StringExtensionTests {
     [Arguments("InvalidGuidFormat")]
     [Arguments("1234")]
     public async Task ToGuid_ShouldThrowException_WhenInputIsInvalid(string input) {
-        // Arrange
-
-        // Act
-
-        // Assert
+        #if DEBUG // fixes an issue with tests throwing an error during debug
+        Assert.Throws<TUnitException>(() => input.ToGuid());
+        #else
         Assert.Throws<FormatException>(() => input.ToGuid());
+        #endif
     }
 
     [Test]
