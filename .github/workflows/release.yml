@@ -37,6 +37,12 @@ jobs:
             - name: Run tests - Extensions.Serilog
               run: dotnet run -c Release --no-restore --no-build
               working-directory: "tests/Tests.CodeOfChaos.Extensions.Serilog"
+            - name: Run tests - Extensions.DependencyInjection
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.DependencyInjection"
+            - name: Run tests - Extensions.DependencyInjection.Generators
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.DependencyInjection.Generators"
 
             - name: Publish to NuGet
               env:
@@ -47,3 +53,5 @@ jobs:
                   dotnet nuget push src/CodeOfChaos.Extensions.EntityFrameworkCore/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.Serilog/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.Analyzers/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.DependencyInjection/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.DependencyInjection.Generators/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate

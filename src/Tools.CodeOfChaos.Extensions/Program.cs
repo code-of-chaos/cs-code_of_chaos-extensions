@@ -26,7 +26,9 @@ public static class Program {
             "CodeOfChaos.Extensions.EntityFrameworkCore",
             "CodeOfChaos.Extensions.AspNetCore",
             "CodeOfChaos.Extensions.Serilog",
-            "CodeOfChaos.Extensions.Analyzers"
+            "CodeOfChaos.Extensions.Analyzers",
+            "CodeOfChaos.Extensions.DependencyInjection",
+            "CodeOfChaos.Extensions.DependencyInjection.Generators" 
         );
         string oneLineArgs = InputHelper.ToOneLine(args).Replace("%PROJECTS%", projects);
 
