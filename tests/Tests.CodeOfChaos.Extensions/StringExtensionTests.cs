@@ -106,9 +106,9 @@ public class StringExtensionTests {
     [Arguments("1234")]
     public async Task ToGuid_ShouldThrowException_WhenInputIsInvalid(string input) {
         #if DEBUG // fixes an issue with tests throwing an error during debug
-        Assert.Throws<TUnitException>(() => input.ToGuid());
+        await Assert.ThrowsAsync<TUnitException>(() => Task.FromResult(input.ToGuid()));
         #else
-        Assert.Throws<FormatException>(() => input.ToGuid());
+        await Assert.ThrowsAsync<FormatException>(() => Task.FromResult(input.ToGuid()));
         #endif
     }
 
