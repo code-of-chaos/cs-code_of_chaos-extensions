@@ -7,7 +7,7 @@
 
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions.EntityFrameworkCore</PackageId>
-        <Version>0.30.0</Version>
+        <Version>0.31.0</Version>
         <Authors>Anna Sas</Authors>
         <Description>A Library of broadly used extensions for EntityFrameworkCore</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
@@ -22,7 +22,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.1" />
     </ItemGroup>
 
     <ItemGroup>
