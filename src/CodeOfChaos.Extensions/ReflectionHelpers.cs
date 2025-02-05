@@ -29,4 +29,10 @@ public static class ReflectionHelper {
         return nullabilityFlag == 2;
 
     }
+    
+    // WHY IS THIS SO EASY!
+    public static bool IsNullableValueType(this ParameterInfo parameter) {
+        return Nullable.GetUnderlyingType(parameter.ParameterType) != null;
+    }
+
 }

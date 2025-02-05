@@ -16,8 +16,9 @@ public class ReflectionHelperTests {
         public static void MethodWithNullability(
             string nonNullable, 
             string? nullable, 
-            int valueType) 
-        { }
+            int valueType,
+            int? nullableValueType
+        ) { }
     }
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -63,6 +64,76 @@ public class ReflectionHelperTests {
 
         // Assert
         await Assert.That(result).IsFalse().Because("Expected parameter 'valueType' to be recognized as a non-nullable reference type.");
+    }
+    
+    [Test]
+    public async Task IsNullableReferenceType_ShouldReturnFalse_ForNullableValueType()
+    {
+        // Arrange
+        MethodInfo method = typeof(TestClass).GetMethod(nameof(TestClass.MethodWithNullability))!;
+        ParameterInfo nullableValueTypeParameter = method.GetParameters().First(p => p.Name == "nullableValueType");
+
+        // Act
+        bool result = nullableValueTypeParameter.IsNullableReferenceType();
+
+        // Assert
+        await Assert.That(result).IsFalse().Because("Expected parameter 'nullableInt' to be recognized as not a nullable reference type (it's a nullable value type).");
+    }
+
+    [Test]
+    public async Task IsNullableValueType_ShouldReturnFalse_ForReferenceType()
+    {
+        // Arrange
+        MethodInfo method = typeof(TestClass).GetMethod(nameof(TestClass.MethodWithNullability))!;
+        ParameterInfo referenceTypeParameter = method.GetParameters().First(p => p.Name == "nonNullable");
+
+        // Act
+        bool result = referenceTypeParameter.IsNullableValueType();
+
+        // Assert
+        await Assert.That(result).IsFalse().Because("Expected parameter 'nonNullable' to not be a nullable value type (it's a reference type).");
+    }
+
+    [Test]
+    public async Task IsNullableValueType_ShouldReturnFalse_ForNonNullableValueType()
+    {
+        // Arrange
+        MethodInfo method = typeof(TestClass).GetMethod(nameof(TestClass.MethodWithNullability))!;
+        ParameterInfo valueTypeParameter = method.GetParameters().First(p => p.Name == "valueType");
+
+        // Act
+        bool result = valueTypeParameter.IsNullableValueType();
+
+        // Assert
+        await Assert.That(result).IsFalse().Because("Expected parameter 'valueType' to not be a nullable value type (it's a non-nullable value type).");
+    }
+
+    [Test]
+    public async Task IsNullableValueType_ShouldReturnTrue_ForNullableValueType()
+    {
+        // Arrange
+        MethodInfo method = typeof(TestClass).GetMethod(nameof(TestClass.MethodWithNullability))!;
+        ParameterInfo nullableValueTypeParameter = method.GetParameters().First(p => p.Name == "nullableValueType");
+
+        // Act
+        bool result = nullableValueTypeParameter.IsNullableValueType();
+
+        // Assert
+        await Assert.That(result).IsTrue().Because("Expected parameter 'nullableValueType' to be recognized as a nullable value type.");
+    }
+
+    [Test]
+    public async Task IsNullableValueType_ShouldReturnFalse_ForNullableReferenceType()
+    {
+        // Arrange
+        MethodInfo method = typeof(TestClass).GetMethod(nameof(TestClass.MethodWithNullability))!;
+        ParameterInfo nullableParameter = method.GetParameters().First(p => p.Name == "nullable");
+
+        // Act
+        bool result = nullableParameter.IsNullableValueType();
+
+        // Assert
+        await Assert.That(result).IsFalse().Because("Expected parameter 'nullable' to not be a nullable value type (it's a nullable reference type).");
     }
 
 }
