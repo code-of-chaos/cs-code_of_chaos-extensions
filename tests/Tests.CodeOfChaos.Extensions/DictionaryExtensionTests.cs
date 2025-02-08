@@ -77,4 +77,36 @@ public class DictionaryExtensionsTest {
         await Assert.That(result).IsFalse();
         await Assert.That(dictionary["key1"]).IsEquivalentTo(new List<int> { 1 });
     }
+
+    [Test]
+    public async Task GetOrAdd_ShouldAddValueToDictionary_WhenKeyDoesNotExist() {
+        // Arrange
+        var dictionary = new Dictionary<string, string>();
+        string value = "value";
+        Func<string, string> valueFactory = (_) => value;
+        
+        // Act
+        var newValue = dictionary.GetOrAdd("key1", valueFactory);
+        
+        // Assert
+        await Assert.That(newValue).IsEqualTo(value);
+        await Assert.That(dictionary.ContainsKey("key1")).IsTrue();
+        await Assert.That(dictionary["key1"]).IsEqualTo(value);
+    }
+
+    [Test]
+    public async Task GetOrAdd_ShouldAddValueToDictionary_WhenKeyDoesNotExist_Overload() {
+        // Arrange
+        var dictionary = new Dictionary<string, string>();
+        string value = "value";
+        Func<string, int, string> valueFactory = (_, i) =>$"{value}{i}";
+        
+        // Act
+        string newValue = dictionary.GetOrAdd("key1", valueFactory, 10);
+        
+        // Assert
+        await Assert.That(newValue).IsEqualTo("value10");
+        await Assert.That(dictionary.ContainsKey("key1")).IsTrue();
+        await Assert.That(dictionary["key1"]).IsEqualTo("value10");
+    }
 }

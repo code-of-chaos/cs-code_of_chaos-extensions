@@ -27,4 +27,24 @@ public static class DictionaryExtensions {
         return true;
 
     }
+    
+    public static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory) where TKey : notnull {
+        if (dictionary.TryGetValue(key, out TValue? value)) return value;
+        value = valueFactory(key);
+        dictionary.Add(key, value);
+        return value;
+    }
+
+    public static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value) where TKey : notnull {
+        if (dictionary.TryGetValue(key, out TValue? existingValue)) return existingValue;
+        dictionary.Add(key, value);
+        return value;
+    }
+
+    public static TValue GetOrAdd<TKey, TValue, TArg>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TArg, TValue> valueFactory, TArg factoryArgument) where TKey : notnull {
+        if (dictionary.TryGetValue(key, out TValue? value)) return value;
+        value = valueFactory(key, factoryArgument);
+        dictionary.Add(key, value);
+        return value;
+    }
 }
