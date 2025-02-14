@@ -6,14 +6,14 @@ on:
             - 'v*.*.*' # Match version tags like v1.0.0
 
 jobs:
-    build:
+    publish:
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository
-              uses: actions/checkout@v4
+              uses: actions/checkout@v3
 
             - name: Setup .NET
-              uses: actions/setup-dotnet@v4
+              uses: actions/setup-dotnet@v3
               with:
                   dotnet-version: '9.x'
 
@@ -22,79 +22,39 @@ jobs:
 
             - name: Build
               run: dotnet build CodeOfChaos.Extensions.sln --configuration Release --no-restore
+            
+            # Ensure that the tests must pass 
+            # The job will fail automatically if any test fails because `dotnet test` exits with a non-zero code
+            - name: Run tests - Extensions
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions"
+            - name: Run tests - Extensions.Analyzers
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.Analyzers"
+            - name: Run tests - Extensions.AspNetCore
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.AspNetCore"
+            - name: Run tests - Extensions.EntityFrameworkCore
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.EntityFrameworkCore"
+            - name: Run tests - Extensions.Serilog
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.Serilog"
+            - name: Run tests - Extensions.DependencyInjection
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.DependencyInjection"
+            - name: Run tests - Extensions.DependencyInjection.Generators
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.DependencyInjection.Generators"
 
-            # Save build outputs as an artifact
-            - name: Upload build artifacts
-              uses: actions/upload-artifact@v4
-              with:
-                  name: build-artifacts
-                  path: |
-                      src/**/bin/Release/
-                      tests/**/bin/Release/**/*
-
-    test-all:
-        needs: build
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                test-project:
-                    - Tests.CodeOfChaos.Extensions
-                    - Tests.CodeOfChaos.Extensions.Analyzers
-                    - Tests.CodeOfChaos.Extensions.AspNetCore
-                    - Tests.CodeOfChaos.Extensions.DependencyInjection
-                    - Tests.CodeOfChaos.Extensions.DependencyInjection.Generators
-                    - Tests.CodeOfChaos.Extensions.EntityFrameworkCore
-                    - Tests.CodeOfChaos.Extensions.Serilog
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Setup .NET
-              uses: actions/setup-dotnet@v4
-              with:
-                  dotnet-version: '9.x'
-
-            # Download the build artifacts
-            - name: Download build artifacts
-              uses: actions/download-artifact@v4
-              with:
-                  name: build-artifacts
-
-            # Run tests using the artifacts
-            - name: Run tests for ${{ matrix.test-project }}
-              run: dotnet test -c Release --no-build --no-restore
-              working-directory: tests/${{ matrix.test-project }}
-
-    publish:
-        needs: test-all
-        runs-on: ubuntu-latest
-        strategy:
-            matrix:
-                package:
-                    - CodeOfChaos.Extensions
-                    - CodeOfChaos.Extensions.Analyzers
-                    - CodeOfChaos.Extensions.AspNetCore
-                    - CodeOfChaos.Extensions.DependencyInjection
-                    - CodeOfChaos.Extensions.DependencyInjection.Generators
-                    - CodeOfChaos.Extensions.EntityFrameworkCore
-                    - CodeOfChaos.Extensions.Serilog
-        steps:
-            - name: Checkout repository
-              uses: actions/checkout@v4
-
-            - name: Setup .NET
-              uses: actions/setup-dotnet@v4
-              with:
-                  dotnet-version: '9.x'
-
-            # Download the build artifacts
-            - name: Download build artifacts
-              uses: actions/download-artifact@v4
-              with:
-                  name: build-artifacts
-
-            # Push the corresponding NuGet package
-            - name: Publish ${{ matrix.package }} to NuGet
+            - name: Publish to NuGet
               env:
                   NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-              run: dotnet nuget push src/${{ matrix.package }}/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+              run: |
+                  dotnet nuget push src/CodeOfChaos.Extensions/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.AspNetCore/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.EntityFrameworkCore/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.Serilog/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.Analyzers/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.DependencyInjection/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.DependencyInjection.Generators/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
