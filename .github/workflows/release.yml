@@ -30,7 +30,7 @@ jobs:
                   name: build-artifacts
                   path: |
                       src/**/bin/Release/
-                      tests/**/bin/Release/
+                      tests/**/bin/Release/**/*
 
     test-all:
         needs: build
