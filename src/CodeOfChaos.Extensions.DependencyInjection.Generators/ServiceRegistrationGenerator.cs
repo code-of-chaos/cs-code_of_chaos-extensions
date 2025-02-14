@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace CodeOfChaos.Extensions.DependencyInjection.Generators;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -30,6 +31,8 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
         FactoryCreatedServiceAttributeMetadataName,
         PooledInjectableServiceAttributeMetadataName
     ];
+
+    private static Regex RegexSanitizeAssemblyName { get; } = new(@"((?im)[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?)|(\.dll)", RegexOptions.Compiled);
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -60,9 +63,11 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
             .ToArray()
         ;
 
-        string assemblyNameSanitized = assemblyName
-            .Replace(".dll", "")
-            .Replace("-", "_");
+        // This fixes an issue with the testing environment, where we add a guid to the assembly name, to deter conflicts
+        string assemblyNameSanitized = RegexSanitizeAssemblyName.Replace(assemblyName, string.Empty)
+            .Replace("-", "_")
+            .TrimEnd('-', '_');
+        
 
         context.AddSource(
             PooledServicesFileName,

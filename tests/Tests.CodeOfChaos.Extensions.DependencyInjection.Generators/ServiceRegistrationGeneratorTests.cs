@@ -3,20 +3,20 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
 using CodeOfChaos.Extensions.DependencyInjection.Generators;
+using CodeOfChaos.Testing.TUnit;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.ObjectPool;
 using System;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Tests.CodeOfChaos.Extensions.DependencyInjection.Generators;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class ServiceRegistrationGeneratorTests : IncrementalGeneratorTest<ServiceRegistrationGenerator> {
-    protected override System.Reflection.Assembly[] ReferenceAssemblies { get; } = [
+public class ServiceRegistrationGeneratorTests {
+    private static System.Reflection.Assembly[] ReferenceAssemblies { get; } = [
         typeof(object).Assembly,
         typeof(FactoryCreatedServiceAttribute<,>).Assembly,
         typeof(IFactoryService<>).Assembly,
@@ -35,47 +35,48 @@ public class ServiceRegistrationGeneratorTests : IncrementalGeneratorTest<Servic
     [Arguments(InjectableServiceInput, InjectableServiceOutput)]
     public async Task TestText(string inputText, string expectedOutput) {
         // Arrange
-        GeneratorDriverRunResult runResult = await RunGeneratorAsync(inputText);
+        RoslynGeneratorRunner runner = await new RoslynCompilationRunner()
+            .AddReferences(ReferenceAssemblies)
+            .AddDocument("Test.cs", inputText)
+            .GetGeneratorRunnerAsync();
         
         // Act
-        GeneratedSourceResult? generatedSource = runResult.Results
-            .SelectMany(result => result.GeneratedSources)
-            .SingleOrDefault(result => result.HintName.EndsWith("ServiceRegistration.g.cs"));
+        GeneratorDriverRunResult runResult = runner.AddGenerator<ServiceRegistrationGenerator>();
 
         // Assert
-        await Assert.That(generatedSource?.SourceText).IsNotNull();
-        await Assert
-            .That(generatedSource?.SourceText.ToString())
-            .IsEqualTo(expectedOutput).IgnoringWhitespace().WithTrimming();
-        
+        await Assert.That(runResult).HasSourceTextEqualTo(
+            "ServiceRegistration.g.cs",
+            expectedOutput,
+            ignoreWhiteSpace:true,
+            withTrimming:true
+        );
     }
     
     [Test]
     [Arguments(PooledInjectableServiceInput, PooledInjectableServiceOutput, PooledInjectableServiceOutputPooledServices)]
     public async Task TestPooledInjectableServiceOutput(string inputText, string expectedOutput, string expectedOutputPooledServices) {
         // Arrange
-        GeneratorDriverRunResult runResult = await RunGeneratorAsync(inputText);
+        RoslynGeneratorRunner runner = await new RoslynCompilationRunner()
+            .AddReferences(ReferenceAssemblies)
+            .AddDocument("Test.cs", inputText)
+            .GetGeneratorRunnerAsync();
         
         // Act
-        GeneratedSourceResult? serviceRegistrationResult = runResult.Results
-            .SelectMany(result => result.GeneratedSources)
-            .SingleOrDefault(result => result.HintName.EndsWith("ServiceRegistration.g.cs"));
-        
-        GeneratedSourceResult? pooledServicesResult = runResult.Results
-            .SelectMany(result => result.GeneratedSources)
-            .SingleOrDefault(result => result.HintName.EndsWith("AutoPooledServices.g.cs"));
+        GeneratorDriverRunResult runResult = runner.AddGenerator<ServiceRegistrationGenerator>();
 
         // Assert
-        await Assert.That(serviceRegistrationResult?.SourceText).IsNotNull();
-        await Assert
-            .That(serviceRegistrationResult?.SourceText.ToString())
-            .IsEqualTo(expectedOutput).IgnoringWhitespace().WithTrimming();
-        
-        await Assert.That(pooledServicesResult?.SourceText).IsNotNull();
-        await Assert
-            .That(pooledServicesResult?.SourceText.ToString())
-            .IsEqualTo(expectedOutputPooledServices).IgnoringWhitespace().WithTrimming();
-        
+        await Assert.That(runResult).HasSourceTextEqualTo(
+            "ServiceRegistration.g.cs",
+            expectedOutput,
+            ignoreWhiteSpace:true,
+            withTrimming:true
+        );
+        await Assert.That(runResult).HasSourceTextEqualTo(
+            "AutoPooledServices.g.cs",
+            expectedOutputPooledServices,
+            ignoreWhiteSpace:true,
+            withTrimming:true
+        );
     }
 
     #region FactoryCreatedService Test

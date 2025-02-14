@@ -1,6 +1,9 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+#if DEBUG
+using System.Diagnostics;
+#endif
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
@@ -28,7 +31,7 @@ public static class StringExtensions {
         Debug.Fail("Failed to parse Guid");
         return Guid.Empty;
         #else
-        // Because "testing" of the input is done during debug, we can just "blindly" parse during release.
+        // Because "testing" of the value is handled by analyzer, we can just "blindly" parse during release.
         return Guid.Parse(input);
         #endif
     }
