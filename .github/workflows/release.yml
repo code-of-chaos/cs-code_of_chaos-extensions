@@ -28,6 +28,9 @@ jobs:
             - name: Run tests - Extensions
               run: dotnet run -c Release --no-restore --no-build
               working-directory: "tests/Tests.CodeOfChaos.Extensions"
+            - name: Run tests - Extensions.Analyzers
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.Analyzers"
             - name: Run tests - Extensions.AspNetCore
               run: dotnet run -c Release --no-restore --no-build
               working-directory: "tests/Tests.CodeOfChaos.Extensions.AspNetCore"
