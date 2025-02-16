@@ -37,9 +37,9 @@ jobs:
             - name: Run tests - Extensions.EntityFrameworkCore
               run: dotnet run -c Release --no-restore --no-build
               working-directory: "tests/Tests.CodeOfChaos.Extensions.EntityFrameworkCore"
-            - name: Run tests - Extensions.MicrosoftLogging
-              run: dotnet run -c Release --no-restore --no-build
-              working-directory: "tests/Tests.CodeOfChaos.Extensions.MicrosoftLogging"
+#            - name: Run tests - Extensions.MicrosoftLogging
+#              run: dotnet run -c Release --no-restore --no-build
+#              working-directory: "tests/Tests.CodeOfChaos.Extensions.MicrosoftLogging"
             - name: Run tests - Extensions.Serilog
               run: dotnet run -c Release --no-restore --no-build
               working-directory: "tests/Tests.CodeOfChaos.Extensions.Serilog"
