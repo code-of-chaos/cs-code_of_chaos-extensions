@@ -11,22 +11,22 @@ namespace CodeOfChaos.Extensions.Serilog;
 public static class ConsoleThemes {
     public static readonly AnsiConsoleTheme AnnaSasDevTheme = new(
         new Dictionary<ConsoleThemeStyle, string> {
-            [ConsoleThemeStyle.Text] = AnsiColor.AsFore("white"),
-            [ConsoleThemeStyle.SecondaryText] = AnsiColor.AsFore("silver"),
-            [ConsoleThemeStyle.TertiaryText] = AnsiColor.AsFore("gray"),
-            [ConsoleThemeStyle.Invalid] = AnsiColor.AsFore("gold"),
-            [ConsoleThemeStyle.Null] = AnsiColor.AsFore("coral"),
-            [ConsoleThemeStyle.Name] = AnsiColor.AsFore("slategray"),
-            [ConsoleThemeStyle.String] = AnsiColor.AsFore("aqua"),
-            [ConsoleThemeStyle.Number] = AnsiColor.AsFore("mediumpurple"),
-            [ConsoleThemeStyle.Boolean] = AnsiColor.AsFore("coral"),
-            [ConsoleThemeStyle.Scalar] = AnsiColor.AsFore("coral"),
-            [ConsoleThemeStyle.LevelVerbose] = AnsiColor.AsFore("silver"),
-            [ConsoleThemeStyle.LevelDebug] = AnsiColor.AsFore("rose"),
-            [ConsoleThemeStyle.LevelInformation] = AnsiColor.AsFore("white"),
-            [ConsoleThemeStyle.LevelWarning] = AnsiColor.AsFore("gold"),
-            [ConsoleThemeStyle.LevelError] = AnsiColor.AsFore("white") + AnsiColor.AsBack("rose"),
-            [ConsoleThemeStyle.LevelFatal] = AnsiColor.AsFore("white") + AnsiColor.AsBack("maroon")
+            [ConsoleThemeStyle.Text] = AnsiCodes.RgbForegroundColor(AnsiColorStore.White),
+            [ConsoleThemeStyle.SecondaryText] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Silver),
+            [ConsoleThemeStyle.TertiaryText] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Gray),
+            [ConsoleThemeStyle.Invalid] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Gold),
+            [ConsoleThemeStyle.Null] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Coral),
+            [ConsoleThemeStyle.Name] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Slategray),
+            [ConsoleThemeStyle.String] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Aqua),
+            [ConsoleThemeStyle.Number] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Mediumpurple),
+            [ConsoleThemeStyle.Boolean] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Coral),
+            [ConsoleThemeStyle.Scalar] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Coral),
+            [ConsoleThemeStyle.LevelVerbose] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Silver),
+            [ConsoleThemeStyle.LevelDebug] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Rose),
+            [ConsoleThemeStyle.LevelInformation] = AnsiCodes.RgbForegroundColor(AnsiColorStore.White),
+            [ConsoleThemeStyle.LevelWarning] = AnsiCodes.RgbForegroundColor(AnsiColorStore.Gold),
+            [ConsoleThemeStyle.LevelError] = AnsiCodes.RgbForegroundColor(AnsiColorStore.White) + AnsiCodes.RgbBackgroundColor(AnsiColorStore.Rose),
+            [ConsoleThemeStyle.LevelFatal] = AnsiCodes.RgbForegroundColor(AnsiColorStore.White) + AnsiCodes.RgbBackgroundColor(AnsiColorStore.Maroon)
         }
     );
 }
