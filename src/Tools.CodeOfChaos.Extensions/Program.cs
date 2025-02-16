@@ -27,6 +27,7 @@ public static class Program {
             "CodeOfChaos.Extensions.AspNetCore",
             "CodeOfChaos.Extensions.Serilog",
             "CodeOfChaos.Extensions.Analyzers",
+            "CodeOfChaos.Extensions.MicrosoftLogging",
             "CodeOfChaos.Extensions.DependencyInjection",
             "CodeOfChaos.Extensions.DependencyInjection.Generators" 
         );
