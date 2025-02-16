@@ -3,6 +3,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection;
 using CodeOfChaos.Extensions.DependencyInjection.Generators;
+using CodeOfChaos.Testing;
 using CodeOfChaos.Testing.TUnit;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
