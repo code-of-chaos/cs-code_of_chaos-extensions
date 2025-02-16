@@ -1,0 +1,35 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net9.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+
+        <!-- Main package name -->
+        <PackageId>CodeOfChaos.Extensions.MicrosoftLogging</PackageId>
+        <Version>0.36.4</Version>
+        <Authors>Anna Sas</Authors>
+        <Description>A simple extension library for Microsoft's logging</Description>
+        <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
+        <PackageTags>extensions linq EntityFrameworkCore</PackageTags>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <IncludeSymbols>true</IncludeSymbols>
+        <DebugType>embedded</DebugType>
+        <PackageLicenseFile>LICENSE</PackageLicenseFile>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <PackageIcon>icon.png</PackageIcon>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="JetBrains.Annotations" Version="2024.3.0" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.2" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false" />
+        <None Include="README.md" Pack="true" PackagePath="" />
+        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
+    </ItemGroup>
+
+</Project>

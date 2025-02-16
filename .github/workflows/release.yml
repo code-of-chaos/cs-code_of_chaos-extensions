@@ -37,6 +37,9 @@ jobs:
             - name: Run tests - Extensions.EntityFrameworkCore
               run: dotnet run -c Release --no-restore --no-build
               working-directory: "tests/Tests.CodeOfChaos.Extensions.EntityFrameworkCore"
+            - name: Run tests - Extensions.MicrosoftLogging
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.MicrosoftLogging"
             - name: Run tests - Extensions.Serilog
               run: dotnet run -c Release --no-restore --no-build
               working-directory: "tests/Tests.CodeOfChaos.Extensions.Serilog"
@@ -54,6 +57,7 @@ jobs:
                   dotnet nuget push src/CodeOfChaos.Extensions/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.AspNetCore/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.EntityFrameworkCore/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.MicrosoftLogging/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.Serilog/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.Analyzers/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.DependencyInjection/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate

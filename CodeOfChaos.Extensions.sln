@@ -42,6 +42,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOfChaos.Extensions.Depe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.CodeOfChaos.Extensions.Analyzers", "tests\Tests.CodeOfChaos.Extensions.Analyzers\Tests.CodeOfChaos.Extensions.Analyzers.csproj", "{E1F41678-9171-42C9-8877-F326D878AE05}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOfChaos.Extensions.MicrosoftLogging", "src\CodeOfChaos.Extensions.MicrosoftLogging\CodeOfChaos.Extensions.MicrosoftLogging.csproj", "{76717F23-6ED9-4C3B-81AD-89C79B7D36BE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -112,6 +114,10 @@ Global
 		{E1F41678-9171-42C9-8877-F326D878AE05}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1F41678-9171-42C9-8877-F326D878AE05}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1F41678-9171-42C9-8877-F326D878AE05}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76717F23-6ED9-4C3B-81AD-89C79B7D36BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76717F23-6ED9-4C3B-81AD-89C79B7D36BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76717F23-6ED9-4C3B-81AD-89C79B7D36BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76717F23-6ED9-4C3B-81AD-89C79B7D36BE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{26284571-0E09-4BAF-8C2B-DF87DCC1BA0B} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
@@ -131,5 +137,6 @@ Global
 		{9B1053FC-89D7-412D-AA24-618EFC97FDA4} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
 		{9FC9F294-BDB7-4479-B002-F0409E050A1E} = {9F807E1D-D361-4CAB-8FD2-39B8A4F7AFFF}
 		{E1F41678-9171-42C9-8877-F326D878AE05} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
+		{76717F23-6ED9-4C3B-81AD-89C79B7D36BE} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
 	EndGlobalSection
 EndGlobal
