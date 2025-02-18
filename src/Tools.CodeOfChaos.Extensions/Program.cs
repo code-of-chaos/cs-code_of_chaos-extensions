@@ -29,7 +29,8 @@ public static class Program {
             "CodeOfChaos.Extensions.Analyzers",
             "CodeOfChaos.Extensions.MicrosoftLogging",
             "CodeOfChaos.Extensions.DependencyInjection",
-            "CodeOfChaos.Extensions.DependencyInjection.Generators" 
+            "CodeOfChaos.Extensions.DependencyInjection.Generators",
+            "CodeOfChaos.Extensions.FluentValidation" 
         );
         string oneLineArgs = InputHelper.ToOneLine(args).Replace("%PROJECTS%", projects);
 

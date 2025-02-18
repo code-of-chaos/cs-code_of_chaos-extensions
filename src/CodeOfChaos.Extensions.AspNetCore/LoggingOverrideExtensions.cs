@@ -34,11 +34,13 @@ public static class LoggingOverrideExtensions {
 
         Log.Logger = loggerConfig.CreateLogger();
 
+
+        // Clear default providers and setup Serilog
         builder.Logging.ClearProviders();
         builder.Logging.AddSerilog(Log.Logger);
-        builder.Services.AddSingleton(Log.Logger);
+
         builder.Services.AddHostedService<ApplicationShutdownLoggerCleanup>(); // Ensure cleanup
-        // builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(Log.Logger));
+        builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(Log.Logger));
 
         return builder;
     }
