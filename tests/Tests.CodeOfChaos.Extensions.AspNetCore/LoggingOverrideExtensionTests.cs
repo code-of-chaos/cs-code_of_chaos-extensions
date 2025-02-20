@@ -76,49 +76,6 @@ public class LoggingOverrideExtensionsTests {
             .IsNotNull()
             .Because("Serilog should replace the existing providers when overriding logging.");
     }
-
-    [Test]
-    public async Task OverrideLoggingWithSerilog_ShouldRegisterApplicationShutdownCleanupService() {
-        // Arrange
-        WebApplicationBuilder builder = WebApplication.CreateBuilder();
-
-        // Act
-        builder.OverrideLoggingWithSerilog();
-
-        // Assert
-        ServiceProvider serviceProvider = builder.Services.BuildServiceProvider();
-        IEnumerable<IHostedService> hostedServices = serviceProvider.GetServices<IHostedService>().ToArray();
-        await Assert.That(hostedServices).IsNotNull().Because("IHostedService collection should be available.");
-        await Assert.That(hostedServices.Any(service => service is LoggingOverrideExtensions.ApplicationShutdownLoggerCleanup)).IsTrue().Because("There should be at least one hosted service.");
-    }
-
-    [Test]
-    public async Task ApplicationShutdownLoggerCleanup_ShouldFlushLogsOnStop() {
-        // Arrange
-        var cleanupService = new LoggingOverrideExtensions.ApplicationShutdownLoggerCleanup();
-        bool flushCalled = false;
-
-        // Replace the static Serilog Logger with a mock logger
-        ILogger originalLogger = Log.Logger;
-        Log.Logger = new LoggerConfiguration()
-            .WriteTo.Sink(new DelegatingSink(_ => flushCalled = true))// Custom sink to detect flush calls
-            .CreateLogger();
-
-
-        // Act
-        Log.Logger.Information("Test log message");// Log a message to verify it is flushed
-
-        await cleanupService.StartAsync(CancellationToken.None);
-        await cleanupService.StopAsync(CancellationToken.None);
-
-        // Assert
-        await Assert.That(flushCalled)
-            .IsTrue()
-            .Because("Log.CloseAndFlush should be triggered when the application stops.");
-
-        // Just to be sure
-        Log.Logger = originalLogger;// Restore the original logger
-    }
 }
 
 // ---------------------------------------------------------------------------------------------------------------------

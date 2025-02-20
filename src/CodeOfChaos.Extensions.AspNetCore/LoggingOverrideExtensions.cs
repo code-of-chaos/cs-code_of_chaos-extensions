@@ -3,10 +3,10 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
+using ILogger=Serilog.ILogger;
 
 namespace CodeOfChaos.Extensions.AspNetCore;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -33,24 +33,12 @@ public static class LoggingOverrideExtensions {
         configure?.Invoke(loggerConfig);
 
         Log.Logger = loggerConfig.CreateLogger();
-
-
+        
         // Clear default providers and setup Serilog
         builder.Logging.ClearProviders();
-        builder.Logging.AddSerilog(Log.Logger);
-        builder.Services.AddSingleton(Log.Logger);
-
-        builder.Services.AddHostedService<ApplicationShutdownLoggerCleanup>(); // Ensure cleanup
         builder.Services.AddLogging(loggingBuilder => loggingBuilder.AddSerilog(Log.Logger));
-
+        builder.Services.AddSingleton(Log.Logger);
+        
         return builder;
-    }
-
-    public class ApplicationShutdownLoggerCleanup : IHostedService {
-        public Task StartAsync(CancellationToken cancellationToken) => Task.CompletedTask;
-
-        public async Task StopAsync(CancellationToken cancellationToken) {
-            await Log.CloseAndFlushAsync();
-        }
     }
 }

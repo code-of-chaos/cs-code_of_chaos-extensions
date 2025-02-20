@@ -1,12 +1,17 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-namespace CodeOfChaos.Extensions.Serilog;
+using Serilog.Core;
+using Serilog.Events;
+
+namespace CodeOfChaos.Extensions.Serilog.Enrichers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class ConsoleOutputTemplates {
-    public const string Default = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}{Exception}";
-    public const string DefaultShort = "[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj}{NewLine}";
-    public const string AnnaSasDevServer = "[{Timestamp:HH:mm:ss} {Level:u3} {Section,-12}] {Message:lj}{NewLine}";
+// Define your section here (e.g., "auth" or "db")
+public class SectionEnricher(string sectionName) : ILogEventEnricher {
+    public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory) {
+        LogEventProperty sectionProperty = propertyFactory.CreateProperty("Section", sectionName);
+        logEvent.AddPropertyIfAbsent(sectionProperty);
+    }
 }
