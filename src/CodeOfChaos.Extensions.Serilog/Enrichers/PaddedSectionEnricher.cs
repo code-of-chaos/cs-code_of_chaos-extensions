@@ -23,6 +23,8 @@ public class PaddedSectionEnricher : ILogEventEnricher {
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public void Enrich(LogEvent logEvent, ILogEventPropertyFactory propertyFactory) {
+        // Return if the Section has already been set
+        if (logEvent.Properties.TryGetValue("Section", out LogEventPropertyValue? _)) return;
         if (!logEvent.Properties.TryGetValue("SourceContext", out LogEventPropertyValue? sectionProperty)) {
             // If "Section" is not defined, fallback to default value
             sectionProperty = new ScalarValue(string.Empty);
