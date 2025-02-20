@@ -43,16 +43,13 @@ public static class LoggerConfigurationExtensions {
 
     public static LoggerConfiguration WithTruncateSourceContextEnricher(this LoggerConfiguration loggerConfiguration, int maxLength = 8)
         => loggerConfiguration.Enrich.With(new TruncateSourceContextEnricher(maxLength));
-    
-    public static LoggerConfiguration WithSectionEnricher(this LoggerConfiguration loggerConfiguration, string? defaultSection = null) 
-        => loggerConfiguration.Enrich.With(new SectionEnricher(defaultSection ?? string.Empty));
 
     // -----------------------------------------------------------------------------------------------------------------
     // Opinionated configurations
     // -----------------------------------------------------------------------------------------------------------------
     public static LoggerConfiguration AsAnnaSasDevServerConsole(this LoggerConfiguration loggerConfiguration) =>
         loggerConfiguration
-            .WithSectionEnricher()
+            .Enrich.FromLogContext()
             .WithPaddedSectionEnricher(maxLength: 12)
             .WriteToAsyncConsole(
                 outputTemplate: ConsoleOutputTemplates.AnnaSasDevServer,
