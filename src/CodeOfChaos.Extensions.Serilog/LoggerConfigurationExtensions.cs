@@ -38,19 +38,19 @@ public static class LoggerConfigurationExtensions {
         return loggerConfiguration;
     }
 
-    public static LoggerConfiguration WithPaddedSectionEnricher(this LoggerConfiguration loggerConfiguration, int maxLength = 8)
+    public static LoggerConfiguration WithPaddedSectionEnricher(this LoggerConfiguration loggerConfiguration, int maxLength = 12)
         => loggerConfiguration.Enrich.With(new PaddedSectionEnricher(maxLength));
 
-    public static LoggerConfiguration WithTruncateSourceContextEnricher(this LoggerConfiguration loggerConfiguration, int maxLength = 8)
+    public static LoggerConfiguration WithTruncateSourceContextEnricher(this LoggerConfiguration loggerConfiguration, int maxLength = 12)
         => loggerConfiguration.Enrich.With(new TruncateSourceContextEnricher(maxLength));
 
     // -----------------------------------------------------------------------------------------------------------------
     // Opinionated configurations
     // -----------------------------------------------------------------------------------------------------------------
-    public static LoggerConfiguration AsAnnaSasDevServerConsole(this LoggerConfiguration loggerConfiguration) =>
+    public static LoggerConfiguration AsAnnaSasDevServerConsole(this LoggerConfiguration loggerConfiguration, int sectionMaxLength = 12) =>
         loggerConfiguration
             .Enrich.FromLogContext()
-            .WithPaddedSectionEnricher(maxLength: 12)
+            .WithPaddedSectionEnricher(maxLength: sectionMaxLength)
             .WriteToAsyncConsole(
                 outputTemplate: ConsoleOutputTemplates.AnnaSasDevServer,
                 theme: ConsoleThemes.AnnaSasDevTheme
