@@ -10,6 +10,10 @@ namespace Microsoft.EntityFrameworkCore;
 public static class LinqWithExtensions {
     
     [DebuggerStepThrough]
+    public static IQueryable<T> With<T>(this IQueryable<T> source, Func<IQueryable<T>, IQueryable<T>> query)
+        => query(source);
+    
+    [DebuggerStepThrough]
     public static IQueryable<T> With<T, T0>(this IQueryable<T> source, Func<IQueryable<T>, T0, IQueryable<T>> query, T0 arg0)
         => query(source, arg0);
 
