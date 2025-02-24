@@ -10,8 +10,8 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="CodeOfChaos.Testing.TUnit" Version="0.7.2" />
-      <PackageReference Include="TUnit" Version="0.13.23" />
+      <PackageReference Include="CodeOfChaos.Testing.TUnit" Version="0.8.0" />
+      <PackageReference Include="TUnit" Version="0.14.6" />
     </ItemGroup>
 
     <ItemGroup>
