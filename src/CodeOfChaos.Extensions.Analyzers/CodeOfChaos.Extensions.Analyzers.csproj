@@ -12,7 +12,7 @@
 
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions.Analyzers</PackageId>
-        <Version>0.41.0</Version>
+        <Version>0.41.1</Version>
         <Authors>Anna Sas</Authors>
         <Description>Additional diagnostics to make CodeOfChaos.Extensions easier to use as a developer</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
@@ -31,10 +31,10 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.12.0">
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.13.0">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0">
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
     </ItemGroup>
