@@ -4,10 +4,11 @@
         <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <DefineConstants>JETBRAINS_ANNOTATIONS</DefineConstants> <!-- Define JETBRAINS_ANNOTATIONS to ensure annotations are included -->
 
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions.MicrosoftLogging</PackageId>
-        <Version>0.41.2</Version>
+        <Version>0.42.3-preview.1</Version>
         <Authors>Anna Sas</Authors>
         <Description>A simple extension library for Microsoft's logging</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
