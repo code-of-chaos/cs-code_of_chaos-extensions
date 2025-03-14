@@ -83,7 +83,7 @@ public class LoggerExtensionsTests {
         _mockLogger.Setup(logger => logger.Fatal(providedException, messageTemplate, propertyValues));
 
         // Act
-        InvalidOperationException? exception = _mockLogger.Object.ThrowableFatal(providedException, messageTemplate, propertyValues);
+        InvalidOperationException exception = _mockLogger.Object.ThrowableFatal(providedException, messageTemplate, propertyValues);
 
         // Assert
         await Assert.That(exception).IsNotNull();

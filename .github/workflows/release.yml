@@ -25,33 +25,9 @@ jobs:
             
             # Ensure that the tests must pass 
             # The job will fail automatically if any test fails because `dotnet test` exits with a non-zero code
-            - name: Run tests - Extensions
+            - name: Run tests
               run: dotnet run -c Release --no-restore --no-build
               working-directory: "tests/Tests.CodeOfChaos.Extensions"
-            - name: Run tests - Extensions.Analyzers
-              run: dotnet run -c Release --no-restore --no-build
-              working-directory: "tests/Tests.CodeOfChaos.Extensions.Analyzers"
-            - name: Run tests - Extensions.AspNetCore
-              run: dotnet run -c Release --no-restore --no-build
-              working-directory: "tests/Tests.CodeOfChaos.Extensions.AspNetCore"
-            - name: Run tests - Extensions.EntityFrameworkCore
-              run: dotnet run -c Release --no-restore --no-build
-              working-directory: "tests/Tests.CodeOfChaos.Extensions.EntityFrameworkCore"
-#            - name: Run tests - Extensions.MicrosoftLogging
-#              run: dotnet run -c Release --no-restore --no-build
-#              working-directory: "tests/Tests.CodeOfChaos.Extensions.MicrosoftLogging"
-            - name: Run tests - Extensions.Serilog
-              run: dotnet run -c Release --no-restore --no-build
-              working-directory: "tests/Tests.CodeOfChaos.Extensions.Serilog"
-            - name: Run tests - Extensions.DependencyInjection
-              run: dotnet run -c Release --no-restore --no-build
-              working-directory: "tests/Tests.CodeOfChaos.Extensions.DependencyInjection"
-            - name: Run tests - Extensions.DependencyInjection.Generators
-              run: dotnet run -c Release --no-restore --no-build
-              working-directory: "tests/Tests.CodeOfChaos.Extensions.DependencyInjection.Generators"
-            - name: Run tests - Extensions.FluentValidation
-              run: dotnet run -c Release --no-restore --no-build
-              working-directory: "tests/Tests.CodeOfChaos.Extensions.FluentValidation"
 
             - name: Publish to NuGet
               env:
