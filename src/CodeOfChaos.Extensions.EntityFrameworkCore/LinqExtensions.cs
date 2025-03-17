@@ -49,11 +49,6 @@ public static class LinqExtensions {
             ? source.OrderBy(orderBy, comparer)
             : source;
     
-    public static IQueryable<TSource> ConditionalQuery<TSource>(this IQueryable<TSource> source, bool condition, Func<IQueryable<TSource>, IQueryable<TSource>> queryableFunc)
-        => condition
-            ? queryableFunc(source)
-            : source;
-    
     public static IQueryable<T> ConditionalDistinct<T>(this IQueryable<T> source, bool condition)
         => condition
             ? source.Distinct()
@@ -72,11 +67,6 @@ public static class LinqExtensions {
     public static IQueryable<T> ConditionalExcept<T>(this IQueryable<T> source, bool condition, IQueryable<T> second)
         => condition
             ? source.Except(second)
-            : source;
-
-    public static IQueryable<T> ConditionalQueryable<T>(this IQueryable<T> source, bool condition, Func<IQueryable<T>, IQueryable<T>> queryableFunc)
-        => condition
-            ? queryableFunc(source)
             : source;
 
     public static IQueryable<T> ConditionalReverse<T>(this IQueryable<T> source, bool reverse) 
