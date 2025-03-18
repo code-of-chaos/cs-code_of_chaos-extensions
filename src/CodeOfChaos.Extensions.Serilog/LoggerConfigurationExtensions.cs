@@ -47,12 +47,37 @@ public static class LoggerConfigurationExtensions {
     // -----------------------------------------------------------------------------------------------------------------
     // Opinionated configurations
     // -----------------------------------------------------------------------------------------------------------------
-    public static LoggerConfiguration AsAnnaSasDevServerConsole(this LoggerConfiguration loggerConfiguration, int sectionMaxLength = 12) =>
-        loggerConfiguration
+    public static LoggerConfiguration AsAnnaSasDevServerConsole(
+        this LoggerConfiguration loggerConfiguration, 
+        int sectionMaxLength = 12,
+        Action<AsyncConsoleConfig>? configure = null
+    ) {
+        var asyncConsoleConfig = new AsyncConsoleConfig();
+        configure?.Invoke(asyncConsoleConfig);
+        
+        return loggerConfiguration
             .Enrich.FromLogContext()
             .WithPaddedSectionEnricher(maxLength: sectionMaxLength)
             .WriteToAsyncConsole(
-                outputTemplate: ConsoleOutputTemplates.AnnaSasDevServer,
-                theme: ConsoleThemes.AnnaSasDevTheme
+                restrictedToMinimumLevel: asyncConsoleConfig.RestrictedToMinimumLevel,
+                outputTemplate: asyncConsoleConfig.OutputTemplate,
+                formatProvider: asyncConsoleConfig.FormatProvider,
+                levelSwitch: asyncConsoleConfig.LevelSwitch,
+                standardErrorFromLevel: asyncConsoleConfig.StandardErrorFromLevel,
+                theme: asyncConsoleConfig.Theme,
+                applyThemeToRedirectedOutput: asyncConsoleConfig.ApplyThemeToRedirectedOutput,
+                syncRoot: asyncConsoleConfig.SyncRoot
             );
+    }
+
+    public class AsyncConsoleConfig {
+        public LogEventLevel RestrictedToMinimumLevel {get; set;} = LogEventLevel.Verbose;
+        public string OutputTemplate {get; set;} = ConsoleOutputTemplates.AnnaSasDevServer;
+        public IFormatProvider? FormatProvider {get; set;} = null;
+        public LoggingLevelSwitch? LevelSwitch {get; set;} = null;
+        public LogEventLevel? StandardErrorFromLevel {get; set;} = null;
+        public ConsoleTheme? Theme {get; set;} = ConsoleThemes.AnnaSasDevTheme;
+        public bool ApplyThemeToRedirectedOutput {get; set;} = false;
+        public object? SyncRoot {get; set;} = null;
+    }
 }
