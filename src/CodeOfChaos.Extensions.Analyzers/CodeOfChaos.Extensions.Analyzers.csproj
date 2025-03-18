@@ -12,7 +12,7 @@
 
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions.Analyzers</PackageId>
-        <Version>0.46.0</Version>
+        <Version>0.47.0</Version>
         <Authors>Anna Sas</Authors>
         <Description>Additional diagnostics to make CodeOfChaos.Extensions easier to use as a developer</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
