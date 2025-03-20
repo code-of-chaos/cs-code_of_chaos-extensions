@@ -41,10 +41,12 @@ public static class EnumExtensions {
     /// <summary>
     ///     Retrieves all flagged values from the given Enum as an array.
     /// </summary>
-    public static T[] GetFlagsAsArray<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum => GetFlags(flagEnum, excludeZeroValue).ToArray();
+    public static T[] GetFlagsAsArray<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum
+        => GetFlags(flagEnum, excludeZeroValue).ToArray();
 
     /// <summary>
     ///     Retrieves all flagged values from the given Enum as a list.
     /// </summary>
-    public static List<T> GetFlagsAsList<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum => GetFlags(flagEnum, excludeZeroValue).ToList();
+    public static List<T> GetFlagsAsList<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum 
+        => GetFlags(flagEnum, excludeZeroValue).ToList();
 }

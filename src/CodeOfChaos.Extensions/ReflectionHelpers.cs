@@ -29,8 +29,7 @@ public static class ReflectionHelper {
     }
     
     // WHY IS THIS SO EASY!
-    public static bool IsNullableValueType(this ParameterInfo parameter) {
-        return Nullable.GetUnderlyingType(parameter.ParameterType) != null;
-    }
+    public static bool IsNullableValueType(this ParameterInfo parameter) 
+        => Nullable.GetUnderlyingType(parameter.ParameterType) != null;
 
 }

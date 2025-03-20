@@ -19,15 +19,9 @@ public static class TaskHelper {
         return Task.FromResult<T?>(default);
     }
 
-    public static Task<T?> FromTaskOrDefault<T>(Task<T?>? originalTask, T? defaultValue) {
-        if (originalTask != null) return originalTask;
-        
-        return Task.FromResult(defaultValue);
-    }
+    public static Task<T?> FromTaskOrDefault<T>(Task<T?>? originalTask, T? defaultValue)
+        => originalTask ?? Task.FromResult(defaultValue);
 
-    public static Task<T?> FromTaskOrDefault<T>(Task<T?>? originalTask, Func<T?> defaultValueFactory) {
-        if (originalTask != null) return originalTask;
-        
-        return Task.FromResult(defaultValueFactory.Invoke());
-    }
+    public static Task<T?> FromTaskOrDefault<T>(Task<T?>? originalTask, Func<T?> defaultValueFactory)
+        => originalTask ?? Task.FromResult(defaultValueFactory.Invoke());
 }
