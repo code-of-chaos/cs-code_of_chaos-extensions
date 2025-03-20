@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using System.Collections;
-using System.Diagnostics.CodeAnalysis;
 
 // ReSharper disable once CheckNamespace
 namespace System;
@@ -13,6 +12,9 @@ public static class CollectionExtensions {
     public static bool IsEmpty<T>(this IEnumerable<T> source) => source switch {
         ICollection<T> collection => collection.Count == 0,
         ICollection collection => collection.Count == 0,
+        IReadOnlyCollection<T> collection => collection.Count == 0,
+        string str => str.Length == 0,
+        null => true,
         _ => !source.Any()
     };
     
