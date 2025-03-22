@@ -29,17 +29,18 @@ public static class StringExtensions {
     public static string Truncate(this string input, int maxLength) 
         => input.Length <= maxLength ? input : input[..maxLength];
 
-    public static Guid ToGuid(this string input) {
-        #if DEBUG
-        if (Guid.TryParse(input, out Guid output)) return output;
+    
+    // Because "testing" of the value is handled by analyzer, we can just "blindly" parse during release.
+    public static Guid ToGuid(this string input) 
+        => Guid.Parse(input);
 
-        Debug.Fail("Failed to parse Guid");
+    public static Guid ToGuidOrDefault(this string input) {
+        if (Guid.TryParse(input, out Guid guid)) return guid;
         return Guid.Empty;
-        #else
-        // Because "testing" of the value is handled by analyzer, we can just "blindly" parse during release.
-        return Guid.Parse(input);
-        #endif
     }
+
+    public static bool TryToGuid(this string input, out Guid guid)
+        => Guid.TryParse(input, out guid);
 
     /// <summary>
     ///     Converts a given string into a GUID by hashing it using the SHA256 algorithm.
