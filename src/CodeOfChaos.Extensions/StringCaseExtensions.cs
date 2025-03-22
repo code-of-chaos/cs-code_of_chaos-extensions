@@ -8,8 +8,7 @@ namespace CodeOfChaos.Extensions;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public static partial class StringCaseExtensions {
-    [GeneratedRegex("(?<=[a-z])(?=[A-Z])|[^a-zA-Z0-9]+|(?<=[^\\d])(?=\\d)|(?<=\\d)(?=[^\\d])")]
-    // [GeneratedRegex("(?<=[a-z])(?=[A-Z0-9])|(?<=[0-9])(?=[a-zA-Z])|[^a-zA-Z0-9]+")]
+    [GeneratedRegex("(?<=[a-z])(?=[A-Z0-9])|(?<=[0-9])(?=[a-zA-Z])|[^a-zA-Z0-9]+")]
     private static partial Regex NonAlphanumericRegex { get; }
 
     // -----------------------------------------------------------------------------------------------------------------
