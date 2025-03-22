@@ -18,7 +18,7 @@ public static partial class StringCaseExtensions {
     // Convert to PascalCase
     [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToPascalCase(this string input) {
-        if (string.IsNullOrWhiteSpace(input)) return input;
+        if (input.IsNullOrWhiteSpace()) return input;
 
         ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
 
@@ -38,15 +38,13 @@ public static partial class StringCaseExtensions {
                 result[position++] = wordSpan[i].ToLower();
             }
         }
-
         return new string(result[..position]);
     }
-
-
+    
     // Convert to camelCase
     [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToCamelCase(this string input) {
-        if (string.IsNullOrWhiteSpace(input)) return input;
+        if (input.IsNullOrWhiteSpace()) return input;
 
         ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
 
@@ -54,7 +52,7 @@ public static partial class StringCaseExtensions {
         int position = 0;
 
         for (int i = 0; i < words.Length; i++) {
-            if (string.IsNullOrEmpty(words[i])) continue;
+            if (words[i].IsNullOrEmpty()) continue;
 
             ReadOnlySpan<char> wordSpan = words[i].AsSpan();
 
@@ -67,14 +65,13 @@ public static partial class StringCaseExtensions {
                 result[position++] = wordSpan[j];
             }
         }
-
         return new string(result[..position]);
     }
 
     // Convert to kebab-case
     [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToKebabCase(this string input) {
-        if (string.IsNullOrWhiteSpace(input)) return input;
+        if (input.IsNullOrWhiteSpace()) return input;
 
         ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
 
@@ -101,7 +98,7 @@ public static partial class StringCaseExtensions {
     // Convert to snake_case
     [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToSnakeCase(this string input) {
-        if (string.IsNullOrWhiteSpace(input)) return input;
+        if (input.IsNullOrWhiteSpace()) return input;
 
         ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
 
@@ -129,7 +126,7 @@ public static partial class StringCaseExtensions {
     // Convert to period.separated.case
     [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToPeriodSeparatedCase(this string input) {
-        if (string.IsNullOrWhiteSpace(input)) return input;
+        if (input.IsNullOrWhiteSpace()) return input;
 
         ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
 
