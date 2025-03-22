@@ -12,6 +12,9 @@ public class StringCaseExtensionTests {
     
     // Tests for ToCamelCase
     [Test]
+    [Arguments("", "")]
+    [Arguments(null, null)]
+    [Arguments(" ", " ")]
     [Arguments("a", "a")]
     [Arguments("A", "a")]
     [Arguments("aA", "aA")]
@@ -30,11 +33,11 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case", "kebabCase")]
     [Arguments("kebab-case-with-numbers-123", "kebabCaseWithNumbers123")]
     [Arguments("kebab-case-with-numbers-123-and-more", "kebabCaseWithNumbers123AndMore")]
-    public async Task ToCamelCase_ShouldWork(string input, string expected) {
+    public async Task ToCamelCase_ShouldWork(string? input, string? expected) {
         // Arrange
         
         // Act
-        var result = input.ToCamelCase();
+        string? result = input?.ToCamelCase();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -42,6 +45,9 @@ public class StringCaseExtensionTests {
 
     // Tests for ToPascalCase
     [Test]
+    [Arguments("", "")]
+    [Arguments(null, null)]
+    [Arguments(" ", " ")]
     [Arguments("a", "A")]
     [Arguments("A", "A")]
     [Arguments("aA", "AA")]
@@ -60,11 +66,11 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case", "KebabCase")]
     [Arguments("kebab-case-with-numbers-123", "KebabCaseWithNumbers123")]
     [Arguments("kebab-case-with-numbers-123-and-more", "KebabCaseWithNumbers123AndMore")]
-    public async Task ToPascalCase_ShouldWork(string input, string expected) {
+    public async Task ToPascalCase_ShouldWork(string? input, string? expected) {
         // Arrange
         
         // Act
-        var result = input.ToPascalCase();
+        string? result = input?.ToPascalCase();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -72,6 +78,9 @@ public class StringCaseExtensionTests {
 
     // Tests for ToKebabCase
     [Test]
+    [Arguments("", "")]
+    [Arguments(null, null)]
+    [Arguments(" ", " ")]
     [Arguments("a", "a")]
     [Arguments("A", "a")]
     [Arguments("aA", "a-a")]
@@ -90,11 +99,11 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case", "kebab-case")]
     [Arguments("kebab-case-with-numbers-123", "kebab-case-with-numbers-123")]
     [Arguments("kebab-case-with-numbers-123-and-more", "kebab-case-with-numbers-123-and-more")]
-    public async Task ToKebabCase_ShouldWork(string input, string expected) {
+    public async Task ToKebabCase_ShouldWork(string? input, string? expected) {
         // Arrange
         
         // Act
-        var result = input.ToKebabCase();
+        string? result = input?.ToKebabCase();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -102,6 +111,9 @@ public class StringCaseExtensionTests {
 
     // Tests for ToSnakeCase
     [Test]
+    [Arguments("", "")]
+    [Arguments(null, null)]
+    [Arguments(" ", " ")]
     [Arguments("a", "a")]
     [Arguments("A", "a")]
     [Arguments("aA", "a_a")]
@@ -120,11 +132,11 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case", "kebab_case")]
     [Arguments("kebab-case-with-numbers-123", "kebab_case_with_numbers_123")]
     [Arguments("kebab-case-with-numbers-123-and-more", "kebab_case_with_numbers_123_and_more")]
-    public async Task ToSnakeCase_ShouldWork(string input, string expected) {
+    public async Task ToSnakeCase_ShouldWork(string? input, string? expected) {
         // Arrange
         
         // Act
-        var result = input.ToSnakeCase();
+        string? result = input?.ToSnakeCase();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -132,6 +144,9 @@ public class StringCaseExtensionTests {
 
     // Tests for ToPeriodSeparatedCase
     [Test]
+    [Arguments("", "")]
+    [Arguments(null, null)]
+    [Arguments(" ", " ")]
     [Arguments("a", "a")]
     [Arguments("A", "a")]
     [Arguments("aA", "a.a")]
@@ -150,11 +165,11 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case", "kebab.case")]
     [Arguments("kebab-case-with-numbers-123", "kebab.case.with.numbers.123")]
     [Arguments("kebab-case-with-numbers-123-and-more", "kebab.case.with.numbers.123.and.more")]
-    public async Task ToPeriodSeparatedCase_ShouldWork(string input, string expected) {
+    public async Task ToPeriodSeparatedCase_ShouldWork(string? input, string? expected) {
         // Arrange
         
         // Act
-        var result = input.ToPeriodSeparatedCase();
+        string? result = input?.ToPeriodSeparatedCase();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);

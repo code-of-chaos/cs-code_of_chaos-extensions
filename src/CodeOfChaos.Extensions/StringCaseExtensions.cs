@@ -16,8 +16,7 @@ public static partial class StringCaseExtensions {
     // -----------------------------------------------------------------------------------------------------------------
     // Convert to PascalCase
     public static string ToPascalCase(this string input) {
-        if (string.IsNullOrEmpty(input))
-            return input;
+        if (input.IsNullOrWhiteSpace()) return input;
 
         string[] words = NonAlphanumericRegex.Split(input);
 
@@ -33,10 +32,8 @@ public static partial class StringCaseExtensions {
 
     // Convert to camelCase
     public static string ToCamelCase(this string input) {
-        if (string.IsNullOrEmpty(input))
-            return input;
-
-
+        if (input.IsNullOrWhiteSpace()) return input;
+        
         string[] words = NonAlphanumericRegex.Split(input);
 
         for (int i = 0; i < words.Length; i++) {
@@ -56,10 +53,9 @@ public static partial class StringCaseExtensions {
 
     // Convert to kebab-case
     public static string ToKebabCase(this string input) {
-        if (string.IsNullOrEmpty(input))
-            return input;
+        if (input.IsNullOrWhiteSpace()) return input;
 
-        string[] words = NonAlphanumericRegex.Split(input);
+        Span<string> words = NonAlphanumericRegex.Split(input);
         for (int i = 0; i < words.Length; i++) {
             words[i] = words[i].ToLower();
         }
@@ -69,8 +65,7 @@ public static partial class StringCaseExtensions {
 
     // Convert to snake_case
     public static string ToSnakeCase(this string input) {
-        if (string.IsNullOrEmpty(input))
-            return input;
+        if (input.IsNullOrWhiteSpace()) return input;
 
         string[] words = NonAlphanumericRegex.Split(input);
         for (int i = 0; i < words.Length; i++) {
@@ -82,8 +77,7 @@ public static partial class StringCaseExtensions {
 
     // Convert to period.separated.case
     public static string ToPeriodSeparatedCase(this string input) {
-        if (string.IsNullOrEmpty(input))
-            return input;
+        if (input.IsNullOrWhiteSpace()) return input;
 
         string[] words = NonAlphanumericRegex.Split(input);
         for (int i = 0; i < words.Length; i++) {
