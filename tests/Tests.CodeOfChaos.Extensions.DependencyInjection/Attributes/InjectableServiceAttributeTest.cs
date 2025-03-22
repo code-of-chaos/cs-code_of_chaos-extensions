@@ -29,9 +29,9 @@ public class InjectableServiceAttributeTests {
     public async Task InjectableServiceAttribute_CanBeAppliedToClass() {
         // Act
         object[] attributes = typeof(SampleServiceWithAttribute).GetCustomAttributes(typeof(InjectableServiceAttribute<IMyService>), false);
-    
+
         var attribute = attributes.FirstOrDefault() as InjectableServiceAttribute<IMyService>;
-        
+
         // Assert
         await Assert.That(attributes).IsNotEmpty().And.HasSingleItem();
         await Assert.That(attribute).IsNotNull();

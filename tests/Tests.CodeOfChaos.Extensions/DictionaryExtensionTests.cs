@@ -16,7 +16,7 @@ public class DictionaryExtensionsTest {
         var dictionary = new Dictionary<string, string>();
 
         // Act
-        IDictionary<string, string>? result = dictionary.AddOrUpdate("key1", "value1");
+        IDictionary<string, string> result = dictionary.AddOrUpdate("key1", "value1");
 
         // Assert
         await Assert.That(result).IsEqualTo(dictionary);
@@ -30,7 +30,7 @@ public class DictionaryExtensionsTest {
         var dictionary = new Dictionary<string, string> { { "key1", "value1" } };
 
         // Act
-        IDictionary<string, string>? result = dictionary.AddOrUpdate("key1", "value2");
+        IDictionary<string, string> result = dictionary.AddOrUpdate("key1", "value2");
 
         // Assert
         await Assert.That(result).IsEqualTo(dictionary);
@@ -83,11 +83,11 @@ public class DictionaryExtensionsTest {
         // Arrange
         var dictionary = new Dictionary<string, string>();
         string value = "value";
-        Func<string, string> valueFactory = (_) => value;
-        
+        Func<string, string> valueFactory = _ => value;
+
         // Act
-        var newValue = dictionary.GetOrAdd("key1", valueFactory);
-        
+        string newValue = dictionary.GetOrAdd("key1", valueFactory);
+
         // Assert
         await Assert.That(newValue).IsEqualTo(value);
         await Assert.That(dictionary.ContainsKey("key1")).IsTrue();
@@ -99,11 +99,11 @@ public class DictionaryExtensionsTest {
         // Arrange
         var dictionary = new Dictionary<string, string>();
         string value = "value";
-        Func<string, int, string> valueFactory = (_, i) =>$"{value}{i}";
-        
+        Func<string, int, string> valueFactory = (_, i) => $"{value}{i}";
+
         // Act
         string newValue = dictionary.GetOrAdd("key1", valueFactory, 10);
-        
+
         // Assert
         await Assert.That(newValue).IsEqualTo("value10");
         await Assert.That(dictionary.ContainsKey("key1")).IsTrue();

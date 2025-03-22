@@ -33,7 +33,7 @@ public class CollectionExtensionTests {
         // Assert
         await Assert.That(output).IsEqualTo(expected);
     }
-    
+
     [Test]
     [Arguments(new string[] {}, true)]
     [Arguments(new[] { "a" }, false)]
@@ -64,7 +64,7 @@ public class CollectionExtensionTests {
 
     [Test]
     [Arguments(new string[] {}, true)]
-    [Arguments(new[] {"a"}, false)]
+    [Arguments(new[] { "a" }, false)]
     public async Task IsCollectionEmpty_ShouldWork_List(IEnumerable<string> input, bool expected) {
         // Arrange
         List<string> collection = input.ToList();
@@ -78,10 +78,10 @@ public class CollectionExtensionTests {
 
     [Test]
     [Arguments(new string[] {}, true)]
-    [Arguments(new[] {"a"}, false)]
+    [Arguments(new[] { "a" }, false)]
     public async Task IsCollectionEmpty_ShouldWork_Dictionary(IEnumerable<string> input, bool expected) {
         // Arrange
-        Dictionary<string, string> collection = input.ToDictionary(s => s, s =>s );
+        Dictionary<string, string> collection = input.ToDictionary(keySelector: s => s, elementSelector: s => s);
 
         // Act
         bool output = collection.IsCollectionEmpty();

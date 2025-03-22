@@ -9,15 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tests.CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 [TestSubject(typeof(InjectableServiceRegistration))]
 public class InjectableServiceRegistrationTest {
     [Test]
-    public async Task FormatText_ValidInput_GeneratesCorrectFormattedText()
-    {
+    public async Task FormatText_ValidInput_GeneratesCorrectFormattedText() {
         // Arrange
         var serviceTypeMock = new Mock<INamedTypeSymbol>();
         var implementationTypeMock = new Mock<INamedTypeSymbol>();
@@ -38,7 +36,7 @@ public class InjectableServiceRegistrationTest {
 
         // Act
         var builder = new StringBuilder();
-        registration.FormatText(builder, string.Empty);  // The second parameter is unused
+        registration.FormatText(builder, string.Empty);// The second parameter is unused
 
         // Assert
         string expected = "services.AddScoped<IMyService, MyNamespace.MyServiceImplementation>();";

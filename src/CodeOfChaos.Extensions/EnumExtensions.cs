@@ -47,6 +47,6 @@ public static class EnumExtensions {
     /// <summary>
     ///     Retrieves all flagged values from the given Enum as a list.
     /// </summary>
-    public static List<T> GetFlagsAsList<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum 
+    public static List<T> GetFlagsAsList<T>(this T flagEnum, bool excludeZeroValue = true) where T : struct, Enum
         => GetFlags(flagEnum, excludeZeroValue).ToList();
 }

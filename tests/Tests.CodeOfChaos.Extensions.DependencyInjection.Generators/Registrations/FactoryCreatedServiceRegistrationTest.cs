@@ -9,7 +9,6 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace Tests.CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Tests
 // ---------------------------------------------------------------------------------------------------------------------
@@ -46,7 +45,7 @@ public class FactoryCreatedServiceRegistrationTests {
                         (provider) => provider.GetRequiredService<MyNamespace.MyServiceFactory>().Create()
                     );
             """.TrimStart();
-        
+
         await Assert.That(builder.ToString()).IsEqualTo(expected).IgnoringWhitespace();
     }
 }

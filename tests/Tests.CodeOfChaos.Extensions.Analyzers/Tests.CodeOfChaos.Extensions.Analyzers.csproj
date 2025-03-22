@@ -10,12 +10,12 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="CodeOfChaos.Testing.TUnit" Version="0.8.1" />
-      <PackageReference Include="TUnit" Version="0.18.60" />
+        <PackageReference Include="CodeOfChaos.Testing.TUnit" Version="0.8.1"/>
+        <PackageReference Include="TUnit" Version="0.18.60"/>
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\CodeOfChaos.Extensions.Analyzers\CodeOfChaos.Extensions.Analyzers.csproj" />
+        <ProjectReference Include="..\..\src\CodeOfChaos.Extensions.Analyzers\CodeOfChaos.Extensions.Analyzers.csproj"/>
     </ItemGroup>
 
 </Project>

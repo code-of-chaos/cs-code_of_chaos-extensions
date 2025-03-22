@@ -23,9 +23,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false" />
-        <None Include="README.md" Pack="true" PackagePath="" />
-        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false"/>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false"/>
     </ItemGroup>
 
     <ItemGroup>

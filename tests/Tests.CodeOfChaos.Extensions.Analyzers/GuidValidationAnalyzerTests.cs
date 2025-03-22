@@ -9,7 +9,6 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using System.Collections.Immutable;
 
 namespace Tests.CodeOfChaos.Extensions.Analyzers;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -17,7 +16,7 @@ public class GuidValidationAnalyzerTests {
     [Test]
     public async Task GuidValidationAnalyzer_ShouldNotSetDiagnostic() {
         // Arrange
-        var runner = new RoslynCompilationRunner()
+        RoslynCompilationRunner runner = new RoslynCompilationRunner()
             .AddDocument("Test.cs", """
                 namespace TestProject;
 
@@ -38,7 +37,7 @@ public class GuidValidationAnalyzerTests {
     [Test]
     public async Task GuidValidationAnalyzer_ShouldSetDiagnostic() {
         // Arrange
-        var runner = new RoslynCompilationRunner()
+        RoslynCompilationRunner runner = new RoslynCompilationRunner()
             .AddDocument("Test.cs", """
                 namespace TestProject;
 
@@ -54,6 +53,6 @@ public class GuidValidationAnalyzerTests {
 
         // Assert
         await Assert.That(diagnostics).ContainsDiagnostic("CODE001");
-        
+
     }
 }

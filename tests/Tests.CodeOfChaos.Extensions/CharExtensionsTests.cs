@@ -4,7 +4,6 @@
 using CodeOfChaos.Extensions;
 
 namespace Tests.CodeOfChaos.Extensions;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -15,7 +14,7 @@ public class CharExtensionsTests {
     [Arguments('f', false)]
     public async Task IsUpper_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsUpper();
+        bool result = input.IsUpper();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -26,7 +25,7 @@ public class CharExtensionsTests {
     [Arguments('F', false)]
     public async Task IsLower_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsLower();
+        bool result = input.IsLower();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -37,7 +36,7 @@ public class CharExtensionsTests {
     [Arguments('A', 'A')]
     public async Task ToUpper_ShouldWork(char input, char expected) {
         // Act
-        var result = input.ToUpper();
+        char result = input.ToUpper();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -48,7 +47,7 @@ public class CharExtensionsTests {
     [Arguments('a', 'a')]
     public async Task ToLower_ShouldWork(char input, char expected) {
         // Act
-        var result = input.ToLower();
+        char result = input.ToLower();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -59,7 +58,7 @@ public class CharExtensionsTests {
     [Arguments('A', false)]
     public async Task IsDigit_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsDigit();
+        bool result = input.IsDigit();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -70,7 +69,7 @@ public class CharExtensionsTests {
     [Arguments('A', false)]
     public async Task IsWhiteSpace_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsWhiteSpace();
+        bool result = input.IsWhiteSpace();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -81,7 +80,7 @@ public class CharExtensionsTests {
     [Arguments('1', false)]
     public async Task IsLetter_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsLetter();
+        bool result = input.IsLetter();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -92,7 +91,7 @@ public class CharExtensionsTests {
     [Arguments('A', false)]
     public async Task IsPunctuation_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsPunctuation();
+        bool result = input.IsPunctuation();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -103,7 +102,7 @@ public class CharExtensionsTests {
     [Arguments('\n', true)]
     public async Task IsControl_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsControl();
+        bool result = input.IsControl();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -116,7 +115,7 @@ public class CharExtensionsTests {
     [Arguments(';', false)]
     public async Task IsHexDigit_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsHexDigit();
+        bool result = input.IsHexDigit();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected).Because($"'{input}' is not a hex digit");
@@ -127,7 +126,7 @@ public class CharExtensionsTests {
     [Arguments(' ', 32)]
     public async Task ToAsciiCode_ShouldWork(char input, int expected) {
         // Act
-        var result = input.ToAsciiCode();
+        int result = input.ToAsciiCode();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -138,7 +137,7 @@ public class CharExtensionsTests {
     [Arguments(32, ' ')]
     public async Task FromAsciiCode_ShouldWork(int code, char expected) {
         // Act
-        var result = code.FromAsciiCode();
+        char result = code.FromAsciiCode();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -149,7 +148,7 @@ public class CharExtensionsTests {
     [Arguments('Z', false)]
     public async Task IsVowel_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsVowel();
+        bool result = input.IsVowel();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -161,7 +160,7 @@ public class CharExtensionsTests {
     [Arguments('e', false)]
     public async Task IsConsonant_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsConsonant();
+        bool result = input.IsConsonant();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -172,7 +171,7 @@ public class CharExtensionsTests {
     [Arguments('A', false)]
     public async Task IsRomanNumeral_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsRomanNumeral();
+        bool result = input.IsRomanNumeral();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -183,7 +182,7 @@ public class CharExtensionsTests {
     [Arguments('*', 5, "*****")]
     public async Task Repeat_ShouldWork(char input, int count, string expected) {
         // Act
-        var result = input.Repeat(count);
+        string result = input.Repeat(count);
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -195,7 +194,7 @@ public class CharExtensionsTests {
     [Arguments('1', false)]
     public async Task IsIdentifierStart_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsIdentifierStart();
+        bool result = input.IsIdentifierStart();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -208,7 +207,7 @@ public class CharExtensionsTests {
     [Arguments('-', false)]
     public async Task IsIdentifierPart_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsIdentifierPart();
+        bool result = input.IsIdentifierPart();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);
@@ -220,7 +219,7 @@ public class CharExtensionsTests {
     [Arguments('1', false)]
     public async Task IsMathOperator_ShouldWork(char input, bool expected) {
         // Act
-        var result = input.IsMathOperator();
+        bool result = input.IsMathOperator();
 
         // Assert
         await Assert.That(result).IsEqualTo(expected);

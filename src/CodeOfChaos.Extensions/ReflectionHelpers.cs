@@ -21,15 +21,14 @@ public static class ReflectionHelper {
             return false;
 
         // NullableAttribute encodes nullability flags; we need the first value for this parameter
-        byte? nullabilityFlag = nullableAttribute.ConstructorArguments[0].Value as byte? ;
+        byte? nullabilityFlag = nullableAttribute.ConstructorArguments[0].Value as byte?;
 
         // "2" = Nullable; "0" = Non-nullable; "1" = Oblivious (treat as non-nullable in this context)
         return nullabilityFlag == 2;
 
     }
-    
-    // WHY IS THIS SO EASY!
-    public static bool IsNullableValueType(this ParameterInfo parameter) 
-        => Nullable.GetUnderlyingType(parameter.ParameterType) != null;
 
+    // WHY IS THIS SO EASY!
+    public static bool IsNullableValueType(this ParameterInfo parameter)
+        => Nullable.GetUnderlyingType(parameter.ParameterType) != null;
 }

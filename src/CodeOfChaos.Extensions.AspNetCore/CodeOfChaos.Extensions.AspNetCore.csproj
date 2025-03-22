@@ -23,18 +23,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Serilog" Version="4.2.0" />
-        <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+        <PackageReference Include="Serilog" Version="4.2.0"/>
+        <PackageReference Include="Serilog.AspNetCore" Version="9.0.0"/>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false" />
-        <None Include="README.md" Pack="true" PackagePath="" />
-        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
+        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false"/>
+        <None Include="README.md" Pack="true" PackagePath=""/>
+        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false"/>
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\CodeOfChaos.Extensions.Serilog\CodeOfChaos.Extensions.Serilog.csproj" />
+        <ProjectReference Include="..\CodeOfChaos.Extensions.Serilog\CodeOfChaos.Extensions.Serilog.csproj"/>
     </ItemGroup>
 
 </Project>

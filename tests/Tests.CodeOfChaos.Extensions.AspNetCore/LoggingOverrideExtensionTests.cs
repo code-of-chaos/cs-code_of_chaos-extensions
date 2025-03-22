@@ -4,7 +4,6 @@
 using CodeOfChaos.Extensions.AspNetCore;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Serilog;
 using Serilog.Core;
@@ -31,6 +30,7 @@ public class LoggingOverrideExtensionsTests {
         await Assert.That(logger)
             .IsNotNull()
             .Because("ILogger should be registered in the service collection.");
+
         await Assert.That(Log.Logger)
             .IsNotNull()
             .Because("Log.Logger should be initialized by Serilog with default configuration.");

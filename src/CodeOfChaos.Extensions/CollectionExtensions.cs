@@ -17,7 +17,7 @@ public static class CollectionExtensions {
         null => true,
         _ => !source.Any()
     };
-    
-    public static bool IsCollectionEmpty<T>(this ICollection<T> collection) 
+
+    public static bool IsCollectionEmpty<T>(this ICollection<T> collection)
         => collection.Count == 0;
 }

@@ -4,7 +4,6 @@
 using Microsoft.EntityFrameworkCore;
 
 namespace Tests.CodeOfChaos.Extensions.EntityFrameworkCore;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -18,15 +17,17 @@ public class LinqWithQueryTests {
         IQueryable<string> source = input.AsQueryable();
 
         // Act
-        IQueryable<string> output = source.With(WhereArg,filter);
+        IQueryable<string> output = source.With(WhereArg, filter);
 
         // Assert
         await Assert.That(output).IsEquivalentTo(expected);
         return;
 
-        IQueryable<string> WhereArg(IQueryable<string> s, string f) => source.Where(x => x == f);
+        IQueryable<string> WhereArg(IQueryable<string> s, string f) {
+            return source.Where(x => x == f);
+        }
     }
-    
+
     [Test]
     [Arguments("a", "c", new[] { "a", "b", "c" }, new[] { "a", "c" })]
     [Arguments("b", "", new[] { "a", "b", "c" }, new[] { "b" })]
@@ -36,14 +37,16 @@ public class LinqWithQueryTests {
         IQueryable<string> source = input.AsQueryable();
 
         // Act
-        IQueryable<string> output = source.With(WhereArg,arg0, arg1);
+        IQueryable<string> output = source.With(WhereArg, arg0, arg1);
 
         // Assert
         await Assert.That(output).IsEquivalentTo(expected);
         return;
 
-        IQueryable<string> WhereArg(IQueryable<string> s, string a0, string a1) => source.Where(x => 
-            !string.IsNullOrWhiteSpace(a1) && (x == a0 || x == a1) 
-            || string.IsNullOrWhiteSpace(a1) && x == a0);
+        IQueryable<string> WhereArg(IQueryable<string> s, string a0, string a1) {
+            return source.Where(x =>
+                !string.IsNullOrWhiteSpace(a1) && (x == a0 || x == a1)
+                || string.IsNullOrWhiteSpace(a1) && x == a0);
+        }
     }
 }

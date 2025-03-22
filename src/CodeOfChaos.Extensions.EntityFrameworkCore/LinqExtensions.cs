@@ -9,7 +9,7 @@ namespace Microsoft.EntityFrameworkCore;
 // ---------------------------------------------------------------------------------------------------------------------
 public static class LinqExtensions {
 
-    public static IQueryable<T> ConditionalWhere<T>(this IQueryable<T> source, bool condition, Expression<Func<T, bool>> predicate) 
+    public static IQueryable<T> ConditionalWhere<T>(this IQueryable<T> source, bool condition, Expression<Func<T, bool>> predicate)
         => condition
             ? source.Where(predicate)
             : source;
@@ -19,7 +19,7 @@ public static class LinqExtensions {
             ? source.Take(count)
             : source;
 
-    public static IQueryable<T> ConditionalTake<T>(this IQueryable<T> source, bool condition, Range range) 
+    public static IQueryable<T> ConditionalTake<T>(this IQueryable<T> source, bool condition, Range range)
         => condition
             ? source.Take(range)
             : source;
@@ -38,7 +38,7 @@ public static class LinqExtensions {
         => condition
             ? source.OrderBy(orderBy, comparer)
             : source;
-    
+
     public static IQueryable<TSource> ConditionalOrderByNotNull<TSource, TKey>(this IQueryable<TSource> source, Expression<Func<TSource, TKey>>? orderBy)
         => orderBy is not null
             ? source.OrderBy(orderBy)
@@ -48,7 +48,7 @@ public static class LinqExtensions {
         => orderBy is not null
             ? source.OrderBy(orderBy, comparer)
             : source;
-    
+
     public static IQueryable<T> ConditionalDistinct<T>(this IQueryable<T> source, bool condition)
         => condition
             ? source.Distinct()
@@ -69,7 +69,7 @@ public static class LinqExtensions {
             ? source.Except(second)
             : source;
 
-    public static IQueryable<T> ConditionalReverse<T>(this IQueryable<T> source, bool reverse) 
+    public static IQueryable<T> ConditionalReverse<T>(this IQueryable<T> source, bool reverse)
         => reverse
             ? source.Reverse()
             : source;

@@ -15,7 +15,7 @@ public class InjectedServicesTest {
         var services = new ServiceCollection();
         services.RegisterServicesFromTestsCodeOfChaosExtensionsDependencyInjection();
         ServiceProvider provider = services.BuildServiceProvider();
-        
+
         // Act
         var duckyService = provider.GetService<IDuckyService>();
         var duckyFactory = provider.GetService<IDuckyFactory>();

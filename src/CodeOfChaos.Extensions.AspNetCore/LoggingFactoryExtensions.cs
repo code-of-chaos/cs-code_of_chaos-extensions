@@ -18,7 +18,7 @@ public static class LoggingFactoryExtensions {
     /// <returns>An instance of <see cref="ILoggerFactory" /> configured with Serilog.</returns>
     public static ILoggerFactory CreateWithSerilog()
         => LoggerFactory.Create(builder => builder.AddSerilog(Log.Logger));
-    
+
     /// <summary>
     ///     Creates a new instance of <see cref="ILoggerFactory" /> configured with Serilog.
     /// </summary>

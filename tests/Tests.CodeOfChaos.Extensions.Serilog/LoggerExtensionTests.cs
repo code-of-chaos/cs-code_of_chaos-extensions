@@ -11,7 +11,10 @@ namespace Tests.CodeOfChaos.Extensions.Serilog;
 // ---------------------------------------------------------------------------------------------------------------------
 public class LoggerExtensionsTests {
     private readonly Mock<ILogger> _mockLogger = new();
-
+    
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
     [Test]
     public async Task ThrowableError_ShouldLogErrorAndThrowException() {
         // Arrange
@@ -40,6 +43,7 @@ public class LoggerExtensionsTests {
         // Assert
         await Assert.That(exception).IsNotNull()
             .And.IsTypeOf<InvalidOperationException>();
+
         await Assert.That(exception.Message).IsEqualTo(messageTemplate);
     }
 
@@ -71,6 +75,7 @@ public class LoggerExtensionsTests {
         // Assert
         await Assert.That(exception).IsNotNull()
             .And.IsTypeOf<InvalidOperationException>();
+
         await Assert.That(exception.Message).IsEqualTo(messageTemplate);
     }
 
@@ -83,7 +88,7 @@ public class LoggerExtensionsTests {
         _mockLogger.Setup(logger => logger.Fatal(providedException, messageTemplate, propertyValues));
 
         // Act
-        InvalidOperationException? exception = _mockLogger.Object.ThrowableFatal(providedException, messageTemplate, propertyValues);
+        InvalidOperationException exception = _mockLogger.Object.ThrowableFatal(providedException, messageTemplate, propertyValues);
 
         // Assert
         await Assert.That(exception).IsNotNull();
@@ -108,6 +113,7 @@ public class LoggerExtensionsTests {
         // Assert
         await Assert.That(exception).IsNotNull()
             .And.IsTypeOf<ExitApplicationException>();
+
         await Assert.That(exception.Message).IsEqualTo(messageTemplate);
     }
 }

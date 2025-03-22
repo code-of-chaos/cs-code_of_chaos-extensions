@@ -38,9 +38,10 @@ public static partial class StringCaseExtensions {
                 result[position++] = wordSpan[i].ToLower();
             }
         }
+
         return new string(result[..position]);
     }
-    
+
     // Convert to camelCase
     [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToCamelCase(this string input) {
@@ -65,6 +66,7 @@ public static partial class StringCaseExtensions {
                 result[position++] = wordSpan[j];
             }
         }
+
         return new string(result[..position]);
     }
 
@@ -75,7 +77,7 @@ public static partial class StringCaseExtensions {
 
         ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
 
-        Span<char> result = stackalloc char[input.Length * 2]; // Overallocate to accommodate separators
+        Span<char> result = stackalloc char[input.Length * 2];// Overallocate to accommodate separators
         int position = 0;
 
         for (int i = 0; i < words.Length; i++) {
@@ -102,7 +104,7 @@ public static partial class StringCaseExtensions {
 
         ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
 
-        Span<char> result = stackalloc char[input.Length * 2]; // Overallocate to accommodate separators
+        Span<char> result = stackalloc char[input.Length * 2];// Overallocate to accommodate separators
         int position = 0;
 
         for (int i = 0; i < words.Length; i++) {
@@ -130,7 +132,7 @@ public static partial class StringCaseExtensions {
 
         ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
 
-        Span<char> result = stackalloc char[input.Length * 2]; // Overallocate to accommodate separators
+        Span<char> result = stackalloc char[input.Length * 2];// Overallocate to accommodate separators
         int position = 0;
 
         for (int i = 0; i < words.Length; i++) {
@@ -149,5 +151,4 @@ public static partial class StringCaseExtensions {
 
         return new string(result[..position]);
     }
-
 }

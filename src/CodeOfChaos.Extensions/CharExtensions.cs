@@ -2,7 +2,6 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 namespace CodeOfChaos.Extensions;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -26,10 +25,10 @@ public static class CharExtensions {
     public static bool IsAscii(this char c) => char.IsAscii(c);
     public static bool IsAsciiDigit(this char c) => char.IsAsciiDigit(c);
     public static bool IsAsciiLetter(this char c) => char.IsAsciiLetter(c);
-    
+
     // Checks if the character is a hexadecimal digit (0-9, A-F, a-f)
     public static bool IsHexDigit(this char c) => char.IsDigit(c)
-        || c is >= 'A' and <= 'F' 
+        || c is >= 'A' and <= 'F'
         || c is >= 'a' and <= 'f';
 
     // Converts a character to its ASCII code.

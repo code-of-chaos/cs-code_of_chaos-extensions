@@ -21,7 +21,7 @@ namespace CodeOfChaos.Extensions.DependencyInjection.Generators;
 public class ServiceRegistrationGenerator : IIncrementalGenerator {
     private const string ServiceRegistrationFileName = "ServiceRegistration.g.cs";
     private const string PooledServicesFileName = "AutoPooledServices.g.cs";
-    
+
     private const string InjectableServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.InjectableServiceAttribute`1";
     private const string FactoryCreatedServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.FactoryCreatedServiceAttribute`2";
     private const string PooledInjectableServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.PooledInjectableServiceAttribute`2";
@@ -40,8 +40,8 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
     public void Initialize(IncrementalGeneratorInitializationContext context) {
         IncrementalValueProvider<ImmutableArray<ClassDeclarationSyntax>> syntaxProvider = context.SyntaxProvider
             .CreateSyntaxProvider(
-                (node, _) => node is ClassDeclarationSyntax { AttributeLists.Count: > 0 },
-                (ctx, _) => (ClassDeclarationSyntax)ctx.Node
+                predicate: (node, _) => node is ClassDeclarationSyntax { AttributeLists.Count: > 0 },
+                transform: (ctx, _) => (ClassDeclarationSyntax)ctx.Node
             ).Collect();
 
         context.RegisterSourceOutput(context.CompilationProvider.Combine(syntaxProvider), GenerateSources);
@@ -57,17 +57,17 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
         }
 
         IServiceRegistration[] registrations = GetRegistrations(context, compilation, classDeclarations)
-            .OrderBy(registration => registration.LifeTime)
-            .ThenBy(registration => registration.ServiceTypeName.ToDisplayString())
-            .ThenBy(registration => registration.ImplementationTypeName.ToDisplayString())
-            .ToArray()
-        ;
+                .OrderBy(registration => registration.LifeTime)
+                .ThenBy(registration => registration.ServiceTypeName.ToDisplayString())
+                .ThenBy(registration => registration.ImplementationTypeName.ToDisplayString())
+                .ToArray()
+            ;
 
         // This fixes an issue with the testing environment, where we add a guid to the assembly name, to deter conflicts
         string assemblyNameSanitized = RegexSanitizeAssemblyName.Replace(assemblyName, string.Empty)
             .Replace("-", "_")
             .TrimEnd('-', '_');
-        
+
 
         context.AddSource(
             PooledServicesFileName,
@@ -150,8 +150,8 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
             registration.FormatText(sourceBuilder, assemblyName);
         }
 
-        return sourceBuilder.IndentLine(2,"return services;")
-            .IndentLine(1,"}")
+        return sourceBuilder.IndentLine(2, "return services;")
+            .IndentLine(1, "}")
             .AppendLine("}")
             .ToString();
     }

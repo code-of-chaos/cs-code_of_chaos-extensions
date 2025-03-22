@@ -5,56 +5,11 @@ using JetBrains.Annotations;
 
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.Logging;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-
 #pragma warning disable CA2254
 public static class LoggerExtensions {
-    #region AsFalse
-    public static bool InformationAsFalse(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
-        logger.Information(messageTemplate, propertyValues);
-        return false;
-    }
-
-    public static bool DebugAsFalse(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
-        logger.Debug(messageTemplate, propertyValues);
-        return false;
-    }
-
-    public static bool WarningAsFalse(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
-        logger.Warning(messageTemplate, propertyValues);
-        return false;
-    }
-
-    public static bool ErrorAsFalse(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
-        logger.Error(messageTemplate, propertyValues);
-        return false;
-    }
-
-    #endregion
-    #region AsTrue
-    public static bool DebugAsTrue(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
-        logger.LogDebug(messageTemplate, propertyValues);
-        return true;
-    }
-
-    public static bool InformationAsTrue(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
-        logger.LogInformation(messageTemplate, propertyValues);
-        return true;
-    }
-
-    public static bool WarningAsTrue(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
-        logger.LogWarning(messageTemplate, propertyValues);
-        return true;
-    }
-
-    public static bool ErrorAsTrue(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
-        logger.LogError(messageTemplate, propertyValues);
-        return true;
-    }
-    #endregion
 
     public static void Debug(this ILogger logger, EventId eventId, Exception? exception, [StructuredMessageTemplate] string message, params object?[] args)
         => logger.LogDebug(eventId, exception, message, args);
@@ -127,5 +82,47 @@ public static class LoggerExtensions {
 
     public static void Critical(this ILogger logger, [StructuredMessageTemplate] string message, params object?[] args)
         => logger.LogCritical(message, args);
+    #region AsFalse
+    public static bool InformationAsFalse(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
+        logger.Information(messageTemplate, propertyValues);
+        return false;
+    }
+
+    public static bool DebugAsFalse(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
+        logger.Debug(messageTemplate, propertyValues);
+        return false;
+    }
+
+    public static bool WarningAsFalse(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
+        logger.Warning(messageTemplate, propertyValues);
+        return false;
+    }
+
+    public static bool ErrorAsFalse(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
+        logger.Error(messageTemplate, propertyValues);
+        return false;
+    }
+    #endregion
+    #region AsTrue
+    public static bool DebugAsTrue(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
+        logger.LogDebug(messageTemplate, propertyValues);
+        return true;
+    }
+
+    public static bool InformationAsTrue(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
+        logger.LogInformation(messageTemplate, propertyValues);
+        return true;
+    }
+
+    public static bool WarningAsTrue(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
+        logger.LogWarning(messageTemplate, propertyValues);
+        return true;
+    }
+
+    public static bool ErrorAsTrue(this ILogger logger, [StructuredMessageTemplate] string messageTemplate, params object?[] propertyValues) {
+        logger.LogError(messageTemplate, propertyValues);
+        return true;
+    }
+    #endregion
 }
 #pragma warning restore CA2254

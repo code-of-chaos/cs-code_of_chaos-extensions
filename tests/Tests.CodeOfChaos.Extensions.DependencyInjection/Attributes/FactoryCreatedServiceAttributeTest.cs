@@ -32,7 +32,7 @@ public class FactoryCreatedServiceAttributeTest {
         // Act
         object[] attributes = typeof(SampleServiceWithAttribute).GetCustomAttributes(typeof(FactoryCreatedServiceAttribute<MyServiceFactory, IMyService>), false);
         var attribute = attributes.FirstOrDefault() as FactoryCreatedServiceAttribute<MyServiceFactory, IMyService>;
-        
+
         // Assert
         await Assert.That(attributes).IsNotEmpty().And.HasSingleItem();
         await Assert.That(attribute).IsNotNull();

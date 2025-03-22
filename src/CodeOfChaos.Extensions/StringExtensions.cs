@@ -1,9 +1,6 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-#if DEBUG
-using System.Diagnostics;
-#endif
 using System.Diagnostics.CodeAnalysis;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,28 +11,28 @@ namespace System;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public static class StringExtensions {
-    public static bool IsNullOrEmpty([NotNullWhen(false)] this string? str) 
+    public static bool IsNullOrEmpty([NotNullWhen(false)] this string? str)
         => string.IsNullOrEmpty(str);
 
-    public static bool IsNotNullOrEmpty([NotNullWhen(true)] this string? str) 
+    public static bool IsNotNullOrEmpty([NotNullWhen(true)] this string? str)
         => !string.IsNullOrEmpty(str);
 
-    public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? str) 
+    public static bool IsNullOrWhiteSpace([NotNullWhen(false)] this string? str)
         => string.IsNullOrWhiteSpace(str);
 
-    public static bool IsNotNullOrWhiteSpace([NotNullWhen(true)] this string? str) 
+    public static bool IsNotNullOrWhiteSpace([NotNullWhen(true)] this string? str)
         => !string.IsNullOrWhiteSpace(str);
 
-    public static string Truncate(this string input, int maxLength) 
+    public static string Truncate(this string input, int maxLength)
         => input.Length <= maxLength ? input : input[..maxLength];
-
     
     // Because "testing" of the value is handled by analyzer, we can just "blindly" parse during release.
-    public static Guid ToGuid(this string input) 
+    public static Guid ToGuid(this string input)
         => Guid.Parse(input);
 
     public static Guid ToGuidOrDefault(this string input) {
         if (Guid.TryParse(input, out Guid guid)) return guid;
+
         return Guid.Empty;
     }
 

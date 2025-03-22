@@ -4,12 +4,11 @@
 using CodeOfChaos.Extensions;
 
 namespace Tests.CodeOfChaos.Extensions;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class StringCaseExtensionTests {
-    
+
     // Tests for ToCamelCase
     [Test]
     [Arguments("", "")]
@@ -35,7 +34,7 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case-with-numbers-123-and-more", "kebabCaseWithNumbers123AndMore")]
     public async Task ToCamelCase_ShouldWork(string? input, string? expected) {
         // Arrange
-        
+
         // Act
         string? result = input?.ToCamelCase();
 
@@ -68,7 +67,7 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case-with-numbers-123-and-more", "KebabCaseWithNumbers123AndMore")]
     public async Task ToPascalCase_ShouldWork(string? input, string? expected) {
         // Arrange
-        
+
         // Act
         string? result = input?.ToPascalCase();
 
@@ -101,7 +100,7 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case-with-numbers-123-and-more", "kebab-case-with-numbers-123-and-more")]
     public async Task ToKebabCase_ShouldWork(string? input, string? expected) {
         // Arrange
-        
+
         // Act
         string? result = input?.ToKebabCase();
 
@@ -134,7 +133,7 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case-with-numbers-123-and-more", "kebab_case_with_numbers_123_and_more")]
     public async Task ToSnakeCase_ShouldWork(string? input, string? expected) {
         // Arrange
-        
+
         // Act
         string? result = input?.ToSnakeCase();
 
@@ -167,7 +166,7 @@ public class StringCaseExtensionTests {
     [Arguments("kebab-case-with-numbers-123-and-more", "kebab.case.with.numbers.123.and.more")]
     public async Task ToPeriodSeparatedCase_ShouldWork(string? input, string? expected) {
         // Arrange
-        
+
         // Act
         string? result = input?.ToPeriodSeparatedCase();
 

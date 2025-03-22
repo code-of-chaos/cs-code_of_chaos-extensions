@@ -2,14 +2,13 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 namespace CodeOfChaos.Extensions;
-
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public static class TaskHelper {
     public static Task<T?> FromTaskOrDefault<T>(Task<T?>? originalTask) {
         if (originalTask != null) return originalTask;
-        
+
         if (typeof(T).IsValueType && Nullable.GetUnderlyingType(typeof(T)) == null) {
             // Non-nullable value types (like int, double)
             return Task.FromResult(default(T));

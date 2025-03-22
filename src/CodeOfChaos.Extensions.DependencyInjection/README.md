@@ -1,6 +1,7 @@
 # ⛓️‍💥 CodeOfChaos.Extensions.DependencyInjection ⛓️‍💥
 
-CodeOfChaos.Extensions.DependencyInjection is a library that provides tools for automizing dependency injection in .NET projects.
+CodeOfChaos.Extensions.DependencyInjection is a library that provides tools for automizing dependency injection in .NET
+projects.
 It includes source generators for automatic registration of services and attributes to facilitate DI.
 
 ## Features
@@ -64,7 +65,8 @@ You can use the provided attributes to define services:
   ```
 
 
-- `PooledInjectableService` : Marks the class as a poolable service. This library creates a class `AutoPoolableService` under which the class will be registered.
+- `PooledInjectableService` : Marks the class as a poolable service. This library creates a class `AutoPoolableService`
+  under which the class will be registered.
     - It uses `PooledInjectableServiceObjectPolicy` to create a policy.
     - The poolable service must implement `PooledInjectableServiceObjectPolicy`
   ```csharp
@@ -75,7 +77,6 @@ You can use the provided attributes to define services:
       public bool Reset() => true;
   }
   ```
-
 
 #### Generate Service Registrations
 

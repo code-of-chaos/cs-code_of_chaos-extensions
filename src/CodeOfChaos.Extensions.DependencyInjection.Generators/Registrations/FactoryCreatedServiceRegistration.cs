@@ -27,7 +27,7 @@ public record struct FactoryCreatedServiceRegistration(
             .IndentLine(2, $"services.Add{LifeTime}<{ServiceTypeName.ToDisplayString()}>(")
             .IndentLine(3, $"(provider) => provider.GetRequiredService<{FactoryTypeName.ToDisplayString()}>().Create()")
             .IndentLine(2, ");")
-        ;
+            ;
     }
 
     // -----------------------------------------------------------------------------------------------------------------

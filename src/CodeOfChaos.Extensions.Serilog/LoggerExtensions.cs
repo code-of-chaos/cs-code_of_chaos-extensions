@@ -15,9 +15,29 @@ namespace Serilog;
 ///     Provides extension methods for the <see cref="ILogger" /> interface.
 /// </summary>
 public static class LoggerExtensions {
+    /// <summary>
+    ///     Writes a fatal log message and exits the application with the specified exit code.
+    /// </summary>
+    /// <param name="logger">The logger.</param>
+    /// <param name="exitCode">The exit code.</param>
+    /// <param name="messageTemplate">The message template.</param>
+    /// <param name="propertyValues">The values to be included in the log message.</param>
+    /// <remarks>
+    ///     This method writes a fatal log message using the specified <paramref name="logger" /> and
+    ///     <paramref name="messageTemplate" />.
+    ///     It then exits the application with the specified <paramref name="exitCode" />.
+    /// </remarks>
+    [MessageTemplateFormatMethod("messageTemplate")]
+    [DoesNotReturn] [AssertionMethod]
+    public static void ExitFatal(this ILogger logger, int exitCode, string messageTemplate, params object?[]? propertyValues) {
+        logger.Fatal(messageTemplate, propertyValues);
+        throw new ExitApplicationException(exitCode, messageTemplate);
+    }
+
+    public static ILogger ForSectionProperty(this ILogger logger, string sectionName) => logger.ForContext("Section", sectionName);
     #region AsFalse
     /// <summary>
-    /// Logs a verbose message using the specified message template and property values, and returns false.
+    ///     Logs a verbose message using the specified message template and property values, and returns false.
     /// </summary>
     /// <param name="logger">The logger instance used for logging.</param>
     /// <param name="messageTemplate">The message template to format and log.</param>
@@ -30,7 +50,7 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs an informational message and returns false.
+    ///     Logs an informational message and returns false.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
     /// <param name="messageTemplate">The message template to log.</param>
@@ -43,7 +63,7 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs a debug-level message and always returns false.
+    ///     Logs a debug-level message and always returns false.
     /// </summary>
     /// <param name="logger">The logger instance used to log the message.</param>
     /// <param name="messageTemplate">The message template that describes the log message.</param>
@@ -56,7 +76,7 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs a warning message and always returns false.
+    ///     Logs a warning message and always returns false.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
     /// <param name="messageTemplate">The message template to log.</param>
@@ -69,8 +89,8 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs an error message with the specified message template and property values,
-    /// then always returns false.
+    ///     Logs an error message with the specified message template and property values,
+    ///     then always returns false.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
     /// <param name="messageTemplate">The message template describing the log message format.</param>
@@ -83,7 +103,7 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs a fatal-level message and returns false.
+    ///     Logs a fatal-level message and returns false.
     /// </summary>
     /// <param name="logger">The logger instance used to write the message.</param>
     /// <param name="messageTemplate">The message template that describes the log message.</param>
@@ -97,7 +117,7 @@ public static class LoggerExtensions {
     #endregion
     #region AsTrue
     /// <summary>
-    /// Logs a verbose message and always returns true.
+    ///     Logs a verbose message and always returns true.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
     /// <param name="messageTemplate">The message template to be logged.</param>
@@ -110,7 +130,7 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs a debug-level message and returns true.
+    ///     Logs a debug-level message and returns true.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
     /// <param name="messageTemplate">The message template for the log entry.</param>
@@ -123,7 +143,7 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs an information-level message and returns true.
+    ///     Logs an information-level message and returns true.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
     /// <param name="messageTemplate">The message template to log.</param>
@@ -136,7 +156,7 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs a warning level message and returns true.
+    ///     Logs a warning level message and returns true.
     /// </summary>
     /// <param name="logger">The logger instance used for logging.</param>
     /// <param name="messageTemplate">The message template describing the log event.</param>
@@ -149,7 +169,7 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs an error message at the Error level and returns a boolean value of true.
+    ///     Logs an error message at the Error level and returns a boolean value of true.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
     /// <param name="messageTemplate">The message template to be logged.</param>
@@ -162,7 +182,7 @@ public static class LoggerExtensions {
     }
 
     /// <summary>
-    /// Logs a fatal message and always returns true.
+    ///     Logs a fatal message and always returns true.
     /// </summary>
     /// <param name="logger">The logger instance.</param>
     /// <param name="messageTemplate">The message template to log.</param>
@@ -174,7 +194,7 @@ public static class LoggerExtensions {
         return true;
     }
     #endregion
-    
+
     #region Throwable
     /// <summary>
     ///     Throws a Error log message, logs the exception, and throws it.
@@ -245,24 +265,4 @@ public static class LoggerExtensions {
         return exception;
     }
     #endregion
-    /// <summary>
-    ///     Writes a fatal log message and exits the application with the specified exit code.
-    /// </summary>
-    /// <param name="logger">The logger.</param>
-    /// <param name="exitCode">The exit code.</param>
-    /// <param name="messageTemplate">The message template.</param>
-    /// <param name="propertyValues">The values to be included in the log message.</param>
-    /// <remarks>
-    ///     This method writes a fatal log message using the specified <paramref name="logger" /> and
-    ///     <paramref name="messageTemplate" />.
-    ///     It then exits the application with the specified <paramref name="exitCode" />.
-    /// </remarks>
-    [MessageTemplateFormatMethod("messageTemplate")]
-    [DoesNotReturn] [AssertionMethod]
-    public static void ExitFatal(this ILogger logger, int exitCode, string messageTemplate, params object?[]? propertyValues) {
-        logger.Fatal(messageTemplate, propertyValues);
-        throw new ExitApplicationException(exitCode, messageTemplate);
-    }
-    
-    public static ILogger ForSectionProperty(this ILogger logger, string sectionName) => logger.ForContext("Section", sectionName);
 }

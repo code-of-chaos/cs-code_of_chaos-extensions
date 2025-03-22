@@ -13,6 +13,9 @@ namespace Tests.CodeOfChaos.Extensions.EntityFrameworkCore;
 public class LinqExtensionsTest {
     private readonly List<int> _data = Enumerable.Range(1, 10).ToList();// Data: {1, 2, 3, ... 10}
 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
     [Test]
     [Arguments(true, new[] { "a", "b", "c" }, new[] { "a", "b", "c" })]
     [Arguments(false, new[] { "a", "b", "c" }, new[] { "a", "b", "c" })]

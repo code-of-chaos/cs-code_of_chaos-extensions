@@ -7,7 +7,7 @@ namespace CodeOfChaos.Extensions;
 // ---------------------------------------------------------------------------------------------------------------------
 public static class TaskWhenAllHelper {
     
-    // ValueTask because in theory tasks can be null and thus we quite without the need for a task
+    // ValueTask because in theory tasks can be null and thus we quit without the need for a task
     private static async ValueTask WhenAllWrapper(params Task[] tasks) {
         int taskCount = tasks.Length;
 

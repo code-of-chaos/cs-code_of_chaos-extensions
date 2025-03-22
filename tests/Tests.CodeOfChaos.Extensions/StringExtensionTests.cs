@@ -1,7 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-#if DEBUG // fixes an issue with tests throwing an error during debug
+#if DEBUG// fixes an issue with tests throwing an error during debug
 using TUnit.Core.Exceptions;
 #endif
 
@@ -105,7 +105,7 @@ public class StringExtensionTests {
     [Arguments("InvalidGuidFormat")]
     [Arguments("1234")]
     public async Task ToGuid_ShouldThrowException_WhenInputIsInvalid(string input) {
-        #if DEBUG // fixes an issue with tests throwing an error during debug
+        #if DEBUG// fixes an issue with tests throwing an error during debug
         await Assert.ThrowsAsync<TUnitException>(() => Task.FromResult(input.ToGuid()));
         #else
         await Assert.ThrowsAsync<FormatException>(() => Task.FromResult(input.ToGuid()));

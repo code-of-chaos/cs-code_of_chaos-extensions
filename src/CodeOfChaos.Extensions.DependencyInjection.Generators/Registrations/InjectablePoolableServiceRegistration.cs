@@ -46,8 +46,8 @@ public record struct InjectablePoolableServiceRegistration(
 
         if (genericNameSyntax?.TypeArgumentList.Arguments is not { Count: 2 } typeArgumentsList) return false;
 
-        var serviceTypeSyntax = typeArgumentsList[0];
-        var implementationTypeSyntax = typeArgumentsList[1];
+        TypeSyntax serviceTypeSyntax = typeArgumentsList[0];
+        TypeSyntax implementationTypeSyntax = typeArgumentsList[1];
 
         var serviceNamedTypeSymbol = resolver.ResolveSymbol(serviceTypeSyntax) as INamedTypeSymbol;
         var implementationTypeSymbol = resolver.ResolveSymbol(implementationTypeSyntax) as INamedTypeSymbol;

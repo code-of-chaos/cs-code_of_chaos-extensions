@@ -9,5 +9,4 @@ public interface IManualPoolable {
     public bool Reset();
 }
 
-public interface IDisposedPoolable : IManualPoolable, IDisposable {
-}
+public interface IDisposedPoolable : IManualPoolable, IDisposable {}
