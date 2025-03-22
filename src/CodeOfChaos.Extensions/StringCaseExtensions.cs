@@ -1,6 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using System.Diagnostics.CodeAnalysis;
 using System.Text.RegularExpressions;
 
 namespace CodeOfChaos.Extensions;
@@ -15,75 +16,141 @@ public static partial class StringCaseExtensions {
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     // Convert to PascalCase
+    [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToPascalCase(this string input) {
-        if (input.IsNullOrWhiteSpace()) return input;
+        if (string.IsNullOrWhiteSpace(input)) return input;
 
-        string[] words = NonAlphanumericRegex.Split(input);
+        ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
 
-        for (int i = 0; i < words.Length; i++) {
-            string word = words[i];
-            if (word.Length > 0) {
-                words[i] = char.ToUpper(word[0]) + word[1..].ToLower();
+        Span<char> result = stackalloc char[input.Length];
+        int position = 0;
+
+        foreach (string word in words) {
+            if (word.IsNullOrEmpty()) continue;
+
+            ReadOnlySpan<char> wordSpan = word.AsSpan();
+
+            // Uppercase first letter
+            result[position++] = wordSpan[0].ToUpper();
+
+            // Append the rest of the word in lowercase, if applicable
+            for (int i = 1; i < wordSpan.Length; i++) {
+                result[position++] = wordSpan[i].ToLower();
             }
         }
 
-        return string.Concat(words);
+        return new string(result[..position]);
     }
+
 
     // Convert to camelCase
+    [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToCamelCase(this string input) {
-        if (input.IsNullOrWhiteSpace()) return input;
-        
-        string[] words = NonAlphanumericRegex.Split(input);
+        if (string.IsNullOrWhiteSpace(input)) return input;
+
+        ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
+
+        Span<char> result = stackalloc char[input.Length];
+        int position = 0;
 
         for (int i = 0; i < words.Length; i++) {
-            string word = words[i];
-            if (string.IsNullOrEmpty(word))
-                continue;
+            if (string.IsNullOrEmpty(words[i])) continue;
 
-            words[i] = i == 0 
-                ? char.ToLower(word[0]) + word[1..]
-                : char.ToUpper(word[0]) + word[1..];
+            ReadOnlySpan<char> wordSpan = words[i].AsSpan();
+
+            result[position++] = i == 0
+                ? wordSpan[0].ToLower()// Lowercase first character for the first word
+                : wordSpan[0].ToUpper();// Uppercase first character for subsequent words
+
+            // Append the rest of the word as-is
+            for (int j = 1; j < wordSpan.Length; j++) {
+                result[position++] = wordSpan[j];
+            }
         }
 
-        return string.Concat(words);
-
+        return new string(result[..position]);
     }
 
-
     // Convert to kebab-case
+    [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToKebabCase(this string input) {
-        if (input.IsNullOrWhiteSpace()) return input;
+        if (string.IsNullOrWhiteSpace(input)) return input;
 
-        Span<string> words = NonAlphanumericRegex.Split(input);
+        ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
+
+        Span<char> result = stackalloc char[input.Length * 2]; // Overallocate to accommodate separators
+        int position = 0;
+
         for (int i = 0; i < words.Length; i++) {
-            words[i] = words[i].ToLower();
+            if (words[i].IsNullOrEmpty()) continue;
+
+            ReadOnlySpan<char> wordSpan = words[i].AsSpan();
+
+            // Add separator for kebab-case
+            if (position > 0) result[position++] = '-';
+
+            // Append the word in lowercase
+            for (int j = 0; j < wordSpan.Length; j++) {
+                result[position++] = wordSpan[j].ToLower();
+            }
         }
 
-        return string.Join("-", words.Where(word => word.Length > 0));
+        return new string(result[..position]);
     }
 
     // Convert to snake_case
+    [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToSnakeCase(this string input) {
-        if (input.IsNullOrWhiteSpace()) return input;
+        if (string.IsNullOrWhiteSpace(input)) return input;
 
-        string[] words = NonAlphanumericRegex.Split(input);
+        ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
+
+        Span<char> result = stackalloc char[input.Length * 2]; // Overallocate to accommodate separators
+        int position = 0;
+
         for (int i = 0; i < words.Length; i++) {
-            words[i] = words[i].ToLower();
+            if (words[i].IsNullOrEmpty()) continue;
+
+            ReadOnlySpan<char> wordSpan = words[i].AsSpan();
+
+            // Add separator for snake_case
+            if (position > 0) result[position++] = '_';
+
+            // Append the word in lowercase
+            for (int j = 0; j < wordSpan.Length; j++) {
+                result[position++] = wordSpan[j].ToLower();
+            }
         }
 
-        return string.Join("_", words.Where(word => word.Length > 0));
+        return new string(result[..position]);
     }
+
 
     // Convert to period.separated.case
+    [SuppressMessage("ReSharper", "ForCanBeConvertedToForeach")]
     public static string ToPeriodSeparatedCase(this string input) {
-        if (input.IsNullOrWhiteSpace()) return input;
+        if (string.IsNullOrWhiteSpace(input)) return input;
 
-        string[] words = NonAlphanumericRegex.Split(input);
+        ReadOnlySpan<string> words = NonAlphanumericRegex.Split(input);
+
+        Span<char> result = stackalloc char[input.Length * 2]; // Overallocate to accommodate separators
+        int position = 0;
+
         for (int i = 0; i < words.Length; i++) {
-            words[i] = words[i].ToLower();
+            if (words[i].IsNullOrEmpty()) continue;
+
+            ReadOnlySpan<char> wordSpan = words[i].AsSpan();
+
+            // Add separator for period.separated.case
+            if (position > 0) result[position++] = '.';
+
+            // Append the word in lowercase
+            for (int j = 0; j < wordSpan.Length; j++) {
+                result[position++] = char.ToLower(wordSpan[j]);
+            }
         }
 
-        return string.Join(".", words.Where(word => word.Length > 0));
+        return new string(result[..position]);
     }
+
 }
