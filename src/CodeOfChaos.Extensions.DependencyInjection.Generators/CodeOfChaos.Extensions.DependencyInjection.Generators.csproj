@@ -12,7 +12,7 @@
 
         <IsPackable>true</IsPackable>
         <PackageId>CodeOfChaos.Extensions.DependencyInjection.Generators</PackageId> <!-- Main package name -->
-        <Version>0.51.0</Version> <!-- Package version -->
+        <Version>0.52.0</Version> <!-- Package version -->
         <Authors>Anna Sas</Authors>
         <Description>A small package allowing easy collection of dependency injection services</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
@@ -27,9 +27,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <None Include="../../LICENSE" Pack="true" PackagePath="" Visible="false"/>
-        <None Include="../../src/CodeOfChaos.Extensions.DependencyInjection/README.md" Pack="true" PackagePath=""/>
-        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false"/>
+        <None Include="../../LICENSE" Pack="true" PackagePath="" Visible="false" />
+        <None Include="../../src/CodeOfChaos.Extensions.DependencyInjection/README.md" Pack="true" PackagePath="" />
+        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
     </ItemGroup>
 
     <ItemGroup>
@@ -37,14 +37,14 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.13.0"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.13.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0">
             <PrivateAssets>all</PrivateAssets>
         </PackageReference>
     </ItemGroup>
 
     <ItemGroup>
-        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false"/>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
 
