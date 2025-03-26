@@ -27,4 +27,22 @@ public static class GroupExtensions {
         value = default;
         return false;
     }
+    
+    public static bool TryGetIndex(this Group group, out int index) {
+        if (group.Success) {
+            index = group.Index;
+            return true;
+        }
+        index = -1;
+        return false;
+    }
+    
+    public static bool TryGetLength(this Group group, out int length) {
+        if (group.Success) {
+            length = group.Length;
+            return true;
+        }
+        length = -1;
+        return false;
+    }
 }
