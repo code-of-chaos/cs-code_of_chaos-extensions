@@ -11,14 +11,16 @@ namespace Tests.CodeOfChaos.Extensions;
 public class EnumExtensionsTest {
 
     [Flags]
-    private enum TestFlags {
+    public enum TestFlags {
         None = 0,
         Flag1 = 1 << 0,// 1
         Flag2 = 1 << 1,// 2
         Flag3 = 1 << 2,// 4
         Flag4 = 1 << 3// 8
-    }// ReSharper disable UnusedMember.Local
-    private enum NonFlagsEnum {
+    }
+    
+    // ReSharper disable UnusedMember.Local
+    public enum NonFlagsEnum {
         Value1 = 0,
         Value2 = 1,
         Value3 = 2
@@ -135,5 +137,29 @@ public class EnumExtensionsTest {
         // Assert
         var expected = new List<TestFlags> { TestFlags.Flag1 };
         await Assert.That(result).IsEquivalentTo(expected);
+    }
+    
+    [Test]
+    [Arguments(TestFlags.Flag1, TestFlags.Flag1, true)]
+    [Arguments(TestFlags.Flag1, TestFlags.Flag2, false)]
+    [Arguments(TestFlags.Flag1 | TestFlags.Flag2, TestFlags.Flag1, true)]
+    [Arguments(TestFlags.Flag1 | TestFlags.Flag2, TestFlags.Flag2, true)]
+    [Arguments(TestFlags.Flag1 | TestFlags.Flag2, TestFlags.Flag3, false)]
+    [Arguments(TestFlags.Flag1 | TestFlags.Flag2, TestFlags.Flag4, false)]
+    public async Task HasFlag_WithSingleFlag_ReturnsTrue(TestFlags value, TestFlags containsFlag, bool expected) {
+        // Act
+        bool result = value.HasFlag(containsFlag);
+
+        // Assert
+        await Assert.That(result).IsEqualTo(expected);
+    }
+
+    [Test]
+    public async Task HasFlag_WithNonFlagsEnum_ThrowsArgumentException() {
+        // Arrange
+        const NonFlagsEnum value = NonFlagsEnum.Value1;
+
+        // Act & Assert
+        await Assert.ThrowsAsync<ArgumentException>(() => Task.FromResult(value.HasFlag(NonFlagsEnum.Value2)));
     }
 }
