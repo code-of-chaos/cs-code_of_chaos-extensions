@@ -2,10 +2,10 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
+using CodeOfChaos.GeneratorTools;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Moq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Tests.CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
@@ -31,7 +31,7 @@ public class InjectablePoolableServiceRegistrationTests {
             LifeTime = "Scoped"
         };
 
-        var builder = new StringBuilder();
+        var builder = new GeneratorStringBuilder();
         const string assemblyName = "TestAssembly";
 
         // Act
@@ -59,7 +59,7 @@ public class InjectablePoolableServiceRegistrationTests {
             mockImplementationTypeSymbol.Object
         );
 
-        var builder = new StringBuilder();
+        var builder = new GeneratorStringBuilder();
 
         // Act
         registration.FormatPoolText(builder);

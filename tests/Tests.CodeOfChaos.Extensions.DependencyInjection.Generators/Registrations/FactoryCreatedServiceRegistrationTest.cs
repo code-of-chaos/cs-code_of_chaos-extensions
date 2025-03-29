@@ -2,10 +2,10 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
+using CodeOfChaos.GeneratorTools;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Moq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Tests.CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
@@ -34,7 +34,7 @@ public class FactoryCreatedServiceRegistrationTests {
             "Scoped"
         );
 
-        var builder = new StringBuilder();
+        var builder = new GeneratorStringBuilder();
 
         // Act
         registration.FormatText(builder, "TestAssembly");

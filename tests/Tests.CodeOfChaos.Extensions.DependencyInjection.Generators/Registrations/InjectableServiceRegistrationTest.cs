@@ -2,10 +2,10 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
+using CodeOfChaos.GeneratorTools;
 using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Moq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Tests.CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
@@ -35,7 +35,7 @@ public class InjectableServiceRegistrationTest {
         );
 
         // Act
-        var builder = new StringBuilder();
+        var builder = new GeneratorStringBuilder();
         registration.FormatText(builder, string.Empty);// The second parameter is unused
 
         // Assert

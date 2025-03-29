@@ -5,28 +5,27 @@ using CodeOfChaos.Extensions.DependencyInjection.Generators.Helpers;
 using CodeOfChaos.GeneratorTools;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using System.Collections.Immutable;
+using System.Linq;
 
 namespace CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 // ReSharper disable once StructCanBeMadeReadOnly
-public record struct FactoryCreatedServiceRegistration(
+public record struct KeyedInjectableServiceRegistration(
     INamedTypeSymbol ServiceTypeName,
     INamedTypeSymbol ImplementationTypeName,
-    INamedTypeSymbol FactoryTypeName,
-    string LifeTime
+    string LifeTime,
+    string Key
 ) : IServiceRegistration {
-
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public void FormatText(GeneratorStringBuilder builder, string _) => builder
-        .AppendLine($"services.Add{LifeTime}<{ServiceTypeName.ToDisplayString()}>(")
-        .AppendLineIndented($"(provider) => provider.GetRequiredService<{FactoryTypeName.ToDisplayString()}>().Create()")
-        .AppendLine(");");
-
+        .AppendLine($"services.AddKeyed{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>({Key.ToQuotedString()});");
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
@@ -34,7 +33,7 @@ public record struct FactoryCreatedServiceRegistration(
         INamedTypeSymbol implementationTypeSymbol,
         AttributeSyntax attribute,
         ISymbolResolver resolver,
-        out FactoryCreatedServiceRegistration registration
+        out KeyedInjectableServiceRegistration registration
     ) {
         registration = default;
 
@@ -43,24 +42,27 @@ public record struct FactoryCreatedServiceRegistration(
             { Name: GenericNameSyntax genericNameSyntaxByItself } => genericNameSyntaxByItself,
             _ => null
         };
+        
+        ImmutableArray<AttributeData> attributes = implementationTypeSymbol.GetAttributes();
 
-        if (genericNameSyntax?.TypeArgumentList.Arguments is not { Count: 2 } typeArgumentsList) return false;
-
-        // order depends on the way it is defined in the attribute
-        if (typeArgumentsList.FirstOrDefault() is not {} factoryTypeSyntax) return false;
-        if (resolver.ResolveSymbol(factoryTypeSyntax) is not INamedTypeSymbol factoryNamedTypeSymbol) return false;
-
-        if (typeArgumentsList.LastOrDefault() is not {} serviceTypeSyntax) return false;
+        
+        if (genericNameSyntax?.TypeArgumentList.Arguments.FirstOrDefault() is not {} serviceTypeSyntax) return false;
         if (resolver.ResolveSymbol(serviceTypeSyntax) is not INamedTypeSymbol serviceNamedTypeSymbol) return false;
-
-        if (attribute.ArgumentList?.Arguments.FirstOrDefault()?.Expression is not MemberAccessExpressionSyntax memberAccess) return false;
-        if (!memberAccess.TryGetAsServiceLifetimeString(out string? lifeTime)) return false;
-
-        registration = new FactoryCreatedServiceRegistration(
+        
+        AttributeData? keyedServiceAttribute =    attributes.FirstOrDefault(attr => attr.AttributeClass?.ToDisplayString().Contains("KeyedInjectableServiceAttribute") ?? false);
+        string key = (string)(keyedServiceAttribute?.ConstructorArguments.ElementAtOrDefault(0).Value ?? string.Empty);
+        int lifeTime = (int)(keyedServiceAttribute?.ConstructorArguments.ElementAtOrDefault(1).Value ?? -1);
+        
+        registration = new KeyedInjectableServiceRegistration(
             serviceNamedTypeSymbol,
             implementationTypeSymbol,
-            factoryNamedTypeSymbol,
-            lifeTime
+            lifeTime switch {
+                0 => "Singleton",
+                1 => "Scoped",
+                2 => "Transient",
+                _ => "Transient"
+            },
+            key
         );
 
         return true;

@@ -15,4 +15,9 @@ public static class StringExtensions {
         output = input.Name.Identifier.Text;
         return ValidLifeTimes.Contains(output);
     }
+    
+    public static bool TryGetAsServiceLifetimeString(this string input, [NotNullWhen(true)] out string? output) {
+        output = input;
+        return ValidLifeTimes.Contains(output);
+    }
 }

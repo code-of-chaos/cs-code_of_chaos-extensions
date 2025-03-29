@@ -2,9 +2,9 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection.Generators.Helpers;
+using CodeOfChaos.GeneratorTools;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Text;
 
 namespace CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -20,9 +20,9 @@ public record struct InjectableServiceRegistration(
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public void FormatText(StringBuilder builder, string _) {
-        builder.IndentLine(2, $"services.Add{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>();");
-    }
+    public void FormatText(GeneratorStringBuilder builder, string _) => builder
+        .AppendLine($"services.Add{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>();");
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------

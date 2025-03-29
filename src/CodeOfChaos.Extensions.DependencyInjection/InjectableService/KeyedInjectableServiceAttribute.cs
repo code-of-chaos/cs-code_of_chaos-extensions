@@ -1,17 +1,16 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.GeneratorTools;
-using Microsoft.CodeAnalysis;
 
-namespace CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace CodeOfChaos.Extensions.DependencyInjection;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public interface IServiceRegistration {
-    public INamedTypeSymbol ServiceTypeName { get; }
-    public INamedTypeSymbol ImplementationTypeName { get; }
-    public string LifeTime { get; }
-
-    public void FormatText(GeneratorStringBuilder builder, string assemblyName);
+[AttributeUsage(AttributeTargets.Class, Inherited = false)]
+public class KeyedInjectableServiceAttribute<TService>(string key, ServiceLifetime lifetime) : Attribute {
+    public string Key { get; } = key;
+    public ServiceLifetime Lifetime { get; } = lifetime;
+    public Type ServiceType { get; } = typeof(TService);
 }

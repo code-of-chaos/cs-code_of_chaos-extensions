@@ -1,8 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Extensions.DependencyInjection.Generators.Helpers;
 using CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
+using CodeOfChaos.GeneratorTools;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -12,6 +12,7 @@ using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using SymbolResolver=CodeOfChaos.Extensions.DependencyInjection.Generators.Helpers.SymbolResolver;
 
 namespace CodeOfChaos.Extensions.DependencyInjection.Generators;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -25,11 +26,13 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
     private const string InjectableServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.InjectableServiceAttribute`1";
     private const string FactoryCreatedServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.FactoryCreatedServiceAttribute`2";
     private const string PooledInjectableServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.PooledInjectableServiceAttribute`2";
+    private const string KeyedInjectableServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.KeyedInjectableServiceAttribute`1";
 
     private static readonly string[] MetaDataNames = [
         InjectableServiceAttributeMetadataName,
         FactoryCreatedServiceAttributeMetadataName,
-        PooledInjectableServiceAttributeMetadataName
+        PooledInjectableServiceAttributeMetadataName,
+        KeyedInjectableServiceAttributeMetadataName
     ];
 
     private static Regex RegexSanitizeAssemblyName { get; } = new(@"((?im)[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?)|(\.dll)", RegexOptions.Compiled);
@@ -57,11 +60,10 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
         }
 
         IServiceRegistration[] registrations = GetRegistrations(context, compilation, classDeclarations)
-                .OrderBy(registration => registration.LifeTime)
-                .ThenBy(registration => registration.ServiceTypeName.ToDisplayString())
-                .ThenBy(registration => registration.ImplementationTypeName.ToDisplayString())
-                .ToArray()
-            ;
+            .OrderBy(registration => registration.LifeTime)
+            .ThenBy(registration => registration.ServiceTypeName.ToDisplayString())
+            .ThenBy(registration => registration.ImplementationTypeName.ToDisplayString())
+            .ToArray();
 
         // This fixes an issue with the testing environment, where we add a guid to the assembly name, to deter conflicts
         string assemblyNameSanitized = RegexSanitizeAssemblyName.Replace(assemblyName, string.Empty)
@@ -99,6 +101,7 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
         INamedTypeSymbol injectableServiceAttributeType = types[InjectableServiceAttributeMetadataName]!;
         INamedTypeSymbol factoryCreateServiceAttributeType = types[FactoryCreatedServiceAttributeMetadataName]!;
         INamedTypeSymbol injectablePooledServiceAttributeType = types[PooledInjectableServiceAttributeMetadataName]!;
+        INamedTypeSymbol keyedInjectableServiceAttributeType = types[KeyedInjectableServiceAttributeMetadataName]!;
 
         List<IServiceRegistration> registrations = [];
         foreach (ClassDeclarationSyntax candidate in classDeclarations) {
@@ -120,6 +123,12 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
                     continue;
                 }
 
+                if (SymbolEqualityComparer.Default.Equals(attributeTypeInfo.ConstructedFrom, keyedInjectableServiceAttributeType)
+                    && KeyedInjectableServiceRegistration.TryCreateFromModel(implementationTypeSymbol, attribute, new SymbolResolver(model), out KeyedInjectableServiceRegistration keyedInjectable)) {
+                    registrations.Add(keyedInjectable);
+                    continue;
+                }
+
                 // ReSharper disable once InvertIf
                 // ReSharper disable once RedundantJumpStatement
                 if (SymbolEqualityComparer.Default.Equals(attributeTypeInfo.ConstructedFrom, injectablePooledServiceAttributeType)
@@ -134,48 +143,49 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
     }
 
     private static string GenerateServiceRegistrationFile(SourceProductionContext _, string assemblyName, IServiceRegistration[] registrations) {
-        StringBuilder sourceBuilder = new StringBuilder()
-            .AppendLine("// <auto-generated />")
-            .AppendLine("using Microsoft.Extensions.DependencyInjection;")
-            .AppendLine($"namespace {assemblyName};")
+        GeneratorStringBuilder builder = new GeneratorStringBuilder()
+            .AppendAutoGenerated()
+            .AppendUsings("Microsoft.Extensions.DependencyInjection")
+            .AppendNamespace(assemblyName)
             .AppendLine()
             .AppendLine("public static class ServiceRegistration {")
-            .IndentLine(1, $"public static IServiceCollection RegisterServicesFrom{Sanitize(assemblyName)}(this IServiceCollection services) {{");
+            .Indent(b => {
+                b.AppendLine($"public static IServiceCollection RegisterServicesFrom{Sanitize(assemblyName)}(this IServiceCollection services) {{");
+                if (registrations.Any(r => r is InjectablePoolableServiceRegistration)) {
+                    b.AppendLineIndented($"services.AddSingleton<{assemblyName}.AutoPooledServices>();");
+                }
 
-        if (registrations.Any(r => r is InjectablePoolableServiceRegistration)) {
-            sourceBuilder.IndentLine(2, $"services.AddSingleton<{assemblyName}.AutoPooledServices>();");
-        }
+                b.Indent(b2 => b2.ForEach(
+                    registrations,
+                    static (builder, registration, assemblyName) => registration.FormatText(builder, assemblyName),
+                    assemblyName
+                ));
+                b.AppendLineIndented("return services;");
+                b.AppendLine("}");
+            })
+            .AppendLine("}");
 
-        foreach (IServiceRegistration registration in registrations) {
-            registration.FormatText(sourceBuilder, assemblyName);
-        }
-
-        return sourceBuilder.IndentLine(2, "return services;")
-            .IndentLine(1, "}")
-            .AppendLine("}")
-            .ToString();
+        return builder.ToString();
     }
 
     private static string GeneratePooledServicesFile(SourceProductionContext _, string assemblyName, IServiceRegistration[] registrations) {
-        StringBuilder sourceBuilder = new StringBuilder()
-                .AppendLine("// <auto-generated />")
-                .AppendLine("using Microsoft.Extensions.ObjectPool;")
-                .AppendLine($"namespace {assemblyName};")
+        GeneratorStringBuilder builder = new GeneratorStringBuilder()
+            .AppendAutoGenerated()
+            .AppendUsings("Microsoft.Extensions.ObjectPool")
+            .AppendNamespace(assemblyName)
+            .AppendLine()
+            .AppendLine("public partial class AutoPooledServices {")
+            .Indent(b => b
+                .AppendLine("private static readonly DefaultObjectPoolProvider _objectPoolProvider = new();")
+                .Indent(b2 => b2.ForEach(
+                    registrations.OfType<InjectablePoolableServiceRegistration>(),
+                    static (builder, registration) => registration.FormatPoolText(builder)
+                ))
                 .AppendLine()
-                .AppendLine("public partial class AutoPooledServices {")
-                .IndentLine(1, "private static readonly DefaultObjectPoolProvider _objectPoolProvider = new();")
-                .AppendLine()
-            ;
+            )
+            .AppendLine("}");
 
-        foreach (IServiceRegistration serviceRegistration in registrations) {
-            if (serviceRegistration is not InjectablePoolableServiceRegistration poolable) continue;
-
-            poolable.FormatPoolText(sourceBuilder);
-        }
-
-        return sourceBuilder
-            .AppendLine("}")
-            .ToString();
+        return builder.ToString();
     }
     #endregion
 

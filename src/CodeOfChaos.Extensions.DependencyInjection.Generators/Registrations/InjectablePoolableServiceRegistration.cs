@@ -2,9 +2,9 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.DependencyInjection.Generators.Helpers;
+using CodeOfChaos.GeneratorTools;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Text;
 
 namespace CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -20,14 +20,15 @@ public record struct InjectablePoolableServiceRegistration(
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public void FormatText(StringBuilder builder, string assemblyName) {
-        builder
-            .IndentLine(2, $"services.Add{LifeTime}<{ServiceTypeName.ToDisplayString()}>(")
-            .IndentLine(3, $"(provider) => provider.GetRequiredService<{assemblyName}.AutoPooledServices>().{ImplementationTypeName.Name}Pool.Get()")
-            .IndentLine(2, ");")
-            ;
-    }
+    public void FormatText(GeneratorStringBuilder builder, string assemblyName) => builder
+        .AppendLine($"services.Add{LifeTime}<{ServiceTypeName.ToDisplayString()}>(")
+        .AppendLineIndented($"(provider) => provider.GetRequiredService<{assemblyName}.AutoPooledServices>().{ImplementationTypeName.Name}Pool.Get()")
+        .AppendLine(");");
 
+    public void FormatPoolText(GeneratorStringBuilder builder) => builder
+        .AppendLine($"public ObjectPool<{ImplementationTypeName.ToDisplayString()}> {ImplementationTypeName.Name}Pool {{ get; }} = _objectPoolProvider")
+        .AppendLineIndented($".Create(new CodeOfChaos.Extensions.DependencyInjection.PooledInjectableServiceObjectPolicy<{ImplementationTypeName.ToDisplayString()}>());");
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
@@ -60,11 +61,5 @@ public record struct InjectablePoolableServiceRegistration(
         );
 
         return true;
-    }
-
-
-    public void FormatPoolText(StringBuilder builder) {
-        builder.IndentLine(1, $"public ObjectPool<{ImplementationTypeName.ToDisplayString()}> {ImplementationTypeName.Name}Pool {{ get; }} = _objectPoolProvider")
-            .IndentLine(2, $".Create(new CodeOfChaos.Extensions.DependencyInjection.PooledInjectableServiceObjectPolicy<{ImplementationTypeName.ToDisplayString()}>());");
     }
 }
