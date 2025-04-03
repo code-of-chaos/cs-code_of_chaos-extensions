@@ -37,12 +37,12 @@ public class Ducky : IDucky {
     public string QuackingNoise { get; } = "Quack Quack";
 }
 
-[KeyedInjectableService<IKeyedDucky>("viewer", ServiceLifetime.Transient)]
+[InjectableTransient<IKeyedDucky>("viewer")]
 public class ViewerKeyedDucky : IKeyedDucky {
     public int ChaoticFactor => 5;
 }
 
-[KeyedInjectableService<IKeyedDucky>("streamer", ServiceLifetime.Transient)]
+[InjectableTransient<IKeyedDucky>("streamer")]
 public class StreamerKeyedDucky : IKeyedDucky {
     public int ChaoticFactor => 10;
 }

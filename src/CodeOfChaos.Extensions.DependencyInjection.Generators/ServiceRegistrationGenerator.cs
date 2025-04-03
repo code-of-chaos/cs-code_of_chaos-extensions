@@ -24,15 +24,20 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
     private const string PooledServicesFileName = "AutoPooledServices.g.cs";
 
     private const string InjectableServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.InjectableServiceAttribute`1";
+    private const string InjectableSingletonAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.InjectableSingletonAttribute`1";
+    private const string InjectableScopedAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.InjectableScopedAttribute`1";
+    private const string InjectableTransientAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.InjectableTransientAttribute`1";
     private const string FactoryCreatedServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.FactoryCreatedServiceAttribute`2";
     private const string PooledInjectableServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.PooledInjectableServiceAttribute`2";
-    private const string KeyedInjectableServiceAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.KeyedInjectableServiceAttribute`1";
 
     private static readonly string[] MetaDataNames = [
         InjectableServiceAttributeMetadataName,
+        InjectableSingletonAttributeMetadataName,
+        InjectableScopedAttributeMetadataName,
+        InjectableTransientAttributeMetadataName,
+
         FactoryCreatedServiceAttributeMetadataName,
-        PooledInjectableServiceAttributeMetadataName,
-        KeyedInjectableServiceAttributeMetadataName
+        PooledInjectableServiceAttributeMetadataName
     ];
 
     private static Regex RegexSanitizeAssemblyName { get; } = new(@"((?im)[{(]?[0-9A-F]{8}[-]?(?:[0-9A-F]{4}[-]?){3}[0-9A-F]{12}[)}]?)|(\.dll)", RegexOptions.Compiled);
@@ -99,9 +104,12 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
 
         // See above if check to know why we ! for nullablity
         INamedTypeSymbol injectableServiceAttributeType = types[InjectableServiceAttributeMetadataName]!;
+        INamedTypeSymbol injectableSingletonAttributeType = types[InjectableSingletonAttributeMetadataName]!;
+        INamedTypeSymbol injectableScopedAttributeType = types[InjectableScopedAttributeMetadataName]!;
+        INamedTypeSymbol injectableTransientAttributeType = types[InjectableTransientAttributeMetadataName]!;
+
         INamedTypeSymbol factoryCreateServiceAttributeType = types[FactoryCreatedServiceAttributeMetadataName]!;
         INamedTypeSymbol injectablePooledServiceAttributeType = types[PooledInjectableServiceAttributeMetadataName]!;
-        INamedTypeSymbol keyedInjectableServiceAttributeType = types[KeyedInjectableServiceAttributeMetadataName]!;
 
         List<IServiceRegistration> registrations = [];
         foreach (ClassDeclarationSyntax candidate in classDeclarations) {
@@ -110,28 +118,30 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
 
             foreach (AttributeSyntax attribute in candidate.AttributeLists.SelectMany(attrList => attrList.Attributes)) {
                 if (model.GetTypeInfo(attribute).Type is not INamedTypeSymbol attributeTypeInfo) continue;
+                INamedTypeSymbol constructedFrom = attributeTypeInfo.ConstructedFrom;
 
-                if (SymbolEqualityComparer.Default.Equals(attributeTypeInfo.ConstructedFrom, factoryCreateServiceAttributeType)
+                if (SymbolEqualityComparer.Default.Equals(constructedFrom, factoryCreateServiceAttributeType)
                     && FactoryCreatedServiceRegistration.TryCreateFromModel(implementationTypeSymbol, attribute, new SymbolResolver(model), out FactoryCreatedServiceRegistration factoryCreated)) {
                     registrations.Add(factoryCreated);
                     continue;
                 }
+                if ((SymbolEqualityComparer.Default.Equals(constructedFrom, injectableSingletonAttributeType)
+                        || SymbolEqualityComparer.Default.Equals(constructedFrom, injectableScopedAttributeType)
+                        || SymbolEqualityComparer.Default.Equals(constructedFrom, injectableTransientAttributeType))
+                    && SpecifcInjectableServiceRegistration.TryCreateFromModel(implementationTypeSymbol, attribute, new SymbolResolver(model), out SpecifcInjectableServiceRegistration specificInjectable)) {
+                    registrations.Add(specificInjectable);
+                    continue;
+                }
 
-                if (SymbolEqualityComparer.Default.Equals(attributeTypeInfo.ConstructedFrom, injectableServiceAttributeType)
+                if (SymbolEqualityComparer.Default.Equals(constructedFrom, injectableServiceAttributeType)
                     && InjectableServiceRegistration.TryCreateFromModel(implementationTypeSymbol, attribute, new SymbolResolver(model), out InjectableServiceRegistration injectable)) {
                     registrations.Add(injectable);
                     continue;
                 }
 
-                if (SymbolEqualityComparer.Default.Equals(attributeTypeInfo.ConstructedFrom, keyedInjectableServiceAttributeType)
-                    && KeyedInjectableServiceRegistration.TryCreateFromModel(implementationTypeSymbol, attribute, new SymbolResolver(model), out KeyedInjectableServiceRegistration keyedInjectable)) {
-                    registrations.Add(keyedInjectable);
-                    continue;
-                }
-
                 // ReSharper disable once InvertIf
                 // ReSharper disable once RedundantJumpStatement
-                if (SymbolEqualityComparer.Default.Equals(attributeTypeInfo.ConstructedFrom, injectablePooledServiceAttributeType)
+                if (SymbolEqualityComparer.Default.Equals(constructedFrom, injectablePooledServiceAttributeType)
                     && InjectablePoolableServiceRegistration.TryCreateFromModel(attribute, new SymbolResolver(model), out InjectablePoolableServiceRegistration pooledInjectable)) {
                     registrations.Add(pooledInjectable);
                     continue;
@@ -157,7 +167,7 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
 
                 b.Indent(b2 => b2.ForEach(
                     registrations,
-                    static (builder, registration, assemblyName) => registration.FormatText(builder, assemblyName),
+                    itemFormatter: static (builder, registration, assemblyName) => registration.FormatText(builder, assemblyName),
                     assemblyName
                 ));
                 b.AppendLineIndented("return services;");
@@ -179,7 +189,7 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
                 .AppendLine("private static readonly DefaultObjectPoolProvider _objectPoolProvider = new();")
                 .Indent(b2 => b2.ForEach(
                     registrations.OfType<InjectablePoolableServiceRegistration>(),
-                    static (builder, registration) => registration.FormatPoolText(builder)
+                    itemFormatter: static (builder, registration) => registration.FormatPoolText(builder)
                 ))
                 .AppendLine()
             )

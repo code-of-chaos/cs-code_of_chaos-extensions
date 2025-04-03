@@ -13,19 +13,21 @@ namespace CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 // ReSharper disable once StructCanBeMadeReadOnly
-public record struct KeyedInjectableServiceRegistration(
+public record struct SpecifcInjectableServiceRegistration(
     INamedTypeSymbol ServiceTypeName,
     INamedTypeSymbol ImplementationTypeName,
     string LifeTime,
-    string Key
+    string? Key = null
 ) : IServiceRegistration {
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
-    public void FormatText(GeneratorStringBuilder builder, string _) => builder
-        .AppendLine($"services.AddKeyed{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>({Key.ToQuotedString()});");
-    
+    public void FormatText(GeneratorStringBuilder builder, string _) {
+        if (!string.IsNullOrWhiteSpace(Key)) builder.AppendLine($"services.AddKeyed{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>({Key!.ToQuotedString()});");
+        builder.AppendLine($"services.Add{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>();");
+    }
+
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
@@ -33,7 +35,7 @@ public record struct KeyedInjectableServiceRegistration(
         INamedTypeSymbol implementationTypeSymbol,
         AttributeSyntax attribute,
         ISymbolResolver resolver,
-        out KeyedInjectableServiceRegistration registration
+        out SpecifcInjectableServiceRegistration registration
     ) {
         registration = default;
 
@@ -44,24 +46,23 @@ public record struct KeyedInjectableServiceRegistration(
         };
         
         ImmutableArray<AttributeData> attributes = implementationTypeSymbol.GetAttributes();
-
         
         if (genericNameSyntax?.TypeArgumentList.Arguments.FirstOrDefault() is not {} serviceTypeSyntax) return false;
         if (resolver.ResolveSymbol(serviceTypeSyntax) is not INamedTypeSymbol serviceNamedTypeSymbol) return false;
         
-        AttributeData? keyedServiceAttribute =    attributes.FirstOrDefault(attr => attr.AttributeClass?.ToDisplayString().Contains("KeyedInjectableServiceAttribute") ?? false);
-        string key = (string)(keyedServiceAttribute?.ConstructorArguments.ElementAtOrDefault(0).Value ?? string.Empty);
-        int lifeTime = (int)(keyedServiceAttribute?.ConstructorArguments.ElementAtOrDefault(1).Value ?? -1);
+        AttributeData? keyedServiceAttribute = attributes.FirstOrDefault(attr => attr.AttributeClass?.ToDisplayString().Contains("KeyedInjectableServiceAttribute") ?? false);
+        string? key = (string?)keyedServiceAttribute?.ConstructorArguments.ElementAtOrDefault(0).Value;
+        string lifeTimeName = attribute.Name.ToFullString();
         
-        registration = new KeyedInjectableServiceRegistration(
+        string lifeTime = "Transient";
+        if (lifeTimeName.Contains("Singleton")) lifeTime = "Singleton";
+        if (lifeTimeName.Contains("Scoped")) lifeTime = "Scoped";
+        if (lifeTimeName.Contains("Transient")) lifeTime = "Transient";
+        
+        registration = new SpecifcInjectableServiceRegistration(
             serviceNamedTypeSymbol,
             implementationTypeSymbol,
-            lifeTime switch {
-                0 => "Singleton",
-                1 => "Scoped",
-                2 => "Transient",
-                _ => "Transient"
-            },
+            lifeTime,
             key
         );
 
