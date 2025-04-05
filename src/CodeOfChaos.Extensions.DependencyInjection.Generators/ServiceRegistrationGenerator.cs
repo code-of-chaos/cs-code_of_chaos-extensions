@@ -128,7 +128,7 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
                 if ((SymbolEqualityComparer.Default.Equals(constructedFrom, injectableSingletonAttributeType)
                         || SymbolEqualityComparer.Default.Equals(constructedFrom, injectableScopedAttributeType)
                         || SymbolEqualityComparer.Default.Equals(constructedFrom, injectableTransientAttributeType))
-                    && SpecifcInjectableServiceRegistration.TryCreateFromModel(implementationTypeSymbol, attribute, new SymbolResolver(model), out SpecifcInjectableServiceRegistration specificInjectable)) {
+                    && SpecificInjectableServiceRegistration.TryCreateFromModel(implementationTypeSymbol, attribute, new SymbolResolver(model), out SpecificInjectableServiceRegistration specificInjectable)) {
                     registrations.Add(specificInjectable);
                     continue;
                 }

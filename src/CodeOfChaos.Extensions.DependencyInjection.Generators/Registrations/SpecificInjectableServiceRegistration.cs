@@ -13,7 +13,7 @@ namespace CodeOfChaos.Extensions.DependencyInjection.Generators.Registrations;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 // ReSharper disable once StructCanBeMadeReadOnly
-public record struct SpecifcInjectableServiceRegistration(
+public record struct SpecificInjectableServiceRegistration(
     INamedTypeSymbol ServiceTypeName,
     INamedTypeSymbol ImplementationTypeName,
     string LifeTime,
@@ -24,7 +24,10 @@ public record struct SpecifcInjectableServiceRegistration(
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public void FormatText(GeneratorStringBuilder builder, string _) {
-        if (!string.IsNullOrWhiteSpace(Key)) builder.AppendLine($"services.AddKeyed{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>({Key!.ToQuotedString()});");
+        if (!string.IsNullOrWhiteSpace(Key)) {
+            builder.AppendLine($"services.AddKeyed{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>({Key!.ToQuotedString()});");
+            return;
+        }
         builder.AppendLine($"services.Add{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>();");
     }
 
@@ -35,7 +38,7 @@ public record struct SpecifcInjectableServiceRegistration(
         INamedTypeSymbol implementationTypeSymbol,
         AttributeSyntax attribute,
         ISymbolResolver resolver,
-        out SpecifcInjectableServiceRegistration registration
+        out SpecificInjectableServiceRegistration registration
     ) {
         registration = default;
 
@@ -50,7 +53,7 @@ public record struct SpecifcInjectableServiceRegistration(
         if (genericNameSyntax?.TypeArgumentList.Arguments.FirstOrDefault() is not {} serviceTypeSyntax) return false;
         if (resolver.ResolveSymbol(serviceTypeSyntax) is not INamedTypeSymbol serviceNamedTypeSymbol) return false;
         
-        AttributeData? keyedServiceAttribute = attributes.FirstOrDefault(attr => attr.AttributeClass?.ToDisplayString().Contains("KeyedInjectableServiceAttribute") ?? false);
+        AttributeData? keyedServiceAttribute = attributes.FirstOrDefault(attr => attr.AttributeClass?.ToDisplayString().Contains("Injectable") ?? false);
         string? key = (string?)keyedServiceAttribute?.ConstructorArguments.ElementAtOrDefault(0).Value;
         string lifeTimeName = attribute.Name.ToFullString();
         
@@ -59,7 +62,7 @@ public record struct SpecifcInjectableServiceRegistration(
         if (lifeTimeName.Contains("Scoped")) lifeTime = "Scoped";
         if (lifeTimeName.Contains("Transient")) lifeTime = "Transient";
         
-        registration = new SpecifcInjectableServiceRegistration(
+        registration = new SpecificInjectableServiceRegistration(
             serviceNamedTypeSymbol,
             implementationTypeSymbol,
             lifeTime,

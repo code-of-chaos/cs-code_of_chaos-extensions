@@ -24,7 +24,7 @@ public record struct InjectableServiceRegistration(
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public void FormatText(GeneratorStringBuilder builder, string _) {
-        if (Key is not null) builder.AppendLine($"services.AddKeyed{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>({Key.ToQuotedString()});");
+        if (Key is not null) builder.AppendLine($"services.AddKeyed{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>(serviceKey:{Key.ToQuotedString()});");
         builder.AppendLine($"services.Add{LifeTime}<{ServiceTypeName.ToDisplayString()}, {ImplementationTypeName.ToDisplayString()}>();");
     }
 
@@ -50,7 +50,7 @@ public record struct InjectableServiceRegistration(
         if (genericNameSyntax?.TypeArgumentList.Arguments.FirstOrDefault() is not {} serviceTypeSyntax) return false;
         if (resolver.ResolveSymbol(serviceTypeSyntax) is not INamedTypeSymbol serviceNamedTypeSymbol) return false;
         
-        AttributeData? keyedServiceAttribute =    attributes.FirstOrDefault(attr => attr.AttributeClass?.ToDisplayString().Contains("KeyedInjectableServiceAttribute") ?? false);
+        AttributeData? keyedServiceAttribute =    attributes.FirstOrDefault(attr => attr.AttributeClass?.ToDisplayString().Contains("InjectableServiceAttribute") ?? false);
         string? key = (string?)keyedServiceAttribute?.ConstructorArguments.ElementAtOrDefault(1).Value;
         int lifeTime = (int)(keyedServiceAttribute?.ConstructorArguments.ElementAtOrDefault(0).Value ?? -1);
 
