@@ -1,6 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using System.Diagnostics.CodeAnalysis;
+
 // ReSharper disable once CheckNamespace
 namespace Microsoft.Extensions.DependencyInjection;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -8,7 +10,7 @@ namespace Microsoft.Extensions.DependencyInjection;
 // ---------------------------------------------------------------------------------------------------------------------
 public static class IServiceCollectionExtensions {
     #region AddServiceIfNotExists
-    public static IServiceCollection AddServiceIfNotExists<TService, TImplementation>(
+    public static IServiceCollection AddServiceIfNotExists<TService, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(
         this IServiceCollection services,
         ServiceLifetime lifetime
     )
@@ -32,24 +34,24 @@ public static class IServiceCollectionExtensions {
         return services;
     }
 
-    public static IServiceCollection AddSingletonIfNotExists<TService, TImplementation>(this IServiceCollection services)
+    public static IServiceCollection AddSingletonIfNotExists<TService,[DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection services)
         where TService : class
         where TImplementation : class, TService =>
         AddServiceIfNotExists<TService, TImplementation>(services, ServiceLifetime.Singleton);
 
-    public static IServiceCollection AddScopedIfNotExists<TService, TImplementation>(this IServiceCollection services)
+    public static IServiceCollection AddScopedIfNotExists<TService, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection services)
         where TService : class
         where TImplementation : class, TService =>
         AddServiceIfNotExists<TService, TImplementation>(services, ServiceLifetime.Scoped);
 
-    public static IServiceCollection AddTransientIfNotExists<TService, TImplementation>(this IServiceCollection services)
+    public static IServiceCollection AddTransientIfNotExists<TService, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(this IServiceCollection services)
         where TService : class
         where TImplementation : class, TService =>
         AddServiceIfNotExists<TService, TImplementation>(services, ServiceLifetime.Transient);
     #endregion
     
     #region AddKeyedServiceIfNotExists
-    public static IServiceCollection AddKeyedServiceIfNotExists<TService, TImplementation>(
+    public static IServiceCollection AddKeyedServiceIfNotExists<TService, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(
         this IServiceCollection services,
         object key,
         ServiceLifetime lifetime
@@ -76,7 +78,7 @@ public static class IServiceCollectionExtensions {
     }
 
     // Direct keyed lifetime overloads
-    public static IServiceCollection AddKeyedSingletonIfNotExists<TService, TImplementation>(
+    public static IServiceCollection AddKeyedSingletonIfNotExists<TService, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(
         this IServiceCollection services,
         object key
     )
@@ -84,7 +86,7 @@ public static class IServiceCollectionExtensions {
         where TImplementation : class, TService =>
         AddKeyedServiceIfNotExists<TService, TImplementation>(services, key, ServiceLifetime.Singleton);
 
-    public static IServiceCollection AddKeyedScopedIfNotExists<TService, TImplementation>(
+    public static IServiceCollection AddKeyedScopedIfNotExists<TService, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(
         this IServiceCollection services,
         object key
     )
@@ -92,7 +94,7 @@ public static class IServiceCollectionExtensions {
         where TImplementation : class, TService =>
         AddKeyedServiceIfNotExists<TService, TImplementation>(services, key, ServiceLifetime.Scoped);
 
-    public static IServiceCollection AddKeyedTransientIfNotExists<TService, TImplementation>(
+    public static IServiceCollection AddKeyedTransientIfNotExists<TService, [DynamicallyAccessedMembers(DynamicallyAccessedMemberTypes.PublicConstructors)] TImplementation>(
         this IServiceCollection services,
         object key
     )
