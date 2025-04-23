@@ -30,7 +30,8 @@ public static class Program {
             "CodeOfChaos.Extensions.MicrosoftLogging",
             "CodeOfChaos.Extensions.DependencyInjection",
             "CodeOfChaos.Extensions.DependencyInjection.Generators",
-            "CodeOfChaos.Extensions.FluentValidation"
+            "CodeOfChaos.Extensions.FluentValidation",
+            "CodeOfChaos.Extensions.ObjectPool"
         );
 
         string oneLineArgs = InputHelper.ToOneLine(args).Replace("%PROJECTS%", projects);
