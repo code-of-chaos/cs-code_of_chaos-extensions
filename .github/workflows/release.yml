@@ -52,6 +52,9 @@ jobs:
             - name: Run tests - Extensions.FluentValidation
               run: dotnet run -c Release --no-restore --no-build
               working-directory: "tests/Tests.CodeOfChaos.Extensions.FluentValidation"
+            - name: Run tests - Extensions.ObjectPool
+              run: dotnet run -c Release --no-restore --no-build
+              working-directory: "tests/Tests.CodeOfChaos.Extensions.ObjectPool"
 
             - name: Publish to NuGet
               env:
@@ -66,3 +69,4 @@ jobs:
                   dotnet nuget push src/CodeOfChaos.Extensions.DependencyInjection/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.DependencyInjection.Generators/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.FluentValidation/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.ObjectPool/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
