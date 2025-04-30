@@ -28,19 +28,21 @@ public class StringColorExtensionTests {
         yield return () => ("#5BCEFA", "91, 206, 250");
     }
 
+    // ReSharper disable StringLiteralTypo
     public static IEnumerable<Func<string?>> InvalidDataSources() {
         yield return () => null;
-        yield return () => ("");
-        yield return () => (" ");
-        yield return () => ("#");
-        yield return () => ("#F");
-        yield return () => ("#FF");
-        yield return () => ("#FFFF");
-        yield return () => ("#FFFFF");
-        yield return () => ("#FFFFFFF");
-        yield return () => ("#GG0000");
-        yield return () => ("GGGGGG");
+        yield return () => "";
+        yield return () => " ";
+        yield return () => "#";
+        yield return () => "#F";
+        yield return () => "#FF";
+        yield return () => "#FFFF";
+        yield return () => "#FFFFF";
+        yield return () => "#FFFFFFF";
+        yield return () => "#GG0000";
+        yield return () => "GGGGGG";
     }
+    // ReSharper enable StringLiteralTypo
     
     [Test]
     [MethodDataSource<StringColorExtensionTests>(nameof(ValidDataSources))]
@@ -54,12 +56,12 @@ public class StringColorExtensionTests {
 
     [Test]
     [MethodDataSource<StringColorExtensionTests>(nameof(InvalidDataSources))]
-    public async Task ConvertToRgbValues_InvalidInput_ThrowsArgumentException(string? input) {
+    public Task ConvertToRgbValues_InvalidInput_ThrowsArgumentException(string? input) {
         // Act & Assert
         Assert.Throws<ArgumentException>(() => input.ConvertToRgbValues());
+        return Task.CompletedTask;
     }
-
-
+    
     [Test]
     [MethodDataSource<StringColorExtensionTests>(nameof(ValidDataSources))]
     public async Task TryConvertToRgbValues_ValidHexColors_ReturnsTrue(string input, string expected) {
