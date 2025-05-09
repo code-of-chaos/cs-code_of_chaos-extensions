@@ -75,28 +75,23 @@ public class ServiceRegistrationGenerator : IIncrementalGenerator {
             .Replace("-", "_")
             .TrimEnd('-', '_');
 
-
-        if (registrations.Length != 0) {
-            context.AddSource(
-                PooledServicesFileName,
-                SourceText.From(GeneratePooledServicesFile(
-                    context,
-                    assemblyNameSanitized,
-                    registrations
-                ), Encoding.UTF8)
-            );
-        }
-
-        if (registrations.Length != 0) {
-            context.AddSource(
-                ServiceRegistrationFileName,
-                SourceText.From(GenerateServiceRegistrationFile(
-                    context,
-                    assemblyNameSanitized,
-                    registrations
-                ), Encoding.UTF8)
-            );
-        }
+        context.AddSource(
+            PooledServicesFileName,
+            SourceText.From(GeneratePooledServicesFile(
+                context,
+                assemblyNameSanitized,
+                registrations
+            ), Encoding.UTF8)
+        );
+        
+        context.AddSource(
+            ServiceRegistrationFileName,
+            SourceText.From(GenerateServiceRegistrationFile(
+                context,
+                assemblyNameSanitized,
+                registrations
+            ), Encoding.UTF8)
+        );
     }
 
     private static List<IServiceRegistration> GetRegistrations(SourceProductionContext context, Compilation compilation, ImmutableArray<ClassDeclarationSyntax> classDeclarations) {
