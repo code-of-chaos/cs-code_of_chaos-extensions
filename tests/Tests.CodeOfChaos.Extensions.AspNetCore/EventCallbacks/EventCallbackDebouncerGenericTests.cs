@@ -8,13 +8,12 @@ namespace Tests.CodeOfChaos.Extensions.AspNetCore.EventCallbacks;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class EventCallbackDebouncerGenericTests {
-    private readonly EventCallbackFactory _factory = new();
 
     [Test]
     public async Task GenericDebouncer_ShouldPassValueToCallback() {
         // Arrange
         string? receivedValue = null;
-        EventCallback<string> callback = _factory.Create<string>(this, callback: value => {
+        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: value => {
             receivedValue = value;
             return Task.CompletedTask;
         });
@@ -32,7 +31,7 @@ public class EventCallbackDebouncerGenericTests {
     public async Task GenericDebouncer_DefaultValue_ShouldWork() {
         // Arrange
         string receivedValue = "initial";
-        EventCallback<string> callback = _factory.Create<string>(this, callback: value => {
+        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: value => {
             receivedValue = value;
             return Task.CompletedTask;
         });
@@ -50,7 +49,7 @@ public class EventCallbackDebouncerGenericTests {
     public async Task GenericDebouncer_MultipleValues_ShouldUseLastValue() {
         // Arrange
         string? receivedValue = null;
-        EventCallback<string> callback = _factory.Create<string>(this, callback: value => {
+        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: value => {
             receivedValue = value;
             return Task.CompletedTask;
         });
@@ -70,7 +69,7 @@ public class EventCallbackDebouncerGenericTests {
     public async Task GenericDebouncer_ConcurrentValues_ShouldBeThreadSafe() {
         // Arrange
         var receivedValues = new List<string>();
-        EventCallback<string> callback = _factory.Create<string>(this, callback: value => {
+        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: value => {
             receivedValues.Add(value);
             return Task.CompletedTask;
         });
@@ -91,7 +90,7 @@ public class EventCallbackDebouncerGenericTests {
     [Test]
     public async Task GenericDebouncer_AfterDispose_ShouldThrowObjectDisposedException() {
         // Arrange
-        EventCallback<string> callback = _factory.Create<string>(this, callback: _ => Task.CompletedTask);
+        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: _ => Task.CompletedTask);
         var debouncer = new EventCallbackDebouncer<string>(callback);
 
         // Act
@@ -99,13 +98,14 @@ public class EventCallbackDebouncerGenericTests {
 
         // Assert
         await Assert.ThrowsAsync<ObjectDisposedException>(async () =>
-            await debouncer.InvokeDebouncedAsync("test"));
+            await debouncer.InvokeDebouncedAsync("test")
+        );
     }
 
     [Test]
     public async Task GenericDebouncer_MultipleDispose_ShouldBeIdempotent() {
         // Arrange
-        EventCallback<string> callback = _factory.Create<string>(this, callback: _ => Task.CompletedTask);
+        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: _ => Task.CompletedTask);
         var debouncer = new EventCallbackDebouncer<string>(callback);
 
         // Act & Assert

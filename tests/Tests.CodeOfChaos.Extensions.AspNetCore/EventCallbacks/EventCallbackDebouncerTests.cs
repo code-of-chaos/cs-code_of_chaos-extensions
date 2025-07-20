@@ -8,13 +8,12 @@ namespace Tests.CodeOfChaos.Extensions.AspNetCore.EventCallbacks;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class EventCallbackDebouncerTests {
-    private readonly EventCallbackFactory _factory = new();
 
     [Test]
     public async Task DefaultDebounceMs_ShouldBe100() {
         // Arrange
         int callCount = 0;
-        EventCallback callback = _factory.Create(this, callback: () => {
+        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
             callCount++;
             return Task.CompletedTask;
         });
@@ -32,7 +31,7 @@ public class EventCallbackDebouncerTests {
     public async Task CustomDebounceMs_ShouldRespectSpecifiedTime() {
         // Arrange
         int callCount = 0;
-        EventCallback callback = _factory.Create(this, callback: () => {
+        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
             callCount++;
             return Task.CompletedTask;
         });
@@ -56,7 +55,7 @@ public class EventCallbackDebouncerTests {
     public async Task MultipleInvocations_ShouldDebounce() {
         // Arrange
         int callCount = 0;
-        EventCallback callback = _factory.Create(this, callback: () => {
+        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
             callCount++;
             return Task.CompletedTask;
         });
@@ -76,7 +75,7 @@ public class EventCallbackDebouncerTests {
     public async Task ConcurrentInvocations_ShouldBeThreadSafe() {
         // Arrange
         int callCount = 0;
-        EventCallback callback = _factory.Create(this, callback: () => {
+        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
             callCount++;
             return Task.CompletedTask;
         });
@@ -97,7 +96,7 @@ public class EventCallbackDebouncerTests {
     [Test]
     public async Task AfterDispose_ShouldThrowObjectDisposedException() {
         // Arrange
-        EventCallback callback = _factory.Create(this, callback: () => Task.CompletedTask);
+        EventCallback callback = EventCallback.Factory.Create(this, callback: () => Task.CompletedTask);
         var debouncer = new EventCallbackDebouncer(callback);
 
         // Act
@@ -111,7 +110,7 @@ public class EventCallbackDebouncerTests {
     [Test]
     public async Task MultipleDispose_ShouldBeIdempotent() {
         // Arrange
-        EventCallback callback = _factory.Create(this, callback: () => Task.CompletedTask);
+        EventCallback callback = EventCallback.Factory.Create(this, callback: () => Task.CompletedTask);
         var debouncer = new EventCallbackDebouncer(callback);
 
         // Act & Assert
@@ -123,7 +122,7 @@ public class EventCallbackDebouncerTests {
     public async Task InvocationDuringDebounce_ShouldCancelPrevious() {
         // Arrange
         var executionTimes = new List<DateTime>();
-        EventCallback callback = _factory.Create(this, callback: () => {
+        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
             executionTimes.Add(DateTime.UtcNow);
             return Task.CompletedTask;
         });
@@ -131,7 +130,7 @@ public class EventCallbackDebouncerTests {
         // Act
         await using var debouncer = new EventCallbackDebouncer(callback);
         await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(50); // Wait half the debounced time
+        await Task.Delay(50);// Wait half the debounced time
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
 
