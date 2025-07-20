@@ -6,8 +6,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Serilog;
-using Serilog.Core;
-using Serilog.Events;
 using ILogger=Serilog.ILogger;
 
 namespace Tests.CodeOfChaos.Extensions.AspNetCore;
@@ -76,17 +74,4 @@ public class LoggingOverrideExtensionsTests {
             .IsNotNull()
             .Because("Serilog should replace the existing providers when overriding logging.");
     }
-}
-
-// ---------------------------------------------------------------------------------------------------------------------
-// Helper Classes
-// ---------------------------------------------------------------------------------------------------------------------
-public class DelegatingSink : ILogEventSink {
-    private readonly Action<LogEvent> _write;
-
-    public DelegatingSink(Action<LogEvent> write) {
-        _write = write ?? throw new ArgumentNullException(nameof(write));
-    }
-
-    public void Emit(LogEvent logEvent) => _write.Invoke(logEvent);
 }
