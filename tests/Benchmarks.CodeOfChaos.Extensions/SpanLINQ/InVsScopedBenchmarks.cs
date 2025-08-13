@@ -18,9 +18,9 @@ public class InVsScopedVsRefVsRefReadonlyBenchmarks {
 
     // Parameter for match scenarios
     [ParamsSource(nameof(MatchScenarios))]
-    public MatchScenario Scenario { get; set; }
+    public MatchScenario Scenario { get; set; } = null!;
 
-    private int[] _data;
+    private int[] _data = null!;
 
     [GlobalSetup]
     public void Setup() {
