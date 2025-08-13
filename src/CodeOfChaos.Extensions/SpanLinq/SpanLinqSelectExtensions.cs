@@ -15,7 +15,7 @@ public static class SpanLinqSelectExtensions {
         Func<TSource, TResult> selector,
         Span<TResult> destination
     ) {
-        if (source.Length != destination.Length) throw new ArgumentException("Destination span is too small");
+        if (source.Length > destination.Length) throw new ArgumentException("Destination span is too small");
 
         for (int i = 0; i < source.Length; i++) {
             destination[i] = selector(source[i]);

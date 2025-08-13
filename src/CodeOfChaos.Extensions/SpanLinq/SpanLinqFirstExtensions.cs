@@ -30,7 +30,7 @@ public static class SpanLinqFirstExtensions {
             T element = span[i];
             if (predicate(element)) return element;
         }
-
+        
         return default;
     }
 
