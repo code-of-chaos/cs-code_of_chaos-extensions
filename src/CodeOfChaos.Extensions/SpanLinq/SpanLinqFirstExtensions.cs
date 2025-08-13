@@ -1,0 +1,50 @@
+﻿// ---------------------------------------------------------------------------------------------------------------------
+// Imports
+// ---------------------------------------------------------------------------------------------------------------------
+// ReSharper disable once CheckNamespace
+namespace CodeOfChaos.SpanLINQ;
+// ---------------------------------------------------------------------------------------------------------------------
+// Code
+// ---------------------------------------------------------------------------------------------------------------------
+public static class SpanLinqFirstExtensions {
+    public static T First<T>(this in Span<T> span, Func<T, bool> predicate) {
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (int i = 0; i < span.Length; i++) {
+            T element = span[i];
+            if (predicate(element)) return element;
+        }
+
+        throw new InvalidOperationException("Sequence contains no elements");
+    }
+    
+    public static T First<T>(this in ReadOnlySpan<T> span, Func<T, bool> predicate) {
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (int i = 0; i < span.Length; i++) {
+            T element = span[i];
+            if (predicate(element)) return element;
+        }
+
+        throw new InvalidOperationException("Sequence contains no elements");
+    }
+
+    public static T? FirstOrDefault<T>(this in Span<T> span, Func<T, bool> predicate) {
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (int i = 0; i < span.Length; i++) {
+            T element = span[i];
+            if (predicate(element)) return element;
+        }
+
+        return default;
+    }
+
+    public static T? FirstOrDefault<T>(this in ReadOnlySpan<T> span, Func<T, bool> predicate) {
+        // ReSharper disable once ForCanBeConvertedToForeach
+        for (int i = 0; i < span.Length; i++) {
+            T element = span[i];
+            if (predicate(element)) return element;
+        }
+
+        return default;
+    }
+
+}
