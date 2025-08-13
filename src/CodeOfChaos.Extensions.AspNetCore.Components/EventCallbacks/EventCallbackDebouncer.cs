@@ -51,8 +51,11 @@ public class EventCallbackDebouncer(EventCallback callback, int debounceMs = Eve
 
         await _semaphore.WaitAsync();
         try {
-            _cts?.Cancel();
-            _cts?.Dispose();
+            if (_cts is not null) {
+                await _cts.CancelAsync();
+                _cts.Dispose();
+            }
+            
             if (_debounceTask is not null) {
                 try { await _debounceTask; }
                 catch {
