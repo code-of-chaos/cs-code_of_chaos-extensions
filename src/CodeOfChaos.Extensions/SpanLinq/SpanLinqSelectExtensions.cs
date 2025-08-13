@@ -7,7 +7,9 @@ namespace CodeOfChaos.SpanLINQ;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public static class SpanLinqSelectExtensions {
-
+    public static void Select<TSource, TResult>(this in Span<TSource> source, Func<TSource, TResult> selector, Span<TResult> destination)
+        => Select((ReadOnlySpan<TSource>)source, selector, destination);
+    
     public static void Select<TSource, TResult>(
         this in ReadOnlySpan<TSource> source,
         Func<TSource, TResult> selector,
@@ -19,6 +21,9 @@ public static class SpanLinqSelectExtensions {
             destination[i] = selector(source[i]);
         }
     }
+    
+    public static void SelectMany<TSource, TResult>(this in Span<TSource> source, Func<TSource, ReadOnlySpan<TResult>> selector, Span<TResult> destination, out int totalCount) 
+        => SelectMany((ReadOnlySpan<TSource>)source, selector, destination, out totalCount);
 
     public static void SelectMany<TSource, TResult>(
         this in ReadOnlySpan<TSource> source,
