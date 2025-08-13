@@ -8,7 +8,7 @@
 
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions.MicrosoftLogging</PackageId>
-        <Version>0.72.0</Version>
+        <Version>0.73.0</Version>
         <Authors>Anna Sas</Authors>
         <Description>A simple extension library for Microsoft's logging</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
