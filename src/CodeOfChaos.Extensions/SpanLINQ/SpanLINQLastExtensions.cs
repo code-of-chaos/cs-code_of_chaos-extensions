@@ -9,10 +9,10 @@ namespace CodeOfChaos.SpanLINQ;
 // ReSharper disable once InconsistentNaming
 public static class SpanLINQLastExtensions {
     
-    public static T Last<T>(this in Span<T> span, Func<T, bool> predicate) 
+    public static T Last<T>(this scoped Span<T> span, Func<T, bool> predicate) 
         => Last((ReadOnlySpan<T>)span, predicate);
     
-    public static T Last<T>(this in ReadOnlySpan<T> span, Func<T, bool> predicate) {
+    public static T Last<T>(this scoped ReadOnlySpan<T> span, Func<T, bool> predicate) {
         for (int i = span.Length - 1; i >= 0; i--) {
             T element = span[i];
             if (predicate(element)) return element;

@@ -54,6 +54,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOfChaos.Extensions.AspN
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.CodeOfChaos.Extensions.AspNetCore.Components", "tests\Tests.CodeOfChaos.Extensions.AspNetCore.Components\Tests.CodeOfChaos.Extensions.AspNetCore.Components.csproj", "{0B45A069-2FF5-4BD0-BC53-CB63FE29E781}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.CodeOfChaos.Extensions", "tests\Benchmarks.CodeOfChaos.Extensions\Benchmarks.CodeOfChaos.Extensions.csproj", "{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -152,6 +154,10 @@ Global
 		{0B45A069-2FF5-4BD0-BC53-CB63FE29E781}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B45A069-2FF5-4BD0-BC53-CB63FE29E781}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B45A069-2FF5-4BD0-BC53-CB63FE29E781}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{26284571-0E09-4BAF-8C2B-DF87DCC1BA0B} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
@@ -177,5 +183,6 @@ Global
 		{E9BB7403-5167-46CA-BE84-F420CF28C910} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
 		{C5C64661-887A-4E19-93EB-F9D5765C635B} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
 		{0B45A069-2FF5-4BD0-BC53-CB63FE29E781} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
+		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 	EndGlobalSection
 EndGlobal

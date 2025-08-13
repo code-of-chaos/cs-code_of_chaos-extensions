@@ -9,10 +9,10 @@ namespace CodeOfChaos.SpanLINQ;
 // ReSharper disable once InconsistentNaming
 public static class SpanLINQFirstExtensions {
     
-    public static T First<T>(this in Span<T> span, Func<T, bool> predicate)
+    public static T First<T>(this scoped Span<T> span, Func<T, bool> predicate)
         => First((ReadOnlySpan<T>)span, predicate);
 
-    public static T First<T>(this in ReadOnlySpan<T> span, Func<T, bool> predicate) {
+    public static T First<T>(this scoped ReadOnlySpan<T> span, Func<T, bool> predicate) {
         // ReSharper disable once ForCanBeConvertedToForeach
         for (int i = 0; i < span.Length; i++) {
             T element = span[i];
