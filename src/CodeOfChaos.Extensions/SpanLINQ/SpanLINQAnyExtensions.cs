@@ -6,7 +6,8 @@ namespace CodeOfChaos.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class SpanLinqAnyExtensions {
+// ReSharper disable once InconsistentNaming
+public static class SpanLINQAnyExtensions {
     public static bool Any<T>(this in Span<T> span) 
         => Any((ReadOnlySpan<T>)span);
     

@@ -3,11 +3,13 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.SpanLINQ;
 
-namespace Tests.CodeOfChaos.Extensions.SpanLinq;
+namespace Tests.CodeOfChaos.Extensions.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class SpanLinqCountTests {
+[Category("SpanLINQ")]
+// ReSharper disable once InconsistentNaming
+public class SpanLINQCountTests {
     private record TestItem(int Value) {
         public bool IsEven => Value % 2 == 0;
     }

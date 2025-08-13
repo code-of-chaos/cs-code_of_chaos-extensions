@@ -3,11 +3,13 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.SpanLINQ;
 
-namespace Tests.CodeOfChaos.Extensions.SpanLinq;
+namespace Tests.CodeOfChaos.Extensions.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class SpanLinqFirstTests {
+[Category("SpanLINQ")]
+// ReSharper disable once InconsistentNaming
+public class SpanLINQFirstTests {
     private record TestItem(int Value, string Name);
 
     #region First tests

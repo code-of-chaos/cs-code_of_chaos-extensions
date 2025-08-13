@@ -3,11 +3,13 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.SpanLINQ;
 
-namespace Tests.CodeOfChaos.Extensions.SpanLinq;
+namespace Tests.CodeOfChaos.Extensions.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class SpanLinqMinTests {
+[Category("SpanLINQ")]
+// ReSharper disable once InconsistentNaming
+public class SpanLINQMinTests {
     // ReSharper disable once NotAccessedPositionalProperty.Local
     private record TestItem(int Value, string Name);
 

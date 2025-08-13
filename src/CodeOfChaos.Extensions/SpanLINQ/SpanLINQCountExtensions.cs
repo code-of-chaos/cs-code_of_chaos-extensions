@@ -7,7 +7,8 @@ namespace CodeOfChaos.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class SpanLinqCountExtensions {
+// ReSharper disable once InconsistentNaming
+public static class SpanLINQCountExtensions {
     
     public static int Count<T>(this in Span<T> span, Func<T, bool> predicate) 
         => Count((ReadOnlySpan<T>)span, predicate);

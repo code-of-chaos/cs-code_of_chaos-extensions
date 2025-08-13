@@ -7,7 +7,8 @@ namespace CodeOfChaos.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class SpanLinqSumExtensions {
+// ReSharper disable once InconsistentNaming
+public static class SpanLINQSumExtensions {
     public static int Sum<T>(this in Span<T> span, Func<T, int> selector, int length = -1) 
         => Sum((ReadOnlySpan<T>)span, selector, length);
     

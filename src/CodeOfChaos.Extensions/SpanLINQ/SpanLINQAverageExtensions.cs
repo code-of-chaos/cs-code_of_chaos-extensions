@@ -6,7 +6,8 @@ namespace System;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class SpanLinqAverageExtensions {
+// ReSharper disable once InconsistentNaming
+public static class SpanLINQAverageExtensions {
     
     public static double Average<T>(this in Span<T> span, Func<T, double> selector)
         => Average((ReadOnlySpan<T>)span, selector);

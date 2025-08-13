@@ -6,7 +6,8 @@ namespace CodeOfChaos.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class SpanLinqWhereExtensions {
+// ReSharper disable once InconsistentNaming
+public static class SpanLINQWhereExtensions {
     public static void Where<T>(this in Span<T> span, Func<T, bool> predicate, in Span<int> indices, out int count) 
         => Where((ReadOnlySpan<T>)span, predicate, indices, out count);
     

@@ -3,11 +3,13 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.SpanLINQ;
 
-namespace Tests.CodeOfChaos.Extensions.SpanLinq;
+namespace Tests.CodeOfChaos.Extensions.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class SpanLinqSumTests {
+[Category("SpanLINQ")]
+// ReSharper disable once InconsistentNaming
+public class SpanLINQSumTests {
     private record TestItem(int Value);
     
     [Test]

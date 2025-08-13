@@ -1,13 +1,13 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using System;
-
-namespace Tests.CodeOfChaos.Extensions.SpanLinq;
+namespace Tests.CodeOfChaos.Extensions.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class SpanLinqAverageTests {
+[Category("SpanLINQ")]
+// ReSharper disable once InconsistentNaming
+public class SpanLINQAverageTests {
     private record TestItem(double Value);
 
     [Test]

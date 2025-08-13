@@ -6,7 +6,8 @@ namespace CodeOfChaos.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class SpanLinqSelectExtensions {
+// ReSharper disable once InconsistentNaming
+public static class SpanLINQSelectExtensions {
     public static void Select<TSource, TResult>(this in Span<TSource> source, Func<TSource, TResult> selector, Span<TResult> destination)
         => Select((ReadOnlySpan<TSource>)source, selector, destination);
     

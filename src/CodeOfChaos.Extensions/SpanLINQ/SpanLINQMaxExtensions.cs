@@ -6,7 +6,8 @@ namespace CodeOfChaos.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class SpanLinqMaxExtensions {
+// ReSharper disable once InconsistentNaming
+public static class SpanLINQMaxExtensions {
     
     public static TResult Max<T, TResult>(this in Span<T> span, Func<T, TResult> selector) where TResult : IComparable<TResult> 
         => Max((ReadOnlySpan<T>)span, selector);

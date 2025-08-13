@@ -3,12 +3,14 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.SpanLINQ;
 
-namespace Tests.CodeOfChaos.Extensions.SpanLinq;
+namespace Tests.CodeOfChaos.Extensions.SpanLINQ;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class SpanLinqSelectTests {
+[Category("SpanLINQ")]
+// ReSharper disable once InconsistentNaming
+public class SpanLINQSelectTests {
     // ReSharper disable once NotAccessedPositionalProperty.Local
     private record Person(string Name, int Age);
     

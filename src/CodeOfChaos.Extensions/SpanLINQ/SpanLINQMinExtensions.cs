@@ -6,7 +6,8 @@ namespace CodeOfChaos.SpanLINQ;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public static class SpanLinqMinExtensions {
+// ReSharper disable once InconsistentNaming
+public static class SpanLINQMinExtensions {
     
     public static TResult Min<T, TResult>(this in Span<T> span, Func<T, TResult> selector) where TResult : IComparable<TResult> 
         => Min((ReadOnlySpan<T>)span, selector);
