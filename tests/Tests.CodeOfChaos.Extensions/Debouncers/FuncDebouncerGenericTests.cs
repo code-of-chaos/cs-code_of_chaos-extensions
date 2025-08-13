@@ -1,25 +1,26 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using Microsoft.AspNetCore.Components;
+using CodeOfChaos.Extensions.Debouncers;
 
-namespace Tests.CodeOfChaos.Extensions.AspNetCore.Components.EventCallbacks;
+namespace Tests.CodeOfChaos.Extensions.Debouncers;
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class EventCallbackDebouncerGenericTests {
-
+// ReSharper disable ConvertToLocalFunction
+public class FuncDebouncerGenericTests {
     [Test]
     public async Task GenericDebouncer_ShouldPassValueToCallback() {
         // Arrange
         string? receivedValue = null;
-        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: value => {
+        Func<string, Task> callback = value => {
             receivedValue = value;
             return Task.CompletedTask;
-        });
+        };
 
         // Act
-        await using var debouncer = new EventCallbackDebouncer<string>(callback);
+        await using var debouncer = new TaskFuncDebouncer<string>(callback);
         await debouncer.InvokeDebouncedAsync("test");
         await Task.Delay(150);
 
@@ -31,13 +32,13 @@ public class EventCallbackDebouncerGenericTests {
     public async Task GenericDebouncer_DefaultValue_ShouldWork() {
         // Arrange
         string receivedValue = "initial";
-        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: value => {
+        Func<string, Task> callback = value => {
             receivedValue = value;
             return Task.CompletedTask;
-        });
-
+        };
+        
         // Act
-        await using var debouncer = new EventCallbackDebouncer<string>(callback);
+        await using var debouncer = new TaskFuncDebouncer<string>(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
 
@@ -49,13 +50,13 @@ public class EventCallbackDebouncerGenericTests {
     public async Task GenericDebouncer_MultipleValues_ShouldUseLastValue() {
         // Arrange
         string? receivedValue = null;
-        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: value => {
+        Func<string, Task> callback = value => {
             receivedValue = value;
             return Task.CompletedTask;
-        });
+        };
 
         // Act
-        await using var debouncer = new EventCallbackDebouncer<string>(callback);
+        await using var debouncer = new TaskFuncDebouncer<string>(callback);
         await debouncer.InvokeDebouncedAsync("first");
         await debouncer.InvokeDebouncedAsync("second");
         await debouncer.InvokeDebouncedAsync("third");
@@ -69,13 +70,13 @@ public class EventCallbackDebouncerGenericTests {
     public async Task GenericDebouncer_ConcurrentValues_ShouldBeThreadSafe() {
         // Arrange
         var receivedValues = new List<string>();
-        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: value => {
+        Func<string, Task> callback = value => {
             receivedValues.Add(value);
             return Task.CompletedTask;
-        });
+        };
 
         // Act
-        var debouncer = new EventCallbackDebouncer<string>(callback);
+        var debouncer = new TaskFuncDebouncer<string>(callback);
         IEnumerable<Task> tasks = Enumerable.Range(0, 10)
             .Select(i => debouncer.InvokeDebouncedAsync($"value{i}"));
 
@@ -90,8 +91,8 @@ public class EventCallbackDebouncerGenericTests {
     [Test]
     public async Task GenericDebouncer_AfterDispose_ShouldThrowObjectDisposedException() {
         // Arrange
-        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: _ => Task.CompletedTask);
-        var debouncer = new EventCallbackDebouncer<string>(callback);
+        Func<string, Task> callback = _ => Task.CompletedTask;
+        var debouncer = new TaskFuncDebouncer<string>(callback);
 
         // Act
         await debouncer.DisposeAsync();
@@ -105,8 +106,8 @@ public class EventCallbackDebouncerGenericTests {
     [Test]
     public async Task GenericDebouncer_MultipleDispose_ShouldBeIdempotent() {
         // Arrange
-        EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: _ => Task.CompletedTask);
-        var debouncer = new EventCallbackDebouncer<string>(callback);
+        Func<string, Task> callback = _ => Task.CompletedTask;
+        var debouncer = new TaskFuncDebouncer<string>(callback);
 
         // Act & Assert
         await debouncer.DisposeAsync();

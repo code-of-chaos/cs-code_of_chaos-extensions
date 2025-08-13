@@ -1,26 +1,29 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+namespace CodeOfChaos.Extensions.Debouncers;
 
-// ReSharper disable once CheckNamespace
-namespace Microsoft.AspNetCore.Components;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class EventCallbackDebouncer<T>(EventCallback<T> callback, int debounceMs = EventCallbackDebouncer<T>.DefaultDebounceMs)
-    : IAsyncDisposable {
-
-    private const int DefaultDebounceMs = 100;
+public abstract class DebouncerBase<T>(int debounceMs) : IAsyncDisposable {
+    protected const int DefaultDebounceMs = 100;
+    
     private readonly SemaphoreSlim _semaphore = new(1, 1);
     private CancellationTokenSource? _cts;
     private Task? _debounceTask;
     private bool _isDisposed;
     private T? _latestValue;
 
-    public async Task InvokeDebouncedAsync(T? value = default) {
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
+    protected abstract ValueTask InvokeCallbackAsync(T item, CancellationToken ct = default);
+    
+    public async Task InvokeDebouncedAsync(T? value = default, CancellationToken ct = default) {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
 
-        await _semaphore.WaitAsync();
+        await _semaphore.WaitAsync(ct);
         try {
             _latestValue = value;
 
@@ -30,19 +33,22 @@ public class EventCallbackDebouncer<T>(EventCallback<T> callback, int debounceMs
             }
 
             _cts = new CancellationTokenSource();
-            CancellationToken token = _cts.Token;
+            CancellationTokenSource? localCts = _cts;
+            CancellationToken debounceToken = localCts.Token;
 
             _debounceTask = Task.Run(function: async () => {
                 try {
-                    await Task.Delay(debounceMs, token);
-                    if (!token.IsCancellationRequested && callback.HasDelegate) {
-                        await callback.InvokeAsync(_latestValue);
+                    await Task.Delay(debounceMs, debounceToken);
+                    if (!debounceToken.IsCancellationRequested) {
+                        
+                        // ReSharper disable once PossiblyMistakenUseOfCancellationToken
+                        await InvokeCallbackAsync(_latestValue!, ct);
                     }
                 }
                 catch (OperationCanceledException) {
                     // Ignore
                 }
-            }, token);
+            }, debounceToken);
         }
         finally {
             _semaphore.Release();

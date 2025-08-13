@@ -1,25 +1,27 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using Microsoft.AspNetCore.Components;
+using CodeOfChaos.Extensions.Debouncers;
 
-namespace Tests.CodeOfChaos.Extensions.AspNetCore.Components.EventCallbacks;
+namespace Tests.CodeOfChaos.Extensions.Debouncers;
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class EventCallbackDebouncerTests {
-
+// ReSharper disable ConvertToLocalFunction
+public class ActionDebouncerTests {
     [Test]
     public async Task DefaultDebounceMs_ShouldBe100() {
         // Arrange
         int callCount = 0;
-        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
+        
+        // ReSharper disable once ConvertToLocalFunction
+        Action callback = () => {
             callCount++;
-            return Task.CompletedTask;
-        });
+        };
 
         // Act
-        await using var debouncer = new EventCallbackDebouncer(callback);
+        await using var debouncer = new ActionDebouncer(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
 
@@ -31,15 +33,16 @@ public class EventCallbackDebouncerTests {
     public async Task CustomDebounceMs_ShouldRespectSpecifiedTime() {
         // Arrange
         int callCount = 0;
-        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
+        
+        // ReSharper disable once ConvertToLocalFunction
+        Action callback = () => {
             callCount++;
-            return Task.CompletedTask;
-        });
+        };
 
         const int customDebounceMs = 200;
 
         // Act
-        await using var debouncer = new EventCallbackDebouncer(callback, customDebounceMs);
+        await using var debouncer = new ActionDebouncer(callback, customDebounceMs);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);// Less than debouncing time
 
@@ -55,13 +58,14 @@ public class EventCallbackDebouncerTests {
     public async Task MultipleInvocations_ShouldDebounce() {
         // Arrange
         int callCount = 0;
-        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
+        
+        // ReSharper disable once ConvertToLocalFunction
+        Action callback = () => {
             callCount++;
-            return Task.CompletedTask;
-        });
+        };
 
         // Act
-        await using var debouncer = new EventCallbackDebouncer(callback);
+        await using var debouncer = new ActionDebouncer(callback);
         await debouncer.InvokeDebouncedAsync();
         await debouncer.InvokeDebouncedAsync();
         await debouncer.InvokeDebouncedAsync();
@@ -75,13 +79,12 @@ public class EventCallbackDebouncerTests {
     public async Task ConcurrentInvocations_ShouldBeThreadSafe() {
         // Arrange
         int callCount = 0;
-        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
+        Action callback = () => {
             callCount++;
-            return Task.CompletedTask;
-        });
+        };
 
         // Act
-        var debouncer = new EventCallbackDebouncer(callback);
+        var debouncer = new ActionDebouncer(callback);
         IEnumerable<Task> tasks = Enumerable.Range(0, 10)
             .Select(_ => debouncer.InvokeDebouncedAsync());
 
@@ -96,8 +99,8 @@ public class EventCallbackDebouncerTests {
     [Test]
     public async Task AfterDispose_ShouldThrowObjectDisposedException() {
         // Arrange
-        EventCallback callback = EventCallback.Factory.Create(this, callback: () => Task.CompletedTask);
-        var debouncer = new EventCallbackDebouncer(callback);
+        Action callback = () => { };
+        var debouncer = new ActionDebouncer(callback);
 
         // Act
         await debouncer.DisposeAsync();
@@ -110,8 +113,8 @@ public class EventCallbackDebouncerTests {
     [Test]
     public async Task MultipleDispose_ShouldBeIdempotent() {
         // Arrange
-        EventCallback callback = EventCallback.Factory.Create(this, callback: () => Task.CompletedTask);
-        var debouncer = new EventCallbackDebouncer(callback);
+        Action callback = () => { };
+        var debouncer = new ActionDebouncer(callback);
 
         // Act & Assert
         await debouncer.DisposeAsync();
@@ -122,13 +125,12 @@ public class EventCallbackDebouncerTests {
     public async Task InvocationDuringDebounce_ShouldCancelPrevious() {
         // Arrange
         var executionTimes = new List<DateTime>();
-        EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
+        Action callback = () => {
             executionTimes.Add(DateTime.UtcNow);
-            return Task.CompletedTask;
-        });
+        };
 
         // Act
-        await using var debouncer = new EventCallbackDebouncer(callback);
+        await using var debouncer = new ActionDebouncer(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(50);// Wait half the debounced time
         await debouncer.InvokeDebouncedAsync();
