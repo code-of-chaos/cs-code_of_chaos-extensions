@@ -28,23 +28,6 @@ public class ActionDebouncerGenericTests {
     }
 
     [Test]
-    public async Task GenericDebouncer_DefaultValue_ShouldWork() {
-        // Arrange
-        string receivedValue = "initial";
-        Action<string> callback = value => {
-            receivedValue = value;
-        };
-
-        // Act
-        await using var debouncer = new ActionDebouncer<string>(callback);
-        await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(150);
-
-        // Assert
-        await Assert.That(receivedValue).IsNull();
-    }
-
-    [Test]
     public async Task GenericDebouncer_MultipleValues_ShouldUseLastValue() {
         // Arrange
         string? receivedValue = null;

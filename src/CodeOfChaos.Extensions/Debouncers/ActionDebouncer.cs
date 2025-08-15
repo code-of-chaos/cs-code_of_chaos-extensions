@@ -13,6 +13,9 @@ public class ActionDebouncer(Action action, int debounceMs = DebouncerBase.Defau
         action.Invoke();
         return ValueTask.CompletedTask;
     }
+    
+    public Task InvokeDebouncedAsync(CancellationToken ct = default) 
+        => DebouncerLogicAsync(default, ct);
 }
 
 public class ActionDebouncer<T>(Action<T> action, int debounceMs = DebouncerBase<T>.DefaultDebounceMs) : DebouncerBase<T>(debounceMs) {
@@ -22,6 +25,9 @@ public class ActionDebouncer<T>(Action<T> action, int debounceMs = DebouncerBase
         action.Invoke(item);
         return ValueTask.CompletedTask;
     }
+    
+    public Task InvokeDebouncedAsync(T item, CancellationToken ct = default) 
+        => DebouncerLogicAsync(item, ct);
 }
 
 
