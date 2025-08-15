@@ -22,7 +22,7 @@ public class ThrottledDebouncerGenericTests {
         };
 
         // Act
-        await using ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 100, throttleMs: 500);
+        ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 100, throttleMs: 500);
         await debouncer.InvokeDebouncedAsync("test");
         await Task.Delay(150);
 
@@ -42,7 +42,7 @@ public class ThrottledDebouncerGenericTests {
         };
 
         // Act
-        await using ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 100, throttleMs: 500);
+        ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 100, throttleMs: 500);
         await debouncer.InvokeDebouncedAsync("first");
         await debouncer.InvokeDebouncedAsync("second");
         await debouncer.InvokeDebouncedAsync("third");
@@ -64,7 +64,7 @@ public class ThrottledDebouncerGenericTests {
         };
 
         // Act
-        await using ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 100, throttleMs: 200);
+        ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 100, throttleMs: 200);
         
         await debouncer.InvokeDebouncedAsync("first");
         await Task.Delay(150); // First execution happens after debounce
@@ -227,7 +227,7 @@ public class ThrottledDebouncerGenericTests {
         };
 
         // Act
-        await using ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback); // Using defaults
+        ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback); // Using defaults
         
         DateTime startTime = DateTime.UtcNow;
         await debouncer.InvokeDebouncedAsync("test");
@@ -253,7 +253,7 @@ public class ThrottledDebouncerGenericTests {
         };
 
         // Act
-        await using ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 0, throttleMs: 100);
+        ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 0, throttleMs: 100);
         
         DateTime startTime = DateTime.UtcNow;
         await debouncer.InvokeDebouncedAsync("immediate");
@@ -289,7 +289,7 @@ public class ThrottledDebouncerGenericTests {
         };
 
         // Act
-        await using ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 50, throttleMs: 100);
+        ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 50, throttleMs: 100);
         
         await debouncer.InvokeDebouncedAsync("slow");
         await Task.Delay(75); // Wait for first call to start
