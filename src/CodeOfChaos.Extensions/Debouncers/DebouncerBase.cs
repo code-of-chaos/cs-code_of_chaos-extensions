@@ -30,6 +30,7 @@ public abstract class DebouncerBase<T>(int debounceMs) : IAsyncDisposable {
     // -----------------------------------------------------------------------------------------------------------------
     protected abstract ValueTask InvokeCallbackAsync(T item, CancellationToken ct = default);
     
+    // ReSharper disable once PossiblyMistakenUseOfCancellationToken
     protected async Task DebouncerLogicAsync(T? value = default, CancellationToken ct = default) {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -45,19 +46,18 @@ public abstract class DebouncerBase<T>(int debounceMs) : IAsyncDisposable {
             _cts = new CancellationTokenSource();
             CancellationTokenSource? localCts = _cts;
             CancellationToken debounceToken = localCts.Token;
-        
-            DateTime now = DateTime.UtcNow;
-            if (!((now - _lastInvokeTime).TotalMilliseconds >= debounceMs)) return;
             
-            _lastInvokeTime = now;
             _debounceTask = Task.Run(function: async () => {
                 try {
                     await Task.Delay(debounceMs, debounceToken);
-                    if (!debounceToken.IsCancellationRequested) {
 
-                        // ReSharper disable once PossiblyMistakenUseOfCancellationToken
-                        await InvokeCallbackAsync(_latestValue!, ct);
-                    }
+                    if (debounceToken.IsCancellationRequested) return;
+
+                    DateTime now = DateTime.UtcNow;
+                    if (!((now - _lastInvokeTime).TotalMilliseconds >= debounceMs)) return;
+
+                    _lastInvokeTime = now;
+                    await InvokeCallbackAsync(_latestValue!, ct);
                 }
                 catch (OperationCanceledException) {
                     // Ignore

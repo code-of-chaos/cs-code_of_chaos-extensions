@@ -139,4 +139,41 @@ public class ActionDebouncerTests {
         // Assert
         await Assert.That(executionTimes).HasCount().EqualToOne();
     }
+    
+    [Test]
+    public async Task SustainedInvocations_ShouldExecuteEveryDebounceInterval() {
+        // Arrange
+        List<DateTime> executionTimes = new();
+        Action callback = () => { executionTimes.Add(DateTime.UtcNow); };
+
+        const int debounceMs = 100; // Define debounce interval
+        const int totalDurationMs = 500; // Total time to sustain invocations
+
+        await using var debouncer = new ActionDebouncer(callback, debounceMs);
+
+        // Act
+        var startTime = DateTime.UtcNow;
+        var tasks = new List<Task>();
+
+        // Perform sustained invocations for `totalDurationMs`
+        while ((DateTime.UtcNow - startTime).TotalMilliseconds < totalDurationMs) {
+            tasks.Add(debouncer.InvokeDebouncedAsync());
+            await Task.Delay(50); // Simulate frequent invocations faster than debounce interval
+        }
+
+        // Wait just beyond the last debounce interval to ensure final execution
+        await Task.Delay(debounceMs + 50);
+
+        // Assert
+        await Task.WhenAll(tasks);
+        const int expectedExecutions = totalDurationMs / debounceMs;
+
+        // Each execution should occur roughly at debounceMs intervals
+        await Assert.That(executionTimes.Count).IsEqualTo((int)Math.Floor((double)expectedExecutions));
+        for (int i = 1; i < executionTimes.Count; i++) {
+            TimeSpan elapsed = executionTimes[i] - executionTimes[i - 1];
+            await Assert.That(elapsed.TotalMilliseconds).IsGreaterThanOrEqualTo(debounceMs).Because("Execution is too frequent.");
+        }
+    }
+
 }
