@@ -9,14 +9,14 @@ namespace Tests.CodeOfChaos.Extensions.Debouncers.Throttled;
 // ---------------------------------------------------------------------------------------------------------------------
 // ReSharper disable ConvertToLocalFunction
 public class ThrottledDebouncerGenericTests {
+    private Lock Lock { get; } = new();
     
     [Test]
     public async Task ThrottledDebouncer_ShouldPassValueToCallback() {
         // Arrange
-        var @lock = new Lock();
         string? receivedValue = null;
         Action<string> callback = value => {
-            lock (@lock) {
+            lock (Lock) {
                 receivedValue = value;
             }
         };
@@ -33,10 +33,9 @@ public class ThrottledDebouncerGenericTests {
     [Test]
     public async Task ThrottledDebouncer_MultipleValues_ShouldUseLastValue() {
         // Arrange
-        var @lock = new Lock();
         string? receivedValue = null;
         Func<string, Task> callback = value => {
-            lock (@lock) {
+            lock (Lock) {
                 receivedValue = value;
             }
             return Task.CompletedTask;
@@ -58,7 +57,9 @@ public class ThrottledDebouncerGenericTests {
         // Arrange
         var receivedValues = new List<(string Value, DateTime Time)>();
         Func<string, Task> callback = value => {
-            receivedValues.Add((value, DateTime.UtcNow));
+            lock (Lock) {
+                receivedValues.Add((value, DateTime.UtcNow));
+            }
             return Task.CompletedTask;
         };
 
@@ -88,11 +89,10 @@ public class ThrottledDebouncerGenericTests {
     [Test]
     public async Task ThrottledDebouncer_ContinuousRequests_ShouldRespectThrottleInterval() {
         // Arrange
-        var @lock = new Lock();
         var receivedValues = new List<string>();
         int executionCount = 0;
         Action<string> callback = value => {
-            lock (@lock) {
+            lock (Lock) {
                 receivedValues.Add(value);
             }
             Interlocked.Increment(ref executionCount);
@@ -120,11 +120,10 @@ public class ThrottledDebouncerGenericTests {
     [Test]
     public async Task ThrottledDebouncer_ContinuousRequests_ShouldRespectThrottleInterval_v2() {
         // Arrange
-        var @lock = new Lock();
         var receivedValues = new List<string>();
         int executionCount = 0;
         Action<string> callback = value => {
-            lock (@lock) {
+            lock (Lock) {
                 receivedValues.Add(value);
             }
             Interlocked.Increment(ref executionCount);
@@ -171,7 +170,7 @@ public class ThrottledDebouncerGenericTests {
         // Arrange
         var receivedValues = new List<string>();
         Func<string, Task> callback = value => {
-            lock (receivedValues) {
+            lock (Lock) {
                 receivedValues.Add(value);
             }
             return Task.CompletedTask;
@@ -221,7 +220,9 @@ public class ThrottledDebouncerGenericTests {
         // Arrange
         var executionTimes = new List<DateTime>();
         Func<string, Task> callback = _ => {
-            executionTimes.Add(DateTime.UtcNow);
+            lock (Lock) {
+                executionTimes.Add(DateTime.UtcNow);
+            }
             return Task.CompletedTask;
         };
 
@@ -244,8 +245,10 @@ public class ThrottledDebouncerGenericTests {
         string? receivedValue = null;
         var executionTime = DateTime.MinValue;
         Func<string, Task> callback = value => {
-            receivedValue = value;
-            executionTime = DateTime.UtcNow;
+            lock (Lock) {
+                receivedValue = value;
+                executionTime = DateTime.UtcNow;
+            }
             return Task.CompletedTask;
         };
 
@@ -268,11 +271,20 @@ public class ThrottledDebouncerGenericTests {
         int executionCount = 0;
         bool isFirstCallRunning = false;
         Func<string, Task> callback = async value => {
-            if (value == "slow") {
-                isFirstCallRunning = true;
-                await Task.Delay(200); // Simulate long-running operation
-                isFirstCallRunning = false;
+            lock (Lock) {
+                if (value == "slow") {
+                    isFirstCallRunning = true;
+                }
             }
+            
+            await Task.Delay(200); // Simulate long-running operation
+            
+            lock (Lock) {
+                if (value == "slow") {
+                    isFirstCallRunning = false;
+                }
+            }
+            
             Interlocked.Increment(ref executionCount);
         };
 
