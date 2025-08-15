@@ -2,10 +2,11 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 namespace CodeOfChaos.Extensions.Debouncers;
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public abstract class DebouncerBase(int debounceMs) : DebouncerBase<DebouncerBase.EmptyUnit>(debounceMs) {
+public abstract class ThrottledDebouncerBase(int debounceMs) : ThrottledDebouncerBase<ThrottledDebouncerBase.EmptyUnit>(debounceMs) {
     public readonly struct EmptyUnit;
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -15,7 +16,7 @@ public abstract class DebouncerBase(int debounceMs) : DebouncerBase<DebouncerBas
     protected override ValueTask InvokeCallbackAsync(EmptyUnit unit, CancellationToken ct = default) => InvokeCallbackAsync(ct);
 }
 
-public abstract class DebouncerBase<T>(int debounceMs) : IAsyncDisposable {
+public abstract class ThrottledDebouncerBase<T>(int debounceMs) : IAsyncDisposable {
     protected const int DefaultDebounceMs = 100;
     
     private readonly SemaphoreSlim _semaphore = new(1, 1);
@@ -23,14 +24,14 @@ public abstract class DebouncerBase<T>(int debounceMs) : IAsyncDisposable {
     private Task? _debounceTask;
     private bool _isDisposed;
     private T? _latestValue;
-    private DateTime _lastInvokeTime = DateTime.MinValue;
+    private DateTime _lastExecuteTime = DateTime.MinValue;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     protected abstract ValueTask InvokeCallbackAsync(T item, CancellationToken ct = default);
     
-    // ReSharper disable once PossiblyMistakenUseOfCancellationToken
+    // ReSharper disable twice PossiblyMistakenUseOfCancellationToken
     protected async Task DebouncerLogicAsync(T? value = default, CancellationToken ct = default) {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
 
@@ -38,6 +39,7 @@ public abstract class DebouncerBase<T>(int debounceMs) : IAsyncDisposable {
         try {
             _latestValue = value;
 
+            // Cancel any existing debounce task
             if (_cts is not null) {
                 await _cts.CancelAsync();
                 _cts.Dispose();
@@ -47,23 +49,31 @@ public abstract class DebouncerBase<T>(int debounceMs) : IAsyncDisposable {
             CancellationTokenSource? localCts = _cts;
             CancellationToken debounceToken = localCts.Token;
             
-            _debounceTask = Task.Run(function: async () => {
+            _debounceTask = Task.Run(async () => {
                 try {
-                    await Task.Delay(debounceMs, debounceToken);
-
-                    if (debounceToken.IsCancellationRequested) return;
-
                     DateTime now = DateTime.UtcNow;
-                    if (!((now - _lastInvokeTime).TotalMilliseconds >= debounceMs)) return;
-
-                    _lastInvokeTime = now;
-                    await InvokeCallbackAsync(_latestValue!, ct);
+                    double timeSinceLastExecute = (now - _lastExecuteTime).TotalMilliseconds;
+                    
+                    // If we haven't executed recently, execute immediately
+                    if (timeSinceLastExecute >= debounceMs) {
+                        _lastExecuteTime = now;
+                        await InvokeCallbackAsync(_latestValue!, ct);
+                    }
+                    else {
+                        // Wait for the remaining time, then execute
+                        int remainingDelay = (int)(debounceMs - timeSinceLastExecute);
+                        await Task.Delay(remainingDelay, debounceToken);
+                        
+                        if (!debounceToken.IsCancellationRequested) {
+                            _lastExecuteTime = DateTime.UtcNow;
+                            await InvokeCallbackAsync(_latestValue!, ct);
+                        }
+                    }
                 }
                 catch (OperationCanceledException) {
-                    // Ignore
+                    // Ignore cancellation
                 }
             }, debounceToken);
-
         }
         finally {
             _semaphore.Release();

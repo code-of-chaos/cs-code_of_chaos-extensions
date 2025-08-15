@@ -3,25 +3,24 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.Debouncers;
 
-namespace Tests.CodeOfChaos.Extensions.Debouncers;
+namespace Tests.CodeOfChaos.Extensions.Debouncers.Regular;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 // ReSharper disable ConvertToLocalFunction
-public class ActionDebouncerTests {
+public class FuncDebouncerTests {
     [Test]
     public async Task DefaultDebounceMs_ShouldBe100() {
         // Arrange
         int callCount = 0;
-        
-        // ReSharper disable once ConvertToLocalFunction
-        Action callback = () => {
+        Func<Task> callback = () => {
             callCount++;
+            return Task.CompletedTask;
         };
 
         // Act
-        await using var debouncer = new ActionDebouncer(callback);
+        await using var debouncer = Debouncer.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
 
@@ -33,16 +32,15 @@ public class ActionDebouncerTests {
     public async Task CustomDebounceMs_ShouldRespectSpecifiedTime() {
         // Arrange
         int callCount = 0;
-        
-        // ReSharper disable once ConvertToLocalFunction
-        Action callback = () => {
+        Func<Task> callback = () => {
             callCount++;
+            return Task.CompletedTask;
         };
 
         const int customDebounceMs = 200;
 
         // Act
-        await using var debouncer = new ActionDebouncer(callback, customDebounceMs);
+        await using var debouncer = Debouncer.FromDelegate(callback, customDebounceMs);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);// Less than debouncing time
 
@@ -58,14 +56,13 @@ public class ActionDebouncerTests {
     public async Task MultipleInvocations_ShouldDebounce() {
         // Arrange
         int callCount = 0;
-        
-        // ReSharper disable once ConvertToLocalFunction
-        Action callback = () => {
+        Func<Task> callback = () => {
             callCount++;
+            return Task.CompletedTask;
         };
 
         // Act
-        await using var debouncer = new ActionDebouncer(callback);
+        await using var debouncer = Debouncer.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync();
         await debouncer.InvokeDebouncedAsync();
         await debouncer.InvokeDebouncedAsync();
@@ -79,12 +76,13 @@ public class ActionDebouncerTests {
     public async Task ConcurrentInvocations_ShouldBeThreadSafe() {
         // Arrange
         int callCount = 0;
-        Action callback = () => {
+        Func<Task> callback = () => {
             callCount++;
+            return Task.CompletedTask;
         };
 
         // Act
-        var debouncer = new ActionDebouncer(callback);
+        var debouncer = Debouncer.FromDelegate(callback);
         IEnumerable<Task> tasks = Enumerable.Range(0, 10)
             .Select(_ => debouncer.InvokeDebouncedAsync());
 
@@ -99,8 +97,8 @@ public class ActionDebouncerTests {
     [Test]
     public async Task AfterDispose_ShouldThrowObjectDisposedException() {
         // Arrange
-        Action callback = () => { };
-        var debouncer = new ActionDebouncer(callback);
+        Func<Task> callback = () => Task.CompletedTask;
+        var debouncer = Debouncer.FromDelegate(callback);
 
         // Act
         await debouncer.DisposeAsync();
@@ -113,8 +111,8 @@ public class ActionDebouncerTests {
     [Test]
     public async Task MultipleDispose_ShouldBeIdempotent() {
         // Arrange
-        Action callback = () => { };
-        var debouncer = new ActionDebouncer(callback);
+        Func<Task> callback = () => Task.CompletedTask;
+        var debouncer = Debouncer.FromDelegate(callback);
 
         // Act & Assert
         await debouncer.DisposeAsync();
@@ -125,12 +123,13 @@ public class ActionDebouncerTests {
     public async Task InvocationDuringDebounce_ShouldCancelPrevious() {
         // Arrange
         var executionTimes = new List<DateTime>();
-        Action callback = () => {
+        Func<Task> callback = () => {
             executionTimes.Add(DateTime.UtcNow);
+            return Task.CompletedTask;
         };
 
         // Act
-        await using var debouncer = new ActionDebouncer(callback);
+        await using var debouncer = Debouncer.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(50);// Wait half the debounced time
         await debouncer.InvokeDebouncedAsync();
@@ -141,36 +140,25 @@ public class ActionDebouncerTests {
     }
     
     [Test]
-    public async Task SustainedInvocations_ShouldExecuteEveryDebounceInterval() {
+    public async Task CancellationToken_OnCancellation_ShouldWork() {
         // Arrange
-        DateTime startTime = DateTime.UtcNow;
-        var tasks = new List<Task>();
-        List<DateTime> executionTimes = new();
-        Action callback = () => { executionTimes.Add(DateTime.UtcNow); };
-
-        const int debounceMs = 100; // Define debounce interval
-        const int totalDurationMs = 550; // Total time to sustain invocations
-        const int expectedExecutions = totalDurationMs / debounceMs;
-
-        await using var debouncer = new ActionDebouncer(callback, debounceMs);
-        // Act
-
-        while ((DateTime.UtcNow - startTime).TotalMilliseconds < totalDurationMs) {
-            tasks.Add(debouncer.InvokeDebouncedAsync());
-            await Task.Delay(50); // Simulate frequent invocations faster than debounce interval
-        }
+        int callCount = 0;
+        CancellationTokenSource cts = new();
+        CancellationToken token = cts.Token;
         
-        await Task.Delay(debounceMs + 50); // Wait just beyond the last debounce interval to ensure final execution
+        Func<CancellationToken, Task> callback = async ct => {
+            callCount++;
+            await Task.Delay(150, ct);
+        };
+
+        // Act
+        await using var debouncer = Debouncer.FromDelegate(callback);
+        await Task.WhenAll(
+            debouncer.InvokeDebouncedAsync(token), 
+            cts.CancelAsync()
+        );
 
         // Assert
-        await Task.WhenAll(tasks);
-
-        // Each execution should occur roughly at debounceMs intervals
-        await Assert.That(executionTimes.Count).IsEqualTo((int)Math.Floor((double)expectedExecutions));
-        for (int i = 1; i < executionTimes.Count; i++) {
-            TimeSpan elapsed = executionTimes[i] - executionTimes[i - 1];
-            await Assert.That(elapsed.TotalMilliseconds).IsGreaterThanOrEqualTo(debounceMs).Because("Execution is too frequent.");
-        }
+        await Assert.That(callCount).IsEqualTo(0); // Operation should have been canceled
     }
-
 }

@@ -1,6 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using CodeOfChaos.Extensions.Debouncers;
 using Microsoft.AspNetCore.Components;
 
 namespace Tests.CodeOfChaos.Extensions.AspNetCore.Components.EventCallbacks;
@@ -19,7 +20,7 @@ public class EventCallbackDebouncerGenericTests {
         });
 
         // Act
-        await using var debouncer = new EventCallbackDebouncer<string>(callback);
+        await using var debouncer = EventCallbackDebouncer<string>.FromEventCallback(callback);
         await debouncer.InvokeDebouncedAsync("test");
         await Task.Delay(150);
 
@@ -37,7 +38,7 @@ public class EventCallbackDebouncerGenericTests {
         });
 
         // Act
-        await using var debouncer = new EventCallbackDebouncer<string>(callback);
+        await using var debouncer = EventCallbackDebouncer<string>.FromEventCallback(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
 
@@ -55,7 +56,7 @@ public class EventCallbackDebouncerGenericTests {
         });
 
         // Act
-        await using var debouncer = new EventCallbackDebouncer<string>(callback);
+        await using var debouncer = EventCallbackDebouncer<string>.FromEventCallback(callback);
         await debouncer.InvokeDebouncedAsync("first");
         await debouncer.InvokeDebouncedAsync("second");
         await debouncer.InvokeDebouncedAsync("third");
@@ -75,7 +76,7 @@ public class EventCallbackDebouncerGenericTests {
         });
 
         // Act
-        var debouncer = new EventCallbackDebouncer<string>(callback);
+        var debouncer = EventCallbackDebouncer<string>.FromEventCallback(callback);
         IEnumerable<Task> tasks = Enumerable.Range(0, 10)
             .Select(i => debouncer.InvokeDebouncedAsync($"value{i}"));
 
@@ -91,7 +92,7 @@ public class EventCallbackDebouncerGenericTests {
     public async Task GenericDebouncer_AfterDispose_ShouldThrowObjectDisposedException() {
         // Arrange
         EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: _ => Task.CompletedTask);
-        var debouncer = new EventCallbackDebouncer<string>(callback);
+        var debouncer = EventCallbackDebouncer<string>.FromEventCallback(callback);
 
         // Act
         await debouncer.DisposeAsync();
@@ -106,7 +107,7 @@ public class EventCallbackDebouncerGenericTests {
     public async Task GenericDebouncer_MultipleDispose_ShouldBeIdempotent() {
         // Arrange
         EventCallback<string> callback = EventCallback.Factory.Create<string>(this, callback: _ => Task.CompletedTask);
-        var debouncer = new EventCallbackDebouncer<string>(callback);
+        var debouncer = EventCallbackDebouncer<string>.FromEventCallback(callback);
 
         // Act & Assert
         await debouncer.DisposeAsync();

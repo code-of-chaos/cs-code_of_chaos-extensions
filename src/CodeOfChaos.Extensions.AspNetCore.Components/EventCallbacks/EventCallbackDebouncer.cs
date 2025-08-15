@@ -1,32 +1,62 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.Extensions.Debouncers;
+using Microsoft.AspNetCore.Components;
 
 // ReSharper disable once CheckNamespace
-namespace Microsoft.AspNetCore.Components;
+namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class EventCallbackDebouncer(EventCallback callback, int debounceMs = DebouncerBase.DefaultDebounceMs)
-    : DebouncerBase(debounceMs) {
+public sealed class EventCallbackDebouncer : DebouncerBase<EventCallbackDebouncer.EmptyUnit> {
+    public readonly struct EmptyUnit;
+    private EventCallback Callback { get; init; }
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Constructors
+    // -----------------------------------------------------------------------------------------------------------------
+    public static EventCallbackDebouncer FromEventCallback(EventCallback callback, int debounceMs = DefaultDebounceMs)
+        => new() {
+            Callback = callback,
+            DebounceMs = debounceMs
+        };
     
-    protected async override ValueTask InvokeCallbackAsync(CancellationToken ct = default)
-        => await callback.InvokeAsync();
-    
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
     public Task InvokeDebouncedAsync(CancellationToken ct = default) 
         => DebouncerLogicAsync(default, ct);
+    
+    protected async override ValueTask InvokeCallbackAsync(EmptyUnit item, CancellationToken ct = default) {
+        if (ct.IsCancellationRequested) return;
+        await Callback.InvokeAsync();
+    }
 }
 
-public class EventCallbackDebouncer<T>(EventCallback<T> callback, int debounceMs = EventCallbackDebouncer<T>.DefaultDebounceMs)
-    : DebouncerBase<T>(debounceMs) {
-
-    protected async override ValueTask InvokeCallbackAsync(T item, CancellationToken ct = default) 
-        => await callback.InvokeAsync(item);
+public sealed class EventCallbackDebouncer<T> : DebouncerBase<T> {
+    private EventCallback<T> Callback { get; init; }
     
-    public Task InvokeDebouncedAsync(CancellationToken ct = default) 
+    // -----------------------------------------------------------------------------------------------------------------
+    // Constructors
+    // -----------------------------------------------------------------------------------------------------------------
+    public static EventCallbackDebouncer<T> FromEventCallback(EventCallback<T> callback, int debounceMs = DefaultDebounceMs)
+        => new() {
+            Callback = callback,
+            DebounceMs = debounceMs
+        };
+    
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
+    // EventCallbacks can also be invoked without the T parameter
+    public Task InvokeDebouncedAsync(CancellationToken ct = default)
         => DebouncerLogicAsync(default, ct);
-
+        
     public Task InvokeDebouncedAsync(T item, CancellationToken ct = default) 
         => DebouncerLogicAsync(item, ct);
+    
+    protected async override ValueTask InvokeCallbackAsync(T item, CancellationToken ct = default) {
+        if (ct.IsCancellationRequested) return;
+        await Callback.InvokeAsync(item);
+    }
 }

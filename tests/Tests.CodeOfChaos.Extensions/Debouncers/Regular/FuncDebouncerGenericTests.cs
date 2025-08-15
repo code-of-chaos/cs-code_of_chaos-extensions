@@ -3,7 +3,7 @@
 // ---------------------------------------------------------------------------------------------------------------------
 using CodeOfChaos.Extensions.Debouncers;
 
-namespace Tests.CodeOfChaos.Extensions.Debouncers;
+namespace Tests.CodeOfChaos.Extensions.Debouncers.Regular;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
@@ -20,7 +20,7 @@ public class FuncDebouncerGenericTests {
         };
 
         // Act
-        await using var debouncer = new TaskFuncDebouncer<string>(callback);
+        await using var debouncer = Debouncer<string>.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync("test");
         await Task.Delay(150);
 
@@ -38,7 +38,7 @@ public class FuncDebouncerGenericTests {
         };
 
         // Act
-        await using var debouncer = new TaskFuncDebouncer<string>(callback);
+        await using var debouncer = Debouncer<string>.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync("first");
         await debouncer.InvokeDebouncedAsync("second");
         await debouncer.InvokeDebouncedAsync("third");
@@ -58,7 +58,7 @@ public class FuncDebouncerGenericTests {
         };
 
         // Act
-        var debouncer = new TaskFuncDebouncer<string>(callback);
+        var debouncer = Debouncer<string>.FromDelegate(callback);
         IEnumerable<Task> tasks = Enumerable.Range(0, 10)
             .Select(i => debouncer.InvokeDebouncedAsync($"value{i}"));
 
@@ -74,7 +74,7 @@ public class FuncDebouncerGenericTests {
     public async Task GenericDebouncer_AfterDispose_ShouldThrowObjectDisposedException() {
         // Arrange
         Func<string, Task> callback = _ => Task.CompletedTask;
-        var debouncer = new TaskFuncDebouncer<string>(callback);
+        var debouncer = Debouncer<string>.FromDelegate(callback);
 
         // Act
         await debouncer.DisposeAsync();
@@ -89,7 +89,7 @@ public class FuncDebouncerGenericTests {
     public async Task GenericDebouncer_MultipleDispose_ShouldBeIdempotent() {
         // Arrange
         Func<string, Task> callback = _ => Task.CompletedTask;
-        var debouncer = new TaskFuncDebouncer<string>(callback);
+        var debouncer = Debouncer<string>.FromDelegate(callback);
 
         // Act & Assert
         await debouncer.DisposeAsync();
