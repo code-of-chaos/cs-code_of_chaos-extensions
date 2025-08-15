@@ -41,11 +41,9 @@ public abstract class DebouncerBase<T> : IAsyncDisposable {
             _debounceTask = Task.Run(function: async () => {
                 try {
                     await Task.Delay(DebounceMs, debounceToken);
-
-                    // If we weren't cancelled, execute the callback
-                    if (!debounceToken.IsCancellationRequested) {
-                        await InvokeCallbackAsync(_latestValue!, ct);
-                    }
+                    if (debounceToken.IsCancellationRequested) return;
+                    await InvokeCallbackAsync(_latestValue!, ct);
+                    
                 }
                 catch (OperationCanceledException) {
                     // Ignore

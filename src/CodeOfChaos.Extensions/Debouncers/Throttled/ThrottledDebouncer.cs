@@ -6,30 +6,33 @@ namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class Debouncer: DebouncerBase<Debouncer.EmptyUnit> {
-    public readonly struct EmptyUnit; // Workaround for reusing DebouncerBase<T> instead of creating a fully new DebouncerBase without generics
+public sealed class ThrottledDebouncer: ThrottledDebouncerBase<ThrottledDebouncer.EmptyUnit> {
+    public readonly struct EmptyUnit; // Workaround for reusing ThrottledDebouncerBase<T> instead of creating a fully new DebouncerBase without generics
     private object Callback { get; init; } = null!;
     
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
-    private Debouncer() {}
-    public static Debouncer FromDelegate(Action action, int debounceMs = DefaultDebounceMs) 
+    private ThrottledDebouncer() {}
+    public static ThrottledDebouncer FromDelegate(Action action, int debounceMs = DefaultDebounceMs, int throttleMs = DefaultThrottleMs) 
         => new() {
             Callback = action,
-            DebounceMs = debounceMs
+            DebounceMs = debounceMs,
+            ThrottleMs = throttleMs
         };
     
-    public static Debouncer FromDelegate(Func<CancellationToken, Task> func, int debounceMs = DefaultDebounceMs)
+    public static ThrottledDebouncer FromDelegate(Func<CancellationToken, Task> func, int debounceMs = DefaultDebounceMs, int throttleMs = DefaultThrottleMs)
         => new() {
             Callback = func,
-            DebounceMs = debounceMs
+            DebounceMs = debounceMs,
+            ThrottleMs = throttleMs
         };
 
-    public static Debouncer FromDelegate(Func<Task> func, int debounceMs = DefaultDebounceMs) 
+    public static ThrottledDebouncer FromDelegate(Func<Task> func, int debounceMs = DefaultDebounceMs, int throttleMs = DefaultThrottleMs) 
         => new() {
             Callback = func,
-            DebounceMs = debounceMs
+            DebounceMs = debounceMs,
+            ThrottleMs = throttleMs
         };
 
     // -----------------------------------------------------------------------------------------------------------------
@@ -63,29 +66,32 @@ public sealed class Debouncer: DebouncerBase<Debouncer.EmptyUnit> {
     }
 }
 
-public sealed class Debouncer<T> : DebouncerBase<T> {
+public sealed class ThrottledDebouncer<T> : ThrottledDebouncerBase<T> {
     private object Callback { get; init; } = null!;
 
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
-    private Debouncer() {}
-    public static Debouncer<T> FromDelegate(Action<T> action, int debounceMs = DefaultDebounceMs) 
+    private ThrottledDebouncer() {}
+    public static ThrottledDebouncer<T> FromDelegate(Action<T> action, int debounceMs = DefaultDebounceMs, int throttleMs = DefaultThrottleMs) 
         => new() {
             Callback = action,
-            DebounceMs = debounceMs
+            DebounceMs = debounceMs,
+            ThrottleMs = throttleMs
         };
     
-    public static Debouncer<T> FromDelegate(Func<T, Task> func, int debounceMs = DefaultDebounceMs)
+    public static ThrottledDebouncer<T> FromDelegate(Func<T, Task> func, int debounceMs = DefaultDebounceMs, int throttleMs = DefaultThrottleMs)
         => new() {
             Callback = func,
-            DebounceMs = debounceMs
+            DebounceMs = debounceMs,
+            ThrottleMs = throttleMs
         };
     
-    public static Debouncer<T> FromDelegate(Func<T, CancellationToken, Task> func, int debounceMs = DefaultDebounceMs)
+    public static ThrottledDebouncer<T> FromDelegate(Func<T, CancellationToken, Task> func, int debounceMs = DefaultDebounceMs, int throttleMs = DefaultThrottleMs)
         => new() {
             Callback = func,
-            DebounceMs = debounceMs
+            DebounceMs = debounceMs,
+            ThrottleMs = throttleMs
         };
     
     // -----------------------------------------------------------------------------------------------------------------
