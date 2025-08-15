@@ -277,7 +277,7 @@ public class ThrottledDebouncerGenericTests {
                 }
             }
             
-            await Task.Delay(200); // Simulate long-running operation
+            if (value == "slow") await Task.Delay(200); // Simulate long-running operation
             
             lock (Lock) {
                 if (value == "slow") {
