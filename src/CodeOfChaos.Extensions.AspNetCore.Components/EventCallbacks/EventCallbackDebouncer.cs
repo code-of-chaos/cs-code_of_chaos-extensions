@@ -8,10 +8,18 @@ namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
+// ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
 public sealed class EventCallbackDebouncer : DebouncerBase<EventCallbackDebouncer.EmptyUnit> {
     public readonly struct EmptyUnit;
     private EventCallback Callback { get; init; }
-
+    
+    private bool _isEmpty;
+    protected override bool IsEmpty => _isEmpty;
+    public static EventCallbackDebouncer Empty => new() {
+        Callback = default,
+        _isEmpty = true
+    };
+    
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
     // -----------------------------------------------------------------------------------------------------------------
@@ -26,15 +34,23 @@ public sealed class EventCallbackDebouncer : DebouncerBase<EventCallbackDebounce
     // -----------------------------------------------------------------------------------------------------------------
     public Task InvokeDebouncedAsync(CancellationToken ct = default) 
         => DebouncerLogicAsync(default, ct);
-    
+
     protected async override ValueTask InvokeCallbackAsync(EmptyUnit item, CancellationToken ct = default) {
         if (ct.IsCancellationRequested) return;
         await Callback.InvokeAsync();
     }
 }
 
+// ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
 public sealed class EventCallbackDebouncer<T> : DebouncerBase<T> {
     private EventCallback<T> Callback { get; init; }
+    
+    private bool _isEmpty;
+    protected override bool IsEmpty => _isEmpty;
+    public static EventCallbackDebouncer<T> Empty => new() {
+        Callback = default,
+        _isEmpty = true
+    };
     
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors

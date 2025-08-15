@@ -19,8 +19,9 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
     private bool _isDisposed;
     private T? _latestValue;
     private DateTime _lastExecuteTime = DateTime.MinValue;
-    private DateTime _firstCallTime = DateTime.MinValue; 
+    private DateTime _firstCallTime = DateTime.MinValue;
 
+    protected abstract bool IsEmpty { get; }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -30,6 +31,7 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
     // ReSharper disable twice PossiblyMistakenUseOfCancellationToken
     protected async Task DebouncerLogicAsync(T? value = default, CancellationToken ct = default) {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
+        if (IsEmpty) return;
 
         await _semaphore.WaitAsync(ct);
         try {

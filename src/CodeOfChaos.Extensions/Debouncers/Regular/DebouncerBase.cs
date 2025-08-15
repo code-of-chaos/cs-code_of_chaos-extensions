@@ -16,6 +16,8 @@ public abstract class DebouncerBase<T> : IAsyncDisposable {
     private bool _isDisposed;
     private T? _latestValue;
 
+    protected abstract bool IsEmpty { get; }
+
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
@@ -24,6 +26,7 @@ public abstract class DebouncerBase<T> : IAsyncDisposable {
     // ReSharper disable once PossiblyMistakenUseOfCancellationToken
     protected async Task DebouncerLogicAsync(T? value = default, CancellationToken ct = default) {
         ObjectDisposedException.ThrowIf(_isDisposed, this);
+        if (IsEmpty) return;
 
         await _semaphore.WaitAsync(ct);
         try {

@@ -8,7 +8,12 @@ namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 public sealed class ThrottledDebouncer: ThrottledDebouncerBase<ThrottledDebouncer.EmptyUnit> {
     public readonly struct EmptyUnit; // Workaround for reusing ThrottledDebouncerBase<T> instead of creating a fully new DebouncerBase without generics
-    private object Callback { get; init; } = null!;
+    private object? Callback { get; init; }
+
+    protected override bool IsEmpty => Callback is null;
+    public static ThrottledDebouncer Empty => new() {
+        Callback = null
+    };
     
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
@@ -40,7 +45,7 @@ public sealed class ThrottledDebouncer: ThrottledDebouncerBase<ThrottledDebounce
     // -----------------------------------------------------------------------------------------------------------------
     public Task InvokeDebouncedAsync(CancellationToken ct = default) 
         => DebouncerLogicAsync(default, ct);
-    
+
     protected async override ValueTask InvokeCallbackAsync(EmptyUnit item, CancellationToken ct = default) {
         if (ct.IsCancellationRequested) return;
         
@@ -67,7 +72,11 @@ public sealed class ThrottledDebouncer: ThrottledDebouncerBase<ThrottledDebounce
 }
 
 public sealed class ThrottledDebouncer<T> : ThrottledDebouncerBase<T> {
-    private object Callback { get; init; } = null!;
+    private object? Callback { get; init; }
+    protected override bool IsEmpty => Callback is null;
+    public static ThrottledDebouncer<T> Empty => new() {
+        Callback = null
+    };
 
     // -----------------------------------------------------------------------------------------------------------------
     // Constructors
