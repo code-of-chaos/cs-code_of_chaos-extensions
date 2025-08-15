@@ -19,6 +19,8 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
     private bool _isDisposed;
     private T? _latestValue;
     private DateTime _lastExecuteTime = DateTime.MinValue;
+    private DateTime _firstCallTime = DateTime.MinValue; 
+
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
@@ -32,6 +34,9 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
         await _semaphore.WaitAsync(ct);
         try {
             _latestValue = value;
+            if (_firstCallTime == DateTime.MinValue) {
+                _firstCallTime = DateTime.UtcNow;
+            }
 
             if (_cts is not null) {
                 await _cts.CancelAsync();
@@ -44,11 +49,14 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
             
             _debounceTask = Task.Run(async () => {
                 try {
-                    DateTime now = DateTime.UtcNow;
-                    double timeSinceLastExecute = (now - _lastExecuteTime).TotalMilliseconds;
+                    DateTime taskStartTime = DateTime.UtcNow;
                     
-                    if (_lastExecuteTime != DateTime.MinValue && timeSinceLastExecute >= ThrottleMs) {
-                        _lastExecuteTime = now;
+                    DateTime referenceTime = _lastExecuteTime != DateTime.MinValue ? _lastExecuteTime : _firstCallTime;
+                    double timeSinceReference = (taskStartTime - referenceTime).TotalMilliseconds;
+
+                    // Execute immediately due to throttling
+                    if (timeSinceReference >= ThrottleMs) {
+                        _lastExecuteTime = taskStartTime;
                         await InvokeCallbackAsync(_latestValue!, ct);
                         return;
                     }
@@ -56,9 +64,8 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
                     await Task.Delay(DebounceMs, debounceToken);
 
                     if (debounceToken.IsCancellationRequested) return;
-                    _lastExecuteTime = now;
+                    _lastExecuteTime = taskStartTime;
                     await InvokeCallbackAsync(_latestValue!, ct);
-                    
                 }
                 catch (OperationCanceledException) {
                     // Ignore cancellation
@@ -69,7 +76,7 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
             _semaphore.Release();
         }
     }
-
+    
     public async ValueTask DisposeAsync() {
         if (_isDisposed) return;
 
@@ -77,16 +84,16 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
 
         await _semaphore.WaitAsync();
         try {
-            if (_cts is not null) {
-                await _cts.CancelAsync();
-                _cts.Dispose();
-            }
-
             if (_debounceTask is not null) {
                 try { await _debounceTask; }
                 catch {
                     // Ignore
                 }
+            }
+            
+            if (_cts is not null) {
+                await _cts.CancelAsync();
+                _cts.Dispose();
             }
         }
         finally {
