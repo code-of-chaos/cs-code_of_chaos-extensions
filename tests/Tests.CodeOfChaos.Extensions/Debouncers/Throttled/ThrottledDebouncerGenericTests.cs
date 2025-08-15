@@ -13,9 +13,12 @@ public class ThrottledDebouncerGenericTests {
     [Test]
     public async Task ThrottledDebouncer_ShouldPassValueToCallback() {
         // Arrange
+        var @lock = new Lock();
         string? receivedValue = null;
         Action<string> callback = value => {
-            receivedValue = value;
+            lock (@lock) {
+                receivedValue = value;
+            }
         };
 
         // Act
@@ -30,9 +33,12 @@ public class ThrottledDebouncerGenericTests {
     [Test]
     public async Task ThrottledDebouncer_MultipleValues_ShouldUseLastValue() {
         // Arrange
+        var @lock = new Lock();
         string? receivedValue = null;
         Func<string, Task> callback = value => {
-            receivedValue = value;
+            lock (@lock) {
+                receivedValue = value;
+            }
             return Task.CompletedTask;
         };
 
