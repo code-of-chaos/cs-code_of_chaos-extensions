@@ -16,7 +16,7 @@ public abstract class DebouncerBase<T> : IAsyncDisposable {
     private bool _isDisposed;
     private T? _latestValue;
 
-    protected abstract bool IsEmpty { get; }
+    public abstract bool IsEmpty { get; }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods

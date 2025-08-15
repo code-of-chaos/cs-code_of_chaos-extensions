@@ -9,12 +9,12 @@ namespace CodeOfChaos.Extensions.Debouncers;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 // ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
-public sealed class EventCallbackDebouncer : DebouncerBase<EventCallbackDebouncer.EmptyUnit> {
+public sealed class EventCallbackDebouncer : DebouncerBase<EventCallbackDebouncer.EmptyUnit>, IDebouncer {
     public readonly struct EmptyUnit;
     private EventCallback Callback { get; init; }
     
     private bool _isEmpty;
-    protected override bool IsEmpty => _isEmpty;
+    public override bool IsEmpty => _isEmpty;
     public static EventCallbackDebouncer Empty => new() {
         Callback = default,
         _isEmpty = true
@@ -42,11 +42,11 @@ public sealed class EventCallbackDebouncer : DebouncerBase<EventCallbackDebounce
 }
 
 // ReSharper disable once ConvertToAutoPropertyWithPrivateSetter
-public sealed class EventCallbackDebouncer<T> : DebouncerBase<T> {
+public sealed class EventCallbackDebouncer<T> : DebouncerBase<T>, IDebouncer, IDebouncer<T> {
     private EventCallback<T> Callback { get; init; }
     
     private bool _isEmpty;
-    protected override bool IsEmpty => _isEmpty;
+    public override bool IsEmpty => _isEmpty;
     public static EventCallbackDebouncer<T> Empty => new() {
         Callback = default,
         _isEmpty = true

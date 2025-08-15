@@ -21,7 +21,7 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
     private DateTime _lastExecuteTime = DateTime.MinValue;
     private DateTime _firstCallTime = DateTime.MinValue;
 
-    protected abstract bool IsEmpty { get; }
+    public abstract bool IsEmpty { get; }
 
     // -----------------------------------------------------------------------------------------------------------------
     // Methods

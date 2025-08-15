@@ -6,10 +6,10 @@ namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public sealed class Debouncer: DebouncerBase<Debouncer.EmptyUnit> {
+public sealed class Debouncer: DebouncerBase<Debouncer.EmptyUnit>, IDebouncer {
     public readonly struct EmptyUnit; // Workaround for reusing DebouncerBase<T> instead of creating a fully new DebouncerBase without generics
     private object? Callback { get; init; }
-    protected override bool IsEmpty => Callback is null;
+    public override bool IsEmpty => Callback is null;
 
     public static Debouncer Empty => new() {
         Callback = null
@@ -68,9 +68,9 @@ public sealed class Debouncer: DebouncerBase<Debouncer.EmptyUnit> {
     }
 }
 
-public sealed class Debouncer<T> : DebouncerBase<T> {
+public sealed class Debouncer<T> : DebouncerBase<T>, IDebouncer<T> {
     private object? Callback { get; init; }
-    protected override bool IsEmpty => Callback is null;
+    public override bool IsEmpty => Callback is null;
 
     public static Debouncer<T> Empty => new() {
         Callback = null

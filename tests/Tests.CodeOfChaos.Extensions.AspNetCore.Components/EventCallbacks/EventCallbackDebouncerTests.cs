@@ -9,6 +9,25 @@ namespace Tests.CodeOfChaos.Extensions.AspNetCore.Components.EventCallbacks;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class EventCallbackDebouncerTests {
+    public static IEnumerable<Func<(IDebouncerBase, bool)>> GetEmptyDebouncers() {
+        yield return () => (EventCallbackDebouncer.Empty, true);
+        yield return () => (EventCallbackDebouncer<string>.Empty, true);
+        yield return () => (EventCallbackDebouncer<int>.Empty, true);
+        yield return () => (EventCallbackDebouncer.FromEventCallback(EventCallback.Factory.Create(string.Empty, callback: () => Task.CompletedTask)), false);
+        yield return () => (EventCallbackDebouncer<string>.FromEventCallback(EventCallback.Factory.Create<string>(string.Empty, callback: () => Task.CompletedTask)), false);
+        yield return () => (EventCallbackDebouncer<int>.FromEventCallback(EventCallback.Factory.Create<int>(string.Empty, callback: () => Task.CompletedTask)), false);
+    }
+    
+    [Test]
+    [MethodDataSource(nameof(GetEmptyDebouncers))]
+    public async Task Empty_ShouldBeEmpty(IDebouncerBase debouncer, bool expectedIsEmpty) {
+        // Arrange & Act
+        bool result = debouncer.IsEmpty;
+
+        // Assert
+        await Assert.That(result).IsEqualTo(expectedIsEmpty);
+    }
+    
 
     [Test]
     public async Task DefaultDebounceMs_ShouldBe100() {
