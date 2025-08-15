@@ -7,7 +7,7 @@
 
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions.ObjectPool</PackageId>
-        <Version>0.75.0</Version>
+        <Version>0.76.0</Version>
         <Authors>Anna Sas</Authors>
         <Description>A Library of extensions for Microsoft.Extensions.ObjectPool</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
