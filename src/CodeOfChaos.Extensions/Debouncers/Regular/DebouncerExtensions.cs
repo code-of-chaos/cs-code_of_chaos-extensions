@@ -17,5 +17,4 @@ public static class DebouncerExtensions {
     public static Debouncer GetDebouncer(this Func<Task> callback, int debounceMs) => Debouncer.FromDelegate(callback, debounceMs);
     public static Debouncer<T> GetDebouncer<T>(this Func<T, CancellationToken, Task> callback, int debounceMs) => Debouncer<T>.FromDelegate(callback, debounceMs);
     public static Debouncer GetDebouncer(this Func<CancellationToken, Task> callback, int debounceMs) => Debouncer.FromDelegate(callback, debounceMs);
-
 }

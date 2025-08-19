@@ -1,8 +1,9 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-namespace CodeOfChaos.Extensions.Debouncers;
+using System.Diagnostics.CodeAnalysis;
 
+namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
@@ -12,8 +13,9 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
 
     protected int DebounceMs { get; init; } = DefaultDebounceMs;
     protected int ThrottleMs { get; init; } = DefaultThrottleMs;
-    
+
     private readonly SemaphoreSlim _semaphore = new(1, 1);
+    private readonly Lock _stateLock = new();
     private CancellationTokenSource? _cts;
     private Task? _debounceTask;
     private bool _isDisposed;
@@ -22,63 +24,87 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
     private DateTime _firstCallTime = DateTime.MinValue;
 
     public abstract bool IsEmpty { get; }
-
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     protected abstract ValueTask InvokeCallbackAsync(T item, CancellationToken ct = default);
     
-    // ReSharper disable twice PossiblyMistakenUseOfCancellationToken
     protected async Task DebouncerLogicAsync(T? value = default, CancellationToken ct = default) {
-        ObjectDisposedException.ThrowIf(_isDisposed, this);
+        EnsureNotDisposed();
+
         if (IsEmpty) return;
 
         await _semaphore.WaitAsync(ct);
         try {
             _latestValue = value;
-            if (_firstCallTime == DateTime.MinValue) {
-                _firstCallTime = DateTime.UtcNow;
-            }
 
-            if (_cts is not null) {
-                await _cts.CancelAsync();
-                _cts.Dispose();
-            }
+            if (_firstCallTime == DateTime.MinValue) _firstCallTime = DateTime.UtcNow;
 
-            _cts = new CancellationTokenSource();
-            CancellationTokenSource? localCts = _cts;
-            CancellationToken debounceToken = localCts.Token;
-            
-            _debounceTask = Task.Run(async () => {
-                try {
-                    DateTime taskStartTime = DateTime.UtcNow;
-                    
-                    DateTime referenceTime = _lastExecuteTime != DateTime.MinValue ? _lastExecuteTime : _firstCallTime;
-                    double timeSinceReference = (taskStartTime - referenceTime).TotalMilliseconds;
-
-                    // Execute immediately due to throttling
-                    if (timeSinceReference >= ThrottleMs) {
-                        _lastExecuteTime = taskStartTime;
-                        await InvokeCallbackAsync(_latestValue!, ct);
-                        return;
-                    }
-
-                    await Task.Delay(DebounceMs, debounceToken);
-
-                    if (debounceToken.IsCancellationRequested) return;
-                    _lastExecuteTime = taskStartTime;
-                    await InvokeCallbackAsync(_latestValue!, ct);
-                }
-                catch (OperationCanceledException) {
-                    // Ignore cancellation
-                }
-            }, debounceToken);
+            ReplaceCancellationTokenSource();
+            _debounceTask = ExecuteDebounceTaskAsync(_latestValue, _cts.Token);
         }
         finally {
             _semaphore.Release();
         }
+
+        // Note: DebouncerLogicAsync doesn't await the task to avoid blocking; the task is managed internally.
     }
     
+    [MemberNotNull(nameof(_cts))]
+    private void ReplaceCancellationTokenSource() {
+        lock (_stateLock) {
+            if (_cts is not null) {
+                _cts.Cancel();
+                _cts.Dispose();
+            }
+
+            _cts = new CancellationTokenSource();
+        }
+    }
+
+    private async Task ExecuteDebounceTaskAsync(T? capturedValue, CancellationToken externalCt) {
+        try {
+            DateTime taskStartTime = DateTime.UtcNow;
+
+            DateTime referenceTime;
+            lock (_stateLock) {
+                referenceTime = _lastExecuteTime != DateTime.MinValue ? _lastExecuteTime : _firstCallTime;
+            }
+
+            double timeSinceReference = (taskStartTime - referenceTime).TotalMilliseconds;
+
+            // Execute immediately if throttling conditions are met
+            if (timeSinceReference >= ThrottleMs) {
+                await HandleDebounceExecution(capturedValue, externalCt, taskStartTime);
+                return;
+            }
+
+            // Wait for the debounce delay
+            await Task.Delay(DebounceMs, _cts!.Token);
+
+            if (_cts.Token.IsCancellationRequested) return;
+            await HandleDebounceExecution(capturedValue, externalCt, taskStartTime);
+        }
+        catch (OperationCanceledException) {
+            // Ignore cancellation
+        }
+    }
+    private async Task HandleDebounceExecution(T? capturedValue, CancellationToken externalCt, DateTime taskStartTime) {
+        lock (_stateLock) {
+            _lastExecuteTime = taskStartTime;
+        }
+        if (capturedValue is null) return;
+
+        await InvokeCallbackAsync(capturedValue, externalCt);
+        _debounceTask = null;
+
+    }
+
+    private void EnsureNotDisposed() {
+        if (!_isDisposed) return;
+
+        throw new ObjectDisposedException(nameof(DebouncerBase<T>));
+    }
     public async ValueTask DisposeAsync() {
         if (_isDisposed) return;
 
@@ -86,16 +112,22 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
 
         await _semaphore.WaitAsync();
         try {
+            // Ensure the active debounce task completes
             if (_debounceTask is not null) {
-                try { await _debounceTask; }
+                try {
+                    await _debounceTask;
+                }
                 catch {
-                    // Ignore
+                    // Ignore task exceptions
                 }
             }
-            
-            if (_cts is not null) {
-                await _cts.CancelAsync();
-                _cts.Dispose();
+
+            lock (_stateLock) {
+                if (_cts is not null) {
+                    _cts.Cancel();
+                    _cts.Dispose();
+                    _cts = null;
+                }
             }
         }
         finally {

@@ -43,7 +43,7 @@ public class EventCallbackDebouncerGenericTests {
         await Task.Delay(150);
 
         // Assert
-        await Assert.That(receivedValue).IsNull();
+        await Assert.That(receivedValue).IsEqualTo("initial");
     }
 
     [Test]

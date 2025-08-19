@@ -1,6 +1,8 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using System.Diagnostics.CodeAnalysis;
+
 namespace CodeOfChaos.Extensions.Debouncers;
 
 // ---------------------------------------------------------------------------------------------------------------------
@@ -9,56 +11,70 @@ namespace CodeOfChaos.Extensions.Debouncers;
 public abstract class DebouncerBase<T> : IAsyncDisposable {
     protected const int DefaultDebounceMs = 100;
     protected int DebounceMs { get; init; }
-    
+
     private readonly SemaphoreSlim _semaphore = new(1, 1);
+    private readonly Lock _stateLock = new(); 
     private CancellationTokenSource? _cts;
     private Task? _debounceTask;
     private bool _isDisposed;
     private T? _latestValue;
 
     public abstract bool IsEmpty { get; }
-
     // -----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     protected abstract ValueTask InvokeCallbackAsync(T item, CancellationToken ct = default);
-    
-    // ReSharper disable once PossiblyMistakenUseOfCancellationToken
+
+    // ReSharper disable once InconsistentlySynchronizedField
     protected async Task DebouncerLogicAsync(T? value = default, CancellationToken ct = default) {
-        ObjectDisposedException.ThrowIf(_isDisposed, this);
+        EnsureNotDisposed();
+
         if (IsEmpty) return;
 
         await _semaphore.WaitAsync(ct);
         try {
             _latestValue = value;
 
-            if (_cts is not null) {
-                await _cts.CancelAsync();
-                _cts.Dispose();
-            }
-
-            _cts = new CancellationTokenSource();
-            CancellationTokenSource? localCts = _cts;
-            CancellationToken debounceToken = localCts.Token;
-            
-            _debounceTask = Task.Run(function: async () => {
-                try {
-                    await Task.Delay(DebounceMs, debounceToken);
-                    if (debounceToken.IsCancellationRequested) return;
-                    await InvokeCallbackAsync(_latestValue!, ct);
-                    
-                }
-                catch (OperationCanceledException) {
-                    // Ignore
-                }
-            }, debounceToken);
-
+            ReplaceCancellationTokenSource();
+            _debounceTask = ExecuteDebounceTaskAsync(_latestValue, _cts.Token);
         }
         finally {
             _semaphore.Release();
         }
+
+        // Awaiting the debounce task is not done here to allow non-blocking execution of this method.
     }
 
+    [MemberNotNull(nameof(_cts))]
+    private void ReplaceCancellationTokenSource() {
+        lock (_stateLock) {
+            if (_cts is not null) {
+                _cts.Cancel();
+                _cts.Dispose();
+            }
+
+            _cts = new CancellationTokenSource();
+        }
+    }
+
+    private async Task ExecuteDebounceTaskAsync(T? capturedValue, CancellationToken debounceToken) {
+        try {
+            await Task.Delay(DebounceMs, debounceToken);
+
+            if (!debounceToken.IsCancellationRequested && capturedValue is not null) {
+                await InvokeCallbackAsync(capturedValue, debounceToken);
+                _debounceTask = null;
+            }
+        }
+        catch (OperationCanceledException) {
+            // Ignored: task was canceled before completion
+        }
+    }
+    
+    private void EnsureNotDisposed() {
+        if (!_isDisposed) return;
+        throw new ObjectDisposedException(nameof(DebouncerBase<T>));
+    }
 
     public async ValueTask DisposeAsync() {
         if (_isDisposed) return;
@@ -67,19 +83,25 @@ public abstract class DebouncerBase<T> : IAsyncDisposable {
 
         await _semaphore.WaitAsync();
         try {
-            if (_cts is not null) {
-                await _cts.CancelAsync();
-                _cts.Dispose();
+            if (_debounceTask is not null) {
+                try {
+                    await _debounceTask;
+                }
+                catch {
+                    // Ignore task exceptions
+                }
             }
 
-            if (_debounceTask is not null) {
-                try { await _debounceTask; }
-                catch {
-                    // Ignore
+            lock (_stateLock) {
+                if (_cts is not null) {
+                    _cts.Cancel();
+                    _cts.Dispose();
+                    _cts = null;
                 }
             }
         }
         finally {
+            _semaphore.Release();
             _semaphore.Dispose();
         }
 
