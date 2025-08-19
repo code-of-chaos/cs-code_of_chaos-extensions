@@ -40,7 +40,7 @@ public class SpanLINQSumTests {
     public async Task Sum_Span_WithRange_ShouldSumElementsInRange() {
         // Arrange
         Span<int> numbers = [1, 2, 3, 4, 5];
-        var range = 1..4; // Elements at index 1, 2, and 3
+        Range range = 1..4; // Elements at index 1, 2, and 3
         
         // Act
         int result = numbers.Sum(x => x, range);

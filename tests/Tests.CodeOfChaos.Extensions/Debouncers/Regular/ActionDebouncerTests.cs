@@ -21,7 +21,7 @@ public class ActionDebouncerTests {
         };
 
         // Act
-        await using var debouncer = Debouncer.FromDelegate(callback);
+        await using Debouncer debouncer = Debouncer.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
 
@@ -42,7 +42,7 @@ public class ActionDebouncerTests {
         const int customDebounceMs = 200;
 
         // Act
-        await using var debouncer = Debouncer.FromDelegate(callback, customDebounceMs);
+        await using Debouncer debouncer = Debouncer.FromDelegate(callback, customDebounceMs);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);// Less than debouncing time
 
@@ -65,7 +65,7 @@ public class ActionDebouncerTests {
         };
 
         // Act
-        await using var debouncer = Debouncer.FromDelegate(callback);
+        await using Debouncer debouncer = Debouncer.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync();
         await debouncer.InvokeDebouncedAsync();
         await debouncer.InvokeDebouncedAsync();
@@ -84,7 +84,7 @@ public class ActionDebouncerTests {
         };
 
         // Act
-        var debouncer = Debouncer.FromDelegate(callback);
+        Debouncer debouncer = Debouncer.FromDelegate(callback);
         IEnumerable<Task> tasks = Enumerable.Range(0, 10)
             .Select(_ => debouncer.InvokeDebouncedAsync());
 
@@ -100,7 +100,7 @@ public class ActionDebouncerTests {
     public async Task AfterDispose_ShouldThrowObjectDisposedException() {
         // Arrange
         Action callback = () => { };
-        var debouncer = Debouncer.FromDelegate(callback);
+        Debouncer debouncer = Debouncer.FromDelegate(callback);
 
         // Act
         await debouncer.DisposeAsync();
@@ -114,7 +114,7 @@ public class ActionDebouncerTests {
     public async Task MultipleDispose_ShouldBeIdempotent() {
         // Arrange
         Action callback = () => { };
-        var debouncer = Debouncer.FromDelegate(callback);
+        Debouncer debouncer = Debouncer.FromDelegate(callback);
 
         // Act & Assert
         await debouncer.DisposeAsync();
@@ -130,7 +130,7 @@ public class ActionDebouncerTests {
         };
 
         // Act
-        await using var debouncer = Debouncer.FromDelegate(callback);
+        await using Debouncer debouncer = Debouncer.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(50);// Wait half the debounced time
         await debouncer.InvokeDebouncedAsync();

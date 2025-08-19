@@ -256,7 +256,7 @@ public class SpanLINQAnyTests {
     [Test]
     public async Task Any_ShortCircuitEvaluation_ShouldStopOnFirstTrue() {
         // Arrange
-        var callCount = 0;
+        int callCount = 0;
         Span<int> numbers = [1, 2, 3, 4, 5];
 
         // Act

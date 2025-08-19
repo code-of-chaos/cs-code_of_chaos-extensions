@@ -320,7 +320,7 @@ public class SpanLINQFirstTests {
     [Test]
     public async Task FirstOrDefault_ShortCircuitEvaluation_ShouldStopOnFirstMatch() {
         // Arrange
-        var callCount = 0;
+        int callCount = 0;
         Span<int> numbers = [5, 10, 15, 20];
 
         // Act

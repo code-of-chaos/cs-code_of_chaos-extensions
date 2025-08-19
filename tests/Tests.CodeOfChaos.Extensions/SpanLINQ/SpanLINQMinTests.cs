@@ -239,7 +239,7 @@ public class SpanLINQMinTests {
     [Test]
     public async Task Min_SelectorCallCount_ShouldCallSelectorForEachElement() {
         // Arrange
-        var callCount = 0;
+        int callCount = 0;
         Span<int> numbers = [1, 3, 2, 4];
 
         // Act

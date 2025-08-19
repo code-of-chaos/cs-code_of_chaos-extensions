@@ -265,7 +265,7 @@ public class SpanLINQWhereTests {
     [Test]
     public async Task Where_PredicateCallCount_ShouldCallPredicateForEachElement() {
         // Arrange
-        var callCount = 0;
+        int callCount = 0;
         int[] sourceArray = [1, 2, 3, 4];
         Span<int> source = sourceArray;
         Span<int> indices = new int[4];

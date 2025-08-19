@@ -321,7 +321,7 @@ public class SpanLINQLastTests {
     [Test]
     public async Task Last_ShortCircuitEvaluation_ShouldStopOnFirstMatchFromEnd() {
         // Arrange
-        var callCount = 0;
+        int callCount = 0;
         Span<int> numbers = [1, 2, 3, 4, 5];
         
         // Act
@@ -338,7 +338,7 @@ public class SpanLINQLastTests {
     [Test]
     public async Task LastOrDefault_ShortCircuitEvaluation_ShouldStopOnFirstMatchFromEnd() {
         // Arrange
-        var callCount = 0;
+        int callCount = 0;
         Span<int> numbers = [5, 10, 15, 20];
         
         // Act

@@ -19,7 +19,7 @@ public class ActionDebouncerGenericTests {
         };
 
         // Act
-        await using var debouncer = Debouncer<string>.FromDelegate(callback);
+        await using Debouncer<string> debouncer = Debouncer<string>.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync("test");
         await Task.Delay(150);
 
@@ -36,7 +36,7 @@ public class ActionDebouncerGenericTests {
         };
 
         // Act
-        await using var debouncer = Debouncer<string>.FromDelegate(callback);
+        await using Debouncer<string> debouncer = Debouncer<string>.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync("first");
         await debouncer.InvokeDebouncedAsync("second");
         await debouncer.InvokeDebouncedAsync("third");
@@ -55,7 +55,7 @@ public class ActionDebouncerGenericTests {
         };
 
         // Act
-        var debouncer = Debouncer<string>.FromDelegate(callback);
+        Debouncer<string> debouncer = Debouncer<string>.FromDelegate(callback);
         IEnumerable<Task> tasks = Enumerable.Range(0, 10)
             .Select(i => debouncer.InvokeDebouncedAsync($"value{i}"));
 
@@ -71,7 +71,7 @@ public class ActionDebouncerGenericTests {
     public async Task GenericDebouncer_AfterDispose_ShouldThrowObjectDisposedException() {
         // Arrange
         Action<string> callback = _ => {};
-        var debouncer = Debouncer<string>.FromDelegate(callback);
+        Debouncer<string> debouncer = Debouncer<string>.FromDelegate(callback);
 
         // Act
         await debouncer.DisposeAsync();
@@ -86,7 +86,7 @@ public class ActionDebouncerGenericTests {
     public async Task GenericDebouncer_MultipleDispose_ShouldBeIdempotent() {
         // Arrange
         Action<string> callback = _ => {};
-        var debouncer = Debouncer<string>.FromDelegate(callback);
+        Debouncer<string> debouncer = Debouncer<string>.FromDelegate(callback);
 
         // Act & Assert
         await debouncer.DisposeAsync();

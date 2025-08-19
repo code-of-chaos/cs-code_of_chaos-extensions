@@ -101,7 +101,7 @@ public class ThrottledDebouncerGenericTests {
         // Act
         ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 50, throttleMs: 150);
 
-        var max = DateTime.UtcNow.AddMilliseconds(400);
+        DateTime max = DateTime.UtcNow.AddMilliseconds(400);
         int counter = 0;
         while (DateTime.UtcNow < max) { 
             await debouncer.InvokeDebouncedAsync($"value{counter++}");
