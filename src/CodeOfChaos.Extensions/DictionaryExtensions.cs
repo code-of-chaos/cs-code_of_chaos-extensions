@@ -8,7 +8,11 @@ namespace System;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public static class DictionaryExtensions {
-    public static IDictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue value) where TKey : notnull {
+    public static Dictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(
+        this Dictionary<TKey, TValue> dictionary,
+        TKey key,
+        TValue value
+    ) where TKey : notnull {
         if (dictionary.TryAdd(key, value)) return dictionary;
 
         dictionary[key] = value;
@@ -16,10 +20,10 @@ public static class DictionaryExtensions {
     }
 
     public static bool TryAddToOrCreateCollection<TKey, TValue, TCollection>(
-        this IDictionary<TKey, TCollection> dictionary,
+        this Dictionary<TKey, TCollection> dictionary,
         TKey key,
         TValue value
-    ) where TCollection : ICollection<TValue>, new() {
+    ) where TCollection : ICollection<TValue>, new() where TKey : notnull {
         if (!dictionary.TryGetValue(key, out TCollection? collection)) return dictionary.TryAdd(key, [value]);
         if (collection.Contains(value)) return false;
 
@@ -28,7 +32,11 @@ public static class DictionaryExtensions {
 
     }
 
-    public static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TValue> valueFactory) where TKey : notnull {
+    public static TValue GetOrAdd<TKey, TValue>(
+        this Dictionary<TKey, TValue> dictionary,
+        TKey key,
+        Func<TKey, TValue> valueFactory
+    ) where TKey : notnull {
         if (dictionary.TryGetValue(key, out TValue? value)) return value;
 
         value = valueFactory(key);
@@ -36,14 +44,23 @@ public static class DictionaryExtensions {
         return value;
     }
 
-    public static TValue GetOrAdd<TKey, TValue>(this Dictionary<TKey, TValue> dictionary, TKey key, TValue value) where TKey : notnull {
+    public static TValue GetOrAdd<TKey, TValue>(
+        this Dictionary<TKey, TValue> dictionary,
+        TKey key,
+        TValue value
+    ) where TKey : notnull {
         if (dictionary.TryGetValue(key, out TValue? existingValue)) return existingValue;
 
         dictionary.Add(key, value);
         return value;
     }
 
-    public static TValue GetOrAdd<TKey, TValue, TArg>(this Dictionary<TKey, TValue> dictionary, TKey key, Func<TKey, TArg, TValue> valueFactory, TArg factoryArgument) where TKey : notnull {
+    public static TValue GetOrAdd<TKey, TValue, TArg>(
+        this Dictionary<TKey, TValue> dictionary,
+        TKey key,
+        Func<TKey, TArg, TValue> valueFactory,
+        TArg factoryArgument
+    ) where TKey : notnull {
         if (dictionary.TryGetValue(key, out TValue? value)) return value;
 
         value = valueFactory(key, factoryArgument);
