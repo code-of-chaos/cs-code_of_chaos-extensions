@@ -12,7 +12,8 @@ public sealed class Debouncer: DebouncerBase<Debouncer.EmptyUnit>, IDebouncer {
     public override bool IsEmpty => Callback is null;
 
     public static Debouncer Empty => new() {
-        Callback = null
+        Callback = null,
+        DebounceMs = -1
     };
     
     // -----------------------------------------------------------------------------------------------------------------
@@ -73,7 +74,8 @@ public sealed class Debouncer<T> : DebouncerBase<T>, IDebouncer<T> {
     public override bool IsEmpty => Callback is null;
 
     public static Debouncer<T> Empty => new() {
-        Callback = null
+        Callback = null,
+        DebounceMs = -1
     };
 
     // -----------------------------------------------------------------------------------------------------------------

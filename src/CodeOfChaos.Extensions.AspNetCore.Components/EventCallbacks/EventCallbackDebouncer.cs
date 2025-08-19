@@ -17,7 +17,8 @@ public sealed class EventCallbackDebouncer : DebouncerBase<EventCallbackDebounce
     public override bool IsEmpty => _isEmpty;
     public static EventCallbackDebouncer Empty => new() {
         Callback = default,
-        _isEmpty = true
+        _isEmpty = true,
+        DebounceMs = -1
     };
     
     // -----------------------------------------------------------------------------------------------------------------
@@ -49,7 +50,8 @@ public sealed class EventCallbackDebouncer<T> : DebouncerBase<T>, IDebouncer, ID
     public override bool IsEmpty => _isEmpty;
     public static EventCallbackDebouncer<T> Empty => new() {
         Callback = default,
-        _isEmpty = true
+        _isEmpty = true,
+        DebounceMs = -1
     };
     
     // -----------------------------------------------------------------------------------------------------------------

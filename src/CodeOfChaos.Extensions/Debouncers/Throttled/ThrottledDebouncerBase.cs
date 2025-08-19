@@ -11,8 +11,8 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
     protected const int DefaultDebounceMs = 100;
     protected const int DefaultThrottleMs = 100;
 
-    protected int DebounceMs { get; init; } = DefaultDebounceMs;
-    protected int ThrottleMs { get; init; } = DefaultThrottleMs;
+    public required int DebounceMs { get; init; }
+    public required int ThrottleMs { get; init; }
 
     private readonly SemaphoreSlim _semaphore = new(1, 1);
     private readonly Lock _stateLock = new();

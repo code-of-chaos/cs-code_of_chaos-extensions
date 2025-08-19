@@ -12,7 +12,9 @@ public sealed class ThrottledDebouncer: ThrottledDebouncerBase<ThrottledDebounce
     public override bool IsEmpty => Callback is null;
     
     public static ThrottledDebouncer Empty => new() {
-        Callback = null
+        Callback = null,
+        DebounceMs = -1,
+        ThrottleMs = -1
     };
     
     // -----------------------------------------------------------------------------------------------------------------
@@ -76,7 +78,9 @@ public sealed class ThrottledDebouncer<T> : ThrottledDebouncerBase<T>, IDebounce
     public override bool IsEmpty => Callback is null;
     
     public static ThrottledDebouncer<T> Empty => new() {
-        Callback = null
+        Callback = null,
+        DebounceMs = -1,
+        ThrottleMs = -1
     };
 
     // -----------------------------------------------------------------------------------------------------------------

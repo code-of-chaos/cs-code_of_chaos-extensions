@@ -10,7 +10,7 @@ namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 public abstract class DebouncerBase<T> : IAsyncDisposable {
     protected const int DefaultDebounceMs = 100;
-    protected int DebounceMs { get; init; } = DefaultDebounceMs;
+    public required int DebounceMs { get; init; } 
 
     private readonly SemaphoreSlim _semaphore = new(1, 1);
     private readonly Lock _stateLock = new(); 
