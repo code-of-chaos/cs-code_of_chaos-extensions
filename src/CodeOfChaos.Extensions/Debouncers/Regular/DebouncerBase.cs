@@ -67,7 +67,7 @@ public abstract class DebouncerBase<T> : IAsyncDisposable {
             }
         }
         catch (OperationCanceledException) {
-            // Ignored: task was canceled before completion
+            // Ignored: Task was canceled before completion
         }
     }
     

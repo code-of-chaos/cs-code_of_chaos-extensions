@@ -73,13 +73,11 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
 
             double timeSinceReference = (taskStartTime - referenceTime).TotalMilliseconds;
 
-            // Execute immediately if throttling conditions are met
             if (timeSinceReference >= ThrottleMs) {
                 await HandleDebounceExecution(capturedValue, externalCt, taskStartTime);
                 return;
             }
 
-            // Wait for the debounce delay
             await Task.Delay(DebounceMs, _cts!.Token);
 
             if (_cts.Token.IsCancellationRequested) return;
@@ -112,7 +110,6 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
 
         await _semaphore.WaitAsync();
         try {
-            // Ensure the active debounce task completes
             if (_debounceTask is not null) {
                 try {
                     await _debounceTask;
