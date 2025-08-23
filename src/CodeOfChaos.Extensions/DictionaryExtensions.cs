@@ -18,6 +18,32 @@ public static class DictionaryExtensions {
         dictionary[key] = value;
         return dictionary;
     }
+    
+    public static Dictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(
+        this Dictionary<TKey, TValue> dictionary,
+        TKey key,
+        Func<TKey, TValue> valueFactory
+    ) where TKey : notnull {
+        if (dictionary.TryAdd(key, valueFactory(key))) return dictionary;
+        dictionary[key] = valueFactory(key);
+        return dictionary;
+    }
+    
+    public static Dictionary<TKey, TValue> AddOrUpdate<TKey, TValue>(
+        this Dictionary<TKey, TValue> dictionary,
+        TKey key,
+        Func<TKey, TValue> addValueFactory,
+        Func<TKey, TValue, TValue> updateValueFactory
+    ) where TKey : notnull {
+        if (dictionary.TryGetValue(key, out TValue? value)) {
+            value = updateValueFactory(key, value);
+            dictionary[key] = value;
+            return dictionary;
+        }
+        value = addValueFactory(key);
+        dictionary.Add(key, value);
+        return dictionary;
+    }
 
     public static bool TryAddToOrCreateCollection<TKey, TValue, TCollection>(
         this Dictionary<TKey, TCollection> dictionary,

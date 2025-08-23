@@ -109,4 +109,63 @@ public class DictionaryExtensionsTest {
         await Assert.That(dictionary.ContainsKey("key1")).IsTrue();
         await Assert.That(dictionary["key1"]).IsEqualTo("value10");
     }
+
+    // ReSharper disable once UnusedParameter.Local
+    // ReSharper disable once ConvertToLocalFunction
+    [Test]
+    public async Task AddOrUpdate_ShouldAddValueToDictionary_WhenKeyDoesNotExist_OverloadFactory() {
+        // Arrange
+        var dictionary = new Dictionary<string, string>();
+        const string value = "value";
+        Func<string, string> valueFactory = key => value;
+
+        // Act
+        dictionary.AddOrUpdate("key1", valueFactory);
+
+        // Assert
+        await Assert.That(dictionary.ContainsKey("key1")).IsTrue();
+        await Assert.That(dictionary["key1"]).IsEqualTo(value);
+    }
+
+    // ReSharper disable once UnusedParameter.Local
+    // ReSharper disable once ConvertToLocalFunction
+    [Test]
+    public async Task AddOrUpdate_ShouldAddValueToDictionary_WhenKeyDoesExist_OverloadFactory() {
+        // Arrange
+        var dictionary = new Dictionary<string, string> { ["key1"] = "oldValue" };
+
+        const string value = "value";
+        Func<string, string> valueFactory = key => $"{value}";
+
+        // Act
+        dictionary.AddOrUpdate("key1", valueFactory);
+
+        // Assert
+        await Assert.That(dictionary).ContainsKey("key1");
+        await Assert.That(dictionary["key1"])
+            .IsNotEqualTo("oldValue")
+            .IsEqualTo("value");
+    }
+    
+    // ReSharper disable once UnusedParameter.Local
+    // ReSharper disable once ConvertToLocalFunction
+    [Test]
+    public async Task AddOrUpdate_ShouldAddValueToDictionary_WhenKeyDoesNotExist_OverloadFactoryAddAndUpdate() {
+        // Arrange
+        var dictionary = new Dictionary<string, string> { ["key1"] = "oldValue" };
+        const string value = "value";
+        Func<string, string> onAddFactory = key => value;
+        Func<string, string, string> onUpdateFactory = (_, oldValue) => $"{oldValue};{value}";
+
+        // Act
+        dictionary.AddOrUpdate("key1", onAddFactory, onUpdateFactory);
+        dictionary.AddOrUpdate("key2", onAddFactory, onUpdateFactory);
+
+        // Assert
+        await Assert.That(dictionary).ContainsKey("key1");
+        await Assert.That(dictionary["key1"]).IsEqualTo("oldValue;value");
+        
+        await Assert.That(dictionary).ContainsKey("key2");
+        await Assert.That(dictionary["key2"]).IsEqualTo(value);
+    }
 }
