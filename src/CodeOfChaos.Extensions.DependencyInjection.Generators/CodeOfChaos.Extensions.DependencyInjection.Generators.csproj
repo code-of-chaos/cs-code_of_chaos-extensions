@@ -12,7 +12,7 @@
 
         <IsPackable>true</IsPackable>
         <PackageId>CodeOfChaos.Extensions.DependencyInjection.Generators</PackageId> <!-- Main package name -->
-        <Version>0.79.1</Version> <!-- Package version -->
+        <Version>0.80.0</Version> <!-- Package version -->
         <Authors>Anna Sas</Authors>
         <Description>A small package allowing easy collection of dependency injection services</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
