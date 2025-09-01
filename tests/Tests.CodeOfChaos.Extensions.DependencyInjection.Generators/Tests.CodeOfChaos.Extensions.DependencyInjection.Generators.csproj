@@ -7,7 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="CodeOfChaos.Testing.TUnit" Version="0.13.0" />
+        <PackageReference Include="CodeOfChaos.Testing.TUnit" Version="0.14.0" />
         <PackageReference Include="JetBrains.Annotations" Version="2025.2.0" />
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0">
             <PrivateAssets>all</PrivateAssets>
