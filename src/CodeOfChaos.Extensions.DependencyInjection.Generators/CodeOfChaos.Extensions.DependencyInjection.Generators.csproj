@@ -9,8 +9,11 @@
         <DevelopmentDependency>true</DevelopmentDependency>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <IsRoslynComponent>true</IsRoslynComponent>
-
         <IsPackable>true</IsPackable>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+        <IncludeSymbols>false</IncludeSymbols>
+        <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+
         <PackageId>CodeOfChaos.Extensions.DependencyInjection.Generators</PackageId> <!-- Main package name -->
         <Version>0.81.0</Version> <!-- Package version -->
         <Authors>Anna Sas</Authors>
@@ -19,12 +22,12 @@
         <PackageTags>dependency injection;di</PackageTags>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <IncludeSymbols>true</IncludeSymbols>
         <DebugType>embedded</DebugType>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
+
 
     <ItemGroup>
         <None Include="../../LICENSE" Pack="true" PackagePath="" Visible="false" />
