@@ -1,17 +1,22 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using Microsoft.CodeAnalysis;
+using CodeOfChaos.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection;
 
-namespace CodeOfChaos.Extensions.DependencyInjection.Generators.Helpers;
+namespace Examples.CodeOfChaos.Extensions.DependencyInjection;
+
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public interface ISymbolResolver {
-    ISymbol? ResolveSymbol(SyntaxNode node);
+[Injectable<IExampleService>(ServiceLifetime.Singleton)]
+[InjectableSingleton<IExampleService>()]
+[InjectableScoped<IExampleService>()]
+[InjectableTransient<IExampleService>()]
+public class ExampleService {
+    
 }
 
-// Simple wrapper to make testing not a living hell.
-public class SymbolResolver(SemanticModel model) : ISymbolResolver {
-    public ISymbol? ResolveSymbol(SyntaxNode node) => model.GetSymbolInfo(node).Symbol;
+public interface IExampleService {
+    
 }

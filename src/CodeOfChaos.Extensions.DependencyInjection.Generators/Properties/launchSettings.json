@@ -3,7 +3,7 @@
   "profiles": {
     "DebugRoslynSourceGenerator": {
       "commandName": "DebugRoslynComponent",
-      "targetProject": "../CodeOfChaos.Extensions.DependencyInjection.Generators.Sample/CodeOfChaos.Extensions.DependencyInjection.Generators.Sample.csproj"
+      "targetProject": "../../examples/CodeOfChaos.Extensions.DependencyInjection/CodeOfChaos.Extensions.DependencyInjection.csproj"
     }
   }
 }

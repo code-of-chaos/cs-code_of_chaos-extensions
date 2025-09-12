@@ -36,10 +36,15 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="IsExternalInit" Version="1.0.3">
+          <PrivateAssets>all</PrivateAssets>
+          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="4.14.0" PrivateAssets="all" />
         <PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.14.0" PrivateAssets="all" />
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.14.0" PrivateAssets="all" />
-        <PackageReference Include="CodeOfChaos.GeneratorTools" Version="2.0.0">
+        <PackageReference Include="CodeOfChaos.GeneratorTools" Version="2.1.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
@@ -47,6 +52,11 @@
 
     <ItemGroup>
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Remove="AnalyzerReleases.Shipped.md" />
+      <AdditionalFiles Remove="AnalyzerReleases.Unshipped.md" />
     </ItemGroup>
 
 

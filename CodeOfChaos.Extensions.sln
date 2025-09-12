@@ -56,6 +56,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.CodeOfChaos.Extension
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.CodeOfChaos.Extensions", "tests\Benchmarks.CodeOfChaos.Extensions\Benchmarks.CodeOfChaos.Extensions.csproj", "{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.CodeOfChaos.Extensions.DependencyInjection", "examples\Examples.CodeOfChaos.Extensions.DependencyInjection\Examples.CodeOfChaos.Extensions.DependencyInjection.csproj", "{78367C0D-0D4E-4339-B3C0-AD1FECC1BD9A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -158,6 +160,10 @@ Global
 		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{78367C0D-0D4E-4339-B3C0-AD1FECC1BD9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{78367C0D-0D4E-4339-B3C0-AD1FECC1BD9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{78367C0D-0D4E-4339-B3C0-AD1FECC1BD9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{78367C0D-0D4E-4339-B3C0-AD1FECC1BD9A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{26284571-0E09-4BAF-8C2B-DF87DCC1BA0B} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
@@ -184,5 +190,6 @@ Global
 		{C5C64661-887A-4E19-93EB-F9D5765C635B} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
 		{0B45A069-2FF5-4BD0-BC53-CB63FE29E781} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
+		{78367C0D-0D4E-4339-B3C0-AD1FECC1BD9A} = {C632855B-76D1-4D5E-9A0A-E631B5FE71A2}
 	EndGlobalSection
 EndGlobal
