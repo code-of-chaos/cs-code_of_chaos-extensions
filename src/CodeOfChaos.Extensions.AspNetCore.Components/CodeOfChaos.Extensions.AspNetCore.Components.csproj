@@ -8,7 +8,7 @@
 
         <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions.AspNetCore.Components</PackageId>
-        <Version>0.82.0</Version>
+        <Version>0.83.0</Version>
         <Authors>Anna Sas</Authors>
         <Description>A Library of broadly used extensions for AspNetCore Components</Description>
         <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
