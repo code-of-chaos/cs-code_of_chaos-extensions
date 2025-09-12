@@ -12,6 +12,7 @@ using Microsoft.Extensions.ObjectPool;
 using System;
 using System.Threading.Tasks;
 using Assembly=System.Reflection.Assembly;
+using ServiceLifetime = Microsoft.Extensions.DependencyInjection.ServiceLifetime;
 
 namespace Tests.CodeOfChaos.Extensions.DependencyInjection.Generators;
 // ---------------------------------------------------------------------------------------------------------------------

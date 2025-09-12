@@ -38,8 +38,6 @@ public class InjectableAnalyzer : DiagnosticAnalyzer {
 
     private static void AnalyzeClassDeclaration(SyntaxNodeAnalysisContext context) {
         foreach (InjectableData injectableData in InjectableData.FromSyntaxAnalyzer(context)) {
-            if (injectableData.IsEmpty) continue;
-
             if (context.Node is not ClassDeclarationSyntax classDeclaration) continue;
             if (context.SemanticModel.GetDeclaredSymbol(classDeclaration) is not {} classSymbol) continue;
 

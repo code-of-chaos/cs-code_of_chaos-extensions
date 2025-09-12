@@ -22,10 +22,10 @@ public static class SourceCodes {
     namespace {{assemblyName}};
     public static class CodeOfChaos_InjectableRegistration {
         public static IServiceCollection RegisterServicesFrom{{assemblyName.Replace(".", "")}}(IServiceCollection services){
-            // InjectableUtility.RegisterServices(services);
-            // InjectableUtility.RegisterSingleton(services);
-            // InjectableUtility.RegisterScoped(services);
-            // InjectableUtility.RegisterTransient(services);
+            InjectableUtility.RegisterServices(services);
+            InjectableUtility.RegisterSingleton(services);
+            InjectableUtility.RegisterScoped(services);
+            InjectableUtility.RegisterTransient(services);
             
             return services;   
         }
