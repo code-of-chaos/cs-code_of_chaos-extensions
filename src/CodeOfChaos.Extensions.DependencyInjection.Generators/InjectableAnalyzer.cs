@@ -49,10 +49,10 @@ public class InjectableAnalyzer : DiagnosticAnalyzer {
             if (serviceTypeSymbol is null) continue;
             if (DoesClassImplementOrInherit(classSymbol, serviceTypeSymbol)) continue;
 
+            Location location = classDeclaration.Identifier.GetLocation();
             var diagnostic = Diagnostic.Create(
                 Rule001,
-                context.Node.GetLocation(),
-                // injectableData.LocationInfo?.ToLocation(),
+                location,
                 injectableData.ClassName,
                 injectableData.ServiceTypeName
             );

@@ -1,8 +1,6 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
-using CodeOfChaos.GeneratorTools;
-using JetBrains.Annotations;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -20,8 +18,7 @@ public record InjectableData(
     ServiceLifetime ServiceLifetime,
     string? ServiceTypeName,
     object? ServiceKey,
-    bool ServiceKeyIsString,
-    [UsedImplicitly] LocationInfo? LocationInfo
+    bool ServiceKeyIsString
 ) {
     [MemberNotNullWhen(true, nameof(ServiceKey))] public bool HasServiceKey => ServiceKey is not null;
 
@@ -34,7 +31,7 @@ public record InjectableData(
 
         foreach (AttributeData attributeData in context.Attributes) {
             int lifetime = attributeData.ConstructorArguments[0].Value as int? ?? -1;
-            yield return ExtractServiceData(classSymbol, classDeclaration, attributeData, ServiceLifetimeUtlities.ToLifetime(lifetime), firstArgumentIndex: 1);
+            yield return ExtractServiceData(classSymbol, attributeData, ServiceLifetimeUtlities.ToLifetime(lifetime), firstArgumentIndex: 1);
         }
     }
 
@@ -45,7 +42,7 @@ public record InjectableData(
         if (context.SemanticModel.GetDeclaredSymbol(classDeclaration) is not INamedTypeSymbol classSymbol) yield break;
 
         foreach (AttributeData attributeData in context.Attributes) {
-            yield return ExtractServiceData(classSymbol, classDeclaration, attributeData, lifetime, firstArgumentIndex);
+            yield return ExtractServiceData(classSymbol, attributeData, lifetime, firstArgumentIndex);
         }
     }
 
@@ -62,44 +59,42 @@ public record InjectableData(
             switch (fullMetadataName) {
                 case SourceCodes.InjectableAttributeMetadataName: {
                     int lifetime = attributeData.ConstructorArguments[0].Value as int? ?? -1;
-                    yield return ExtractServiceData(classSymbol, classDeclaration, attributeData, ServiceLifetimeUtlities.ToLifetime(lifetime), 1);
+                    yield return ExtractServiceData(classSymbol, attributeData, ServiceLifetimeUtlities.ToLifetime(lifetime), 1);
                     break;
                 }
 
                 case SourceCodes.InjectableSingletonAttributeMetadataName: {
-                    yield return ExtractServiceData(classSymbol, classDeclaration, attributeData, ServiceLifetime.Singleton, 1);
+                    yield return ExtractServiceData(classSymbol, attributeData, ServiceLifetime.Singleton, 1);
                     break;
                 }
 
                 case SourceCodes.InjectableScopedAttributeMetadataName: {
-                    yield return ExtractServiceData(classSymbol, classDeclaration, attributeData, ServiceLifetime.Scoped, 1);
+                    yield return ExtractServiceData(classSymbol, attributeData, ServiceLifetime.Scoped, 1);
                     break;
                 }
 
                 case SourceCodes.InjectableTransientAttributeMetadataName: {
-                    yield return ExtractServiceData(classSymbol, classDeclaration, attributeData, ServiceLifetime.Transient, 1);
+                    yield return ExtractServiceData(classSymbol, attributeData, ServiceLifetime.Transient, 1);
                     break;
                 }
             }
         }
     }
 
-    private static InjectableData ExtractServiceData(INamedTypeSymbol classSymbol, ClassDeclarationSyntax classDeclaration, AttributeData attributeData, ServiceLifetime lifetime, int firstArgumentIndex) {
+    private static InjectableData ExtractServiceData(INamedTypeSymbol classSymbol, AttributeData attributeData, ServiceLifetime lifetime, int firstArgumentIndex) {
         TypedConstant keyArgument = attributeData.ConstructorArguments.ElementAtOrDefault(firstArgumentIndex);
         ITypeSymbol? keyType = keyArgument.Type;
         object? keyObject = keyArgument.Value;
 
         string? serviceTypeName = attributeData.AttributeClass?.TypeArguments.First().ToString();
         string className = classSymbol.ToDisplayString();
-        LocationInfo? locationInfo = LocationInfo.From(classDeclaration.GetLocation());
 
         return new InjectableData(
             className,
             lifetime,
             serviceTypeName,
             keyObject,
-            keyType is { SpecialType: SpecialType.System_String },
-            locationInfo
+            keyType is { SpecialType: SpecialType.System_String }
         );
     }
 }
