@@ -9,11 +9,10 @@ namespace Examples.CodeOfChaos.Extensions.DependencyInjection;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-[Injectable<IExampleService>(ServiceLifetime.Singleton)]
-[InjectableSingleton<IExampleService>()]
-[InjectableScoped<IExampleService>()]
-[InjectableTransient<IExampleService>()]
-public class ExampleService {
+[Injectable<IExampleService>(ServiceLifetime.Singleton), InjectableSingleton<IExampleService>()]
+[InjectableScoped<IExampleService>]
+[InjectableTransient<IExampleService>]
+public class ExampleService : IExampleService {
     
 }
 
