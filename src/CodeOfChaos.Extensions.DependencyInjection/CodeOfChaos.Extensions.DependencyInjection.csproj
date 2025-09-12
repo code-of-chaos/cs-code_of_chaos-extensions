@@ -28,6 +28,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="JetBrains.Annotations" Version="2025.2.2" />
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
         <PackageReference Include="Microsoft.Extensions.ObjectPool" Version="9.0.8" />
     </ItemGroup>

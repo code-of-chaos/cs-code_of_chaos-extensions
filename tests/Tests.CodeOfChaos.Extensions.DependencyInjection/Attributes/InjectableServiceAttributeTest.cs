@@ -9,12 +9,12 @@ namespace Tests.CodeOfChaos.Extensions.DependencyInjection.Attributes;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-[TestSubject(typeof(InjectableServiceAttribute<>))]
-public class InjectableServiceAttributeTests {
+[TestSubject(typeof(InjectableAttribute<>))]
+public class InjectableAttributeTests {
     [Test]
-    public async Task InjectableServiceAttribute_PropertiesAreSetCorrectly() {
+    public async Task InjectableAttribute_PropertiesAreSetCorrectly() {
         // Arrange
-        var attribute = new InjectableServiceAttribute<IMyService>(ServiceLifetime.Scoped);
+        var attribute = new InjectableAttribute<IMyService>(ServiceLifetime.Scoped);
 
         // Act
         ServiceLifetime lifetime = attribute.Lifetime;
@@ -26,11 +26,11 @@ public class InjectableServiceAttributeTests {
     }
 
     [Test]
-    public async Task InjectableServiceAttribute_CanBeAppliedToClass() {
+    public async Task InjectableAttribute_CanBeAppliedToClass() {
         // Act
-        object[] attributes = typeof(SampleServiceWithAttribute).GetCustomAttributes(typeof(InjectableServiceAttribute<IMyService>), false);
+        object[] attributes = typeof(SampleServiceWithAttribute).GetCustomAttributes(typeof(InjectableAttribute<IMyService>), false);
 
-        var attribute = attributes.FirstOrDefault() as InjectableServiceAttribute<IMyService>;
+        var attribute = attributes.FirstOrDefault() as InjectableAttribute<IMyService>;
 
         // Assert
         await Assert.That(attributes).IsNotEmpty().And.HasSingleItem();
@@ -39,7 +39,7 @@ public class InjectableServiceAttributeTests {
     }
 
     // Dummy class to test attribute application
-    [InjectableService<IMyService>(ServiceLifetime.Singleton)]
+    [Injectable<IMyService>(ServiceLifetime.Singleton)]
     public class SampleServiceWithAttribute : IMyService;
 
     public interface IMyService;

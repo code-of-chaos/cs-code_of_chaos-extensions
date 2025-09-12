@@ -22,12 +22,12 @@ public interface IKeyedDucky {
     int ChaoticFactor { get; }
 }
 
-[InjectableService<IDuckyService>(ServiceLifetime.Singleton)]
+[Injectable<IDuckyService>(ServiceLifetime.Singleton)]
 public class DuckyService : IDuckyService {
     public string Quack(IDucky ducky) => ducky.QuackingNoise;
 }
 
-[InjectableService<IDuckyFactory>(ServiceLifetime.Singleton)]
+[Injectable<IDuckyFactory>(ServiceLifetime.Singleton)]
 public class DuckyFactory : IDuckyFactory {
     public IDucky Create() => new Ducky();
 }

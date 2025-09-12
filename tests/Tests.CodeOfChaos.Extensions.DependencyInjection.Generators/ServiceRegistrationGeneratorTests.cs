@@ -22,7 +22,7 @@ public class ServiceRegistrationGeneratorTests {
         typeof(object).Assembly,
         typeof(FactoryCreatedServiceAttribute<,>).Assembly,
         typeof(IFactoryService<>).Assembly,
-        typeof(InjectableServiceAttribute<>).Assembly,
+        typeof(InjectableAttribute<>).Assembly,
         typeof(ValueTuple).Assembly,// For tuples
         typeof(Attribute).Assembly,
         typeof(Console).Assembly,
