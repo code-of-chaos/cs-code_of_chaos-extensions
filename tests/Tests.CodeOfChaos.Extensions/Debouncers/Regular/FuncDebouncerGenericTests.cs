@@ -23,6 +23,7 @@ public class FuncDebouncerGenericTests {
         await using Debouncer<string> debouncer = Debouncer<string>.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync("test");
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValue).IsEqualTo("test");
@@ -43,6 +44,7 @@ public class FuncDebouncerGenericTests {
         await debouncer.InvokeDebouncedAsync("second");
         await debouncer.InvokeDebouncedAsync("third");
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValue).IsEqualTo("third");
@@ -64,6 +66,7 @@ public class FuncDebouncerGenericTests {
 
         await Task.WhenAll(tasks);
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValues).HasCount().EqualTo(1);

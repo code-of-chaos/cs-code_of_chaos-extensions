@@ -23,6 +23,7 @@ public class EventCallbackDebouncerGenericTests {
         await using var debouncer = EventCallbackDebouncer<string>.FromEventCallback(callback);
         await debouncer.InvokeDebouncedAsync("test");
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValue).IsEqualTo("test");
@@ -41,6 +42,7 @@ public class EventCallbackDebouncerGenericTests {
         await using var debouncer = EventCallbackDebouncer<string>.FromEventCallback(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValue).IsEqualTo("initial");
@@ -61,6 +63,7 @@ public class EventCallbackDebouncerGenericTests {
         await debouncer.InvokeDebouncedAsync("second");
         await debouncer.InvokeDebouncedAsync("third");
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValue).IsEqualTo("third");
@@ -82,6 +85,7 @@ public class EventCallbackDebouncerGenericTests {
 
         await Task.WhenAll(tasks);
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValues).HasCount().EqualTo(1);

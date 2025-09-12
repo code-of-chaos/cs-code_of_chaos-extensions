@@ -23,6 +23,7 @@ public class FuncDebouncerTests {
         await using Debouncer debouncer = Debouncer.FromDelegate(callback);
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(callCount).IsEqualTo(1);
@@ -49,6 +50,7 @@ public class FuncDebouncerTests {
 
         // Wait for the remaining time
         await Task.Delay(100);
+        await debouncer.FlushAsync();
         await Assert.That(callCount).IsEqualTo(1);
     }
 
@@ -67,6 +69,7 @@ public class FuncDebouncerTests {
         await debouncer.InvokeDebouncedAsync();
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(callCount).IsEqualTo(1);
@@ -88,6 +91,7 @@ public class FuncDebouncerTests {
 
         await Task.WhenAll(tasks);
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(callCount).IsEqualTo(1);
@@ -134,6 +138,7 @@ public class FuncDebouncerTests {
         await Task.Delay(50);// Wait half the debounced time
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(executionTimes).HasCount().EqualToOne();

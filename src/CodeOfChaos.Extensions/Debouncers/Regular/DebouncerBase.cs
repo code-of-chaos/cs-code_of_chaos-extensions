@@ -8,7 +8,7 @@ namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public abstract class DebouncerBase<T> : IAsyncDisposable {
+public abstract class DebouncerBase<T> : IAsyncDisposable, IDebouncerBase {
     protected const int DefaultDebounceMs = 100;
     public required int DebounceMs { get; init; } 
 
@@ -69,6 +69,11 @@ public abstract class DebouncerBase<T> : IAsyncDisposable {
         catch (OperationCanceledException) {
             // Ignored: Task was canceled before completion
         }
+    }
+    
+    public Task FlushAsync(CancellationToken ct = default) {
+        EnsureNotDisposed();
+        return _debounceTask ?? Task.CompletedTask;
     }
     
     private void EnsureNotDisposed() {

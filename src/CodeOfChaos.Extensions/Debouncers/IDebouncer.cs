@@ -8,6 +8,7 @@ namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 public interface IDebouncerBase {
     bool IsEmpty { get; }
+    Task FlushAsync(CancellationToken ct = default);
 }
 
 public interface IDebouncer : IDebouncerBase {

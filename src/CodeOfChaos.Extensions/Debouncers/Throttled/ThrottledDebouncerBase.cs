@@ -7,7 +7,7 @@ namespace CodeOfChaos.Extensions.Debouncers;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
+public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable, IDebouncerBase {
     protected const int DefaultDebounceMs = 100;
     protected const int DefaultThrottleMs = 100;
 
@@ -96,6 +96,11 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable {
         await InvokeCallbackAsync(capturedValue, externalCt);
         _debounceTask = null;
 
+    }
+    
+    public Task FlushAsync(CancellationToken ct = default) {
+        EnsureNotDisposed();
+        return _debounceTask ?? Task.CompletedTask;
     }
 
     private void EnsureNotDisposed() {

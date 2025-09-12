@@ -25,6 +25,7 @@ public class ThrottledDebouncerGenericTests {
         ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 100, throttleMs: 500);
         await debouncer.InvokeDebouncedAsync("test");
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValue).IsEqualTo("test");
@@ -47,6 +48,7 @@ public class ThrottledDebouncerGenericTests {
         await debouncer.InvokeDebouncedAsync("second");
         await debouncer.InvokeDebouncedAsync("third");
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValue).IsEqualTo("third");
@@ -75,6 +77,7 @@ public class ThrottledDebouncerGenericTests {
         await Task.Delay(100); // This should trigger throttle behavior (immediate execution)
         
         await Task.Delay(50); // Give time for execution
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValues).HasCount().EqualTo(2);
@@ -109,7 +112,7 @@ public class ThrottledDebouncerGenericTests {
         }
 
         await Task.Delay(1000); // Wait for final execution
-        // await debouncer.FlushAsync();
+        await debouncer.FlushAsync();
 
         
         // Assert
@@ -157,6 +160,7 @@ public class ThrottledDebouncerGenericTests {
         );
         
         await Task.Delay(75); // Wait for final debounced execution
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(executionCount).IsGreaterThanOrEqualTo(2);
@@ -183,6 +187,7 @@ public class ThrottledDebouncerGenericTests {
 
         await Task.WhenAll(tasks);
         await Task.Delay(150);
+        await debouncer.FlushAsync();
 
         // Assert - May have 1 or 2 executions depending on timing (debounce + possible throttle)
         await Assert.That(receivedValues.Count).IsGreaterThanOrEqualTo(1);
@@ -232,6 +237,7 @@ public class ThrottledDebouncerGenericTests {
         DateTime startTime = DateTime.UtcNow;
         await debouncer.InvokeDebouncedAsync("test");
         await Task.Delay(150); // Should execute after default debounce (100ms)
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(executionTimes).HasCount().EqualTo(1);
@@ -258,6 +264,7 @@ public class ThrottledDebouncerGenericTests {
         DateTime startTime = DateTime.UtcNow;
         await debouncer.InvokeDebouncedAsync("immediate");
         await Task.Delay(50); // Give time for execution
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(receivedValue).IsEqualTo("immediate");
@@ -300,6 +307,7 @@ public class ThrottledDebouncerGenericTests {
         await Task.Delay(100); // Wait for second call
         
         await Task.Delay(200); // Wait for both calls to complete
+        await debouncer.FlushAsync();
 
         // Assert
         await Assert.That(executionCount).IsEqualTo(2);
