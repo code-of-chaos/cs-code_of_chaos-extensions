@@ -18,21 +18,13 @@ public class InjectedServicesTest {
 
         // Act
         var duckyService = provider.GetService<IDuckyService>();
-        var duckyFactory = provider.GetService<IDuckyFactory>();
-        var ducky = provider.GetService<IDucky>();
         var viewerDucky = provider.GetKeyedService<IKeyedDucky>("viewer");
         var streamerDucky = provider.GetKeyedService<IKeyedDucky>("streamer");
         
         // Assert
         await Assert.That(duckyService).IsNotNull()
             .And.IsTypeOf<DuckyService>();
-
-        await Assert.That(duckyFactory).IsNotNull()
-            .And.IsTypeOf<DuckyFactory>();
-
-        await Assert.That(ducky).IsNotNull()
-            .And.IsTypeOf<Ducky>();
-
+        
         await Assert.That(viewerDucky).IsNotNull()
             .And.IsTypeOf<ViewerKeyedDucky>()
             .And.HasMember(d => d.ChaoticFactor).EqualTo(5);

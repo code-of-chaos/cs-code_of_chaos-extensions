@@ -11,8 +11,8 @@ public static class SourceCodes {
     public const string InjectableSingletonAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.InjectableSingletonAttribute`1";
     public const string InjectableScopedAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.InjectableScopedAttribute`1";
     public const string InjectableTransientAttributeMetadataName = "CodeOfChaos.Extensions.DependencyInjection.InjectableTransientAttribute`1";
-
-    // -----------------------------------------------------------------------------------------------------------------
+    
+    // ----------------------------------------------------------------------------------------------------------------
     // Methods
     // -----------------------------------------------------------------------------------------------------------------
     public static string GetInjectableGenerator(string assemblyName) => $$"""
@@ -21,7 +21,7 @@ public static class SourceCodes {
     using {{assemblyName}}._CodeOfChaosGenerated;
     namespace {{assemblyName}};
     public static class CodeOfChaos_InjectableRegistration {
-        public static IServiceCollection RegisterServicesFrom{{assemblyName.Replace(".", "")}}(IServiceCollection services){
+        public static IServiceCollection RegisterServicesFrom{{assemblyName.Replace(".", "")}}(this IServiceCollection services){
             InjectableUtility.RegisterServices(services);
             InjectableUtility.RegisterSingleton(services);
             InjectableUtility.RegisterScoped(services);

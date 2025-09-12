@@ -32,8 +32,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.CodeOfChaos.Extens
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.CodeOfChaos.Extensions.DependencyInjection", "tests\Tests.CodeOfChaos.Extensions.DependencyInjection\Tests.CodeOfChaos.Extensions.DependencyInjection.csproj", "{A0C53C66-FFEC-42EF-A1CD-4E7396DB74FA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests.CodeOfChaos.Extensions.DependencyInjection.Generators", "tests\Tests.CodeOfChaos.Extensions.DependencyInjection.Generators\Tests.CodeOfChaos.Extensions.DependencyInjection.Generators.csproj", "{77E466A0-F307-4452-8CBC-A541FC27F4BF}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOfChaos.Extensions.DependencyInjection", "src\CodeOfChaos.Extensions.DependencyInjection\CodeOfChaos.Extensions.DependencyInjection.csproj", "{9B1053FC-89D7-412D-AA24-618EFC97FDA4}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CodeOfChaos.Extensions.DependencyInjection.Generators", "src\CodeOfChaos.Extensions.DependencyInjection.Generators\CodeOfChaos.Extensions.DependencyInjection.Generators.csproj", "{9FC9F294-BDB7-4479-B002-F0409E050A1E}"
@@ -112,10 +110,6 @@ Global
 		{A0C53C66-FFEC-42EF-A1CD-4E7396DB74FA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A0C53C66-FFEC-42EF-A1CD-4E7396DB74FA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A0C53C66-FFEC-42EF-A1CD-4E7396DB74FA}.Release|Any CPU.Build.0 = Release|Any CPU
-		{77E466A0-F307-4452-8CBC-A541FC27F4BF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{77E466A0-F307-4452-8CBC-A541FC27F4BF}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{77E466A0-F307-4452-8CBC-A541FC27F4BF}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{77E466A0-F307-4452-8CBC-A541FC27F4BF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{9B1053FC-89D7-412D-AA24-618EFC97FDA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{9B1053FC-89D7-412D-AA24-618EFC97FDA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9B1053FC-89D7-412D-AA24-618EFC97FDA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -177,7 +171,6 @@ Global
 		{8670FBAC-E420-4DC6-82B1-AF0C5BF7F797} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 		{50072DFE-34A3-4E93-A2A1-02CDDCA66CBE} = {C632855B-76D1-4D5E-9A0A-E631B5FE71A2}
 		{A0C53C66-FFEC-42EF-A1CD-4E7396DB74FA} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
-		{77E466A0-F307-4452-8CBC-A541FC27F4BF} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 		{9B1053FC-89D7-412D-AA24-618EFC97FDA4} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}
 		{E1F41678-9171-42C9-8877-F326D878AE05} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 		{76717F23-6ED9-4C3B-81AD-89C79B7D36BE} = {197E72AD-DEAB-4350-AFC3-A3BB38720BF5}

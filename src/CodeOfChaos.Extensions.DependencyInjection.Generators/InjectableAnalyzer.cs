@@ -18,7 +18,7 @@ public class InjectableAnalyzer : DiagnosticAnalyzer {
         "Service does not implement the correct Injectable service type",
         "The class '{0}' is not marked with injectable service type of {1}",
         "Injectable",
-        DiagnosticSeverity.Warning,
+        DiagnosticSeverity.Error,
         true
     );
 
