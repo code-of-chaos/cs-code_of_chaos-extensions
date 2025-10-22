@@ -144,7 +144,7 @@ public class DictionaryExtensionsTest {
         await Assert.That(dictionary).ContainsKey("key1");
         await Assert.That(dictionary["key1"])
             .IsNotEqualTo("oldValue")
-            .IsEqualTo("value");
+            .And.IsEqualTo("value");
     }
     
     // ReSharper disable once UnusedParameter.Local

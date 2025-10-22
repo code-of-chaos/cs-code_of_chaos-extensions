@@ -171,7 +171,7 @@ public class SpanLINQLastTests {
         int result = numbers.LastOrDefault(x => x > 10);
         
         // Assert
-        await Assert.That(result).IsZero();
+        await Assert.That(result).IsEqualTo(0);
     }
     
     [Test]
@@ -183,7 +183,7 @@ public class SpanLINQLastTests {
         int result = emptySpan.LastOrDefault(x => x > 0);
         
         // Assert
-        await Assert.That(result).IsZero();
+        await Assert.That(result).IsEqualTo(0);
     }
     
     [Test]
@@ -207,7 +207,7 @@ public class SpanLINQLastTests {
         int result = singleElement.LastOrDefault(x => x > 10);
         
         // Assert
-        await Assert.That(result).IsZero();
+        await Assert.That(result).IsEqualTo(0);
     }
     
     [Test]
@@ -303,7 +303,7 @@ public class SpanLINQLastTests {
         double result = numbers.LastOrDefault(x => x > 5.0);
         
         // Assert
-        await Assert.That(result).IsZero();
+        await Assert.That(result).IsEqualTo(0);
     }
     
     [Test]

@@ -27,11 +27,11 @@ public class InjectedServicesTest {
         
         await Assert.That(viewerDucky).IsNotNull()
             .And.IsTypeOf<ViewerKeyedDucky>()
-            .And.HasMember(d => d.ChaoticFactor).EqualTo(5);
+            .And.HasProperty(d => d.ChaoticFactor).IsEqualTo(5);
 
         await Assert.That(streamerDucky).IsNotNull()
             .And.IsTypeOf<StreamerKeyedDucky>()
-            .And.HasMember(d => d.ChaoticFactor).EqualTo(10);
+            .And.HasProperty(d => d.ChaoticFactor).IsEqualTo(10);
 
     }
 }

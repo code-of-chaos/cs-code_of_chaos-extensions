@@ -31,7 +31,7 @@ public class GuidValidationAnalyzerTests {
         ImmutableArray<Diagnostic> diagnostics = await compilation.GetAllDiagnosticsAsync();
 
         // Assert
-        await Assert.That(diagnostics).DoesNotContainDiagnostic("CODE001");
+        await Assert.That<ImmutableArray<Diagnostic>>(diagnostics).DoesNotContainDiagnostic("CODE001");
     }
 
     [Test]
@@ -52,7 +52,7 @@ public class GuidValidationAnalyzerTests {
         ImmutableArray<Diagnostic> diagnostics = await compilation.GetAllDiagnosticsAsync();
 
         // Assert
-        await Assert.That(diagnostics).ContainsDiagnostic("CODE001");
+        await Assert.That<ImmutableArray<Diagnostic>>(diagnostics).ContainsDiagnostic("CODE001");
 
     }
 }

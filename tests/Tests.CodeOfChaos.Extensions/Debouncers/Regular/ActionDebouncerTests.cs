@@ -142,6 +142,6 @@ public class ActionDebouncerTests {
         await debouncer.FlushAsync();
 
         // Assert
-        await Assert.That(executionTimes).HasCount().EqualToOne();
+        await Assert.That(executionTimes).HasCount().EqualTo(1);
     }
 }
