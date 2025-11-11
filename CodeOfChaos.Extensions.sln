@@ -8,7 +8,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{197E72AD-DEA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tools", "tools", "{AF1A203C-6EF1-440E-BB3C-55B1DBFE9C19}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".dev-tools", ".dev-tools", "{AF1A203C-6EF1-440E-BB3C-55B1DBFE9C19}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tools.CodeOfChaos.Extensions", "src\Tools.CodeOfChaos.Extensions\Tools.CodeOfChaos.Extensions.csproj", "{ADEADD97-0AFA-4D9E-970B-9FFB932949B3}"
 EndProject
@@ -55,6 +55,13 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Benchmarks.CodeOfChaos.Extensions", "tests\Benchmarks.CodeOfChaos.Extensions\Benchmarks.CodeOfChaos.Extensions.csproj", "{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Examples.CodeOfChaos.Extensions.DependencyInjection", "examples\Examples.CodeOfChaos.Extensions.DependencyInjection\Examples.CodeOfChaos.Extensions.DependencyInjection.csproj", "{78367C0D-0D4E-4339-B3C0-AD1FECC1BD9A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "github", "github", "{D55373B9-6830-4A7F-87CE-FB3AE40A9395}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\onPullRequest-TestDotnet.yml = .github\workflows\onPullRequest-TestDotnet.yml
+		.github\workflows\release.yml = .github\workflows\release.yml
+		.github\workflows\workflow-todo.yml = .github\workflows\workflow-todo.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -184,5 +191,6 @@ Global
 		{0B45A069-2FF5-4BD0-BC53-CB63FE29E781} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 		{F1C463EA-E828-4E4A-ABF8-EE4908D1E1F8} = {8DD280D4-1E14-4D5E-AFE6-58DD8F079DCC}
 		{78367C0D-0D4E-4339-B3C0-AD1FECC1BD9A} = {C632855B-76D1-4D5E-9A0A-E631B5FE71A2}
+		{D55373B9-6830-4A7F-87CE-FB3AE40A9395} = {AF1A203C-6EF1-440E-BB3C-55B1DBFE9C19}
 	EndGlobalSection
 EndGlobal
