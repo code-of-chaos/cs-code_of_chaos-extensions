@@ -10,6 +10,8 @@ namespace Tests.CodeOfChaos.Extensions.Debouncers.Regular;
 // ---------------------------------------------------------------------------------------------------------------------
 // ReSharper disable ConvertToLocalFunction
 public class FuncDebouncerTests {
+    private Lock Lock { get; } = new();
+    
     [Test]
     public async Task DefaultDebounceMs_ShouldBe100() {
         // Arrange
@@ -128,7 +130,9 @@ public class FuncDebouncerTests {
         // Arrange
         var executionTimes = new List<DateTime>();
         Func<Task> callback = () => {
-            executionTimes.Add(DateTime.UtcNow);
+            lock (Lock) {
+                executionTimes.Add(DateTime.UtcNow);
+            }
             return Task.CompletedTask;
         };
 
