@@ -36,7 +36,7 @@ public class FuncDebouncerTests {
         // Arrange
         int callCount = 0;
         Func<Task> callback = () => {
-            callCount++;
+            Interlocked.Increment(ref callCount);
             return Task.CompletedTask;
         };
 
