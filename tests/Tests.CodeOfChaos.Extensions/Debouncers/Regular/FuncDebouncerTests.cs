@@ -124,7 +124,7 @@ public class FuncDebouncerTests {
     }
 
     [Test]
-    public async Task InvocationDuringDebounce_ShouldCancelPrevious() {
+    public async Task InvocationDuringDebounce_ShouldCancelPrevious_Func() {
         // Arrange
         var executionTimes = new List<DateTime>();
         Func<Task> callback = () => {

@@ -143,7 +143,7 @@ public class EventCallbackDebouncerTests {
     }
 
     [Test]
-    public async Task InvocationDuringDebounce_ShouldCancelPrevious() {
+    public async Task InvocationDuringDebounce_ShouldCancelPrevious_EventCallback() {
         // Arrange
         var executionTimes = new List<DateTime>();
         EventCallback callback = EventCallback.Factory.Create(this, callback: () => {

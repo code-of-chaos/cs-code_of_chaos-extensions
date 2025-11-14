@@ -126,7 +126,7 @@ public class ActionDebouncerTests {
     }
 
     [Test]
-    public async Task InvocationDuringDebounce_ShouldCancelPrevious() {
+    public async Task InvocationDuringDebounce_ShouldCancelPrevious_Action() {
         // Arrange
         var executionTimes = new List<DateTime>();
         Action callback = () => {
