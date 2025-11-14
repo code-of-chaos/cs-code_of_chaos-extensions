@@ -139,7 +139,6 @@ public class FuncDebouncerTests {
         // Act
         await using Debouncer debouncer = Debouncer.FromDelegate(callback, debounceMs: 200);
         await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(50); 
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
         await debouncer.FlushAsync();

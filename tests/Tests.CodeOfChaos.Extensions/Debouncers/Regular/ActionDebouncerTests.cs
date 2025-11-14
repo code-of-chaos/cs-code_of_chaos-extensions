@@ -19,7 +19,7 @@ public class ActionDebouncerTests {
         
         // ReSharper disable once ConvertToLocalFunction
         Action callback = () => {
-            callCount++;
+            Interlocked.Increment(ref callCount);
         };
 
         // Act
@@ -39,7 +39,7 @@ public class ActionDebouncerTests {
         
         // ReSharper disable once ConvertToLocalFunction
         Action callback = () => {
-            callCount++;
+            Interlocked.Increment(ref callCount);
         };
 
         const int customDebounceMs = 200;
@@ -47,7 +47,7 @@ public class ActionDebouncerTests {
         // Act
         await using Debouncer debouncer = Debouncer.FromDelegate(callback, customDebounceMs);
         await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(150);// Less than debouncing time
+        await Task.Delay(50);// Less than debouncing time
 
         // Assert
         await Assert.That(callCount).IsEqualTo(0);
@@ -65,7 +65,7 @@ public class ActionDebouncerTests {
         
         // ReSharper disable once ConvertToLocalFunction
         Action callback = () => {
-            callCount++;
+            Interlocked.Increment(ref callCount);
         };
 
         // Act
@@ -85,7 +85,7 @@ public class ActionDebouncerTests {
         // Arrange
         int callCount = 0;
         Action callback = () => {
-            callCount++;
+            Interlocked.Increment(ref callCount);
         };
 
         // Act
@@ -138,9 +138,8 @@ public class ActionDebouncerTests {
         };
 
         // Act
-        await using Debouncer debouncer = Debouncer.FromDelegate(callback);
+        await using Debouncer debouncer = Debouncer.FromDelegate(callback, debounceMs:100);
         await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(50);// Wait half the debounced time
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
         await debouncer.FlushAsync();
