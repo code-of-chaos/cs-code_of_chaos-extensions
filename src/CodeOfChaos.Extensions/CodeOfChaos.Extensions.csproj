@@ -30,6 +30,8 @@
 
     <ItemGroup>
         <ProjectReference Include="..\CodeOfChaos.Extensions.Analyzers\CodeOfChaos.Extensions.Analyzers.csproj">
+            <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+            <OutputItemType>Analyzer</OutputItemType>
             <IncludeAssets>compile; runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </ProjectReference>
     </ItemGroup>
