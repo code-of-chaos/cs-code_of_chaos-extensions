@@ -28,7 +28,7 @@ jobs:
             # Ensure that the tests must pass 
             # The job will fail automatically if any test fails because `dotnet test` exits with a non-zero code
             - name: Run tests
-              run: dotnet test CodeOfChaos.Extensions.slnx --configuration Release --no-restore --no-build
+              run: dotnet test --solution CodeOfChaos.Extensions.slnx --configuration Release --no-restore --no-build
 
             - name: Publish to NuGet
               env:
