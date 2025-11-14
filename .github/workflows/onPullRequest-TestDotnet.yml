@@ -17,13 +17,15 @@ jobs:
             - name: Setup .NET
               uses: actions/setup-dotnet@v5
               with:
-                  dotnet-version: '9.x'
+                  dotnet-version: |
+                      9.x
+                      10.x
 
             - name: Restore dependencies
-              run: dotnet restore CodeOfChaos.Extensions.sln
+              run: dotnet restore CodeOfChaos.Extensions.slnx
 
             - name: Build
-              run: dotnet build CodeOfChaos.Extensions.sln --configuration Release --no-restore -p:GeneratePackageOnBuild=false -p:IsPackable=false
+              run: dotnet build CodeOfChaos.Extensions.slnx --configuration Release --no-restore -p:GeneratePackageOnBuild=false -p:IsPackable=false
 
             - name: Run tests
-              run: dotnet test CodeOfChaos.Extensions.sln --configuration Release --no-restore --no-build
+              run: dotnet test CodeOfChaos.Extensions.slnx --configuration Release --no-restore --no-build
