@@ -31,7 +31,7 @@ public class ActionDebouncerTests {
     }
 
     [Test]
-    public async Task CustomDebounceMs_ShouldRespectSpecifiedTime() {
+    public async Task CustomDebounceMs_ShouldRespectSpecifiedTime_Action() {
         // Arrange
         int callCount = 0;
         

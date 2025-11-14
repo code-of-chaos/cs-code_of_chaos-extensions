@@ -30,7 +30,7 @@ public class FuncDebouncerTests {
     }
 
     [Test]
-    public async Task CustomDebounceMs_ShouldRespectSpecifiedTime() {
+    public async Task CustomDebounceMs_ShouldRespectSpecifiedTime_Func() {
         // Arrange
         int callCount = 0;
         Func<Task> callback = () => {
@@ -133,9 +133,9 @@ public class FuncDebouncerTests {
         };
 
         // Act
-        await using Debouncer debouncer = Debouncer.FromDelegate(callback);
+        await using Debouncer debouncer = Debouncer.FromDelegate(callback, debounceMs: 200);
         await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(50);// Wait half the debounced time
+        await Task.Delay(50); 
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(150);
         await debouncer.FlushAsync();

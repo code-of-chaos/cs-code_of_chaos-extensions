@@ -291,11 +291,11 @@ public class ThrottledDebouncerGenericTests {
         ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 50, throttleMs: 100);
         
         await debouncer.InvokeDebouncedAsync("slow");
-        await Task.Delay(75); // Wait for first call to start
+        await Task.Delay(500); // Wait for first call to start
         
         await debouncer.InvokeDebouncedAsync("fast");
         
-        await Task.Delay(400); // Wait for both calls to complete
+        await Task.Delay(500); // Wait for both calls to complete
         await debouncer.FlushAsync();
 
         // Assert

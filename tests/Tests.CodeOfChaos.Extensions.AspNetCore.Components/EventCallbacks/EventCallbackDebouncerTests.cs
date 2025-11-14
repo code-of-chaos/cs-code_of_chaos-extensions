@@ -49,7 +49,7 @@ public class EventCallbackDebouncerTests {
     }
 
     [Test]
-    public async Task CustomDebounceMs_ShouldRespectSpecifiedTime() {
+    public async Task CustomDebounceMs_ShouldRespectSpecifiedTime_EventCallback() {
         // Arrange
         int callCount = 0;
         EventCallback callback = EventCallback.Factory.Create(this, callback: () => {
