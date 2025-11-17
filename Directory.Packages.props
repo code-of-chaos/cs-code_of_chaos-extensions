@@ -35,7 +35,7 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="9.0.0" />
     <PackageVersion Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
-    <PackageVersion Include="TUnit" Version="1.1.10" />
+    <PackageVersion Include="TUnit" Version="1.2.3" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
   </ItemGroup>
 </Project>
