@@ -31,7 +31,7 @@ public record InjectableData(
 
         foreach (AttributeData attributeData in context.Attributes) {
             int lifetime = attributeData.ConstructorArguments[0].Value as int? ?? -1;
-            yield return ExtractServiceData(classSymbol, attributeData, ServiceLifetimeUtlities.ToLifetime(lifetime), firstArgumentIndex: 1);
+            yield return ExtractServiceData(classSymbol, attributeData, ServiceLifetimeUtilities.ToLifetime(lifetime), firstArgumentIndex: 1);
         }
     }
 
@@ -59,7 +59,7 @@ public record InjectableData(
             switch (fullMetadataName) {
                 case SourceCodes.InjectableAttributeMetadataName: {
                     int lifetime = attributeData.ConstructorArguments[0].Value as int? ?? -1;
-                    yield return ExtractServiceData(classSymbol, attributeData, ServiceLifetimeUtlities.ToLifetime(lifetime), 1);
+                    yield return ExtractServiceData(classSymbol, attributeData, ServiceLifetimeUtilities.ToLifetime(lifetime), 1);
                     break;
                 }
 

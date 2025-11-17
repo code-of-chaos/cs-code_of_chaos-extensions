@@ -13,7 +13,7 @@ public enum ServiceLifetime {
     Transient = 2,
 }
 
-public static class ServiceLifetimeUtlities {
+public static class ServiceLifetimeUtilities {
     public static string ToFriendlyString(this ServiceLifetime lifetime) => lifetime switch {
         ServiceLifetime.Singleton => "Singleton",
         ServiceLifetime.Scoped => "Scoped",
