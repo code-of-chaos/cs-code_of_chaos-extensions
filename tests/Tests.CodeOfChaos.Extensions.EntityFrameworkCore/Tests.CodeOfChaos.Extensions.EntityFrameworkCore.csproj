@@ -11,6 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.InMemory" />
         <PackageReference Include="JetBrains.Annotations"  />
         <PackageReference Include="Moq" />
         <PackageReference Include="TUnit"  />

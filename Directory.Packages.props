@@ -7,11 +7,13 @@
   <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
     <PackageVersion Include="Microsoft.AspNetCore.Components" Version="10.0.0" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.0" />
+      <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.0" />
   </ItemGroup>
   <!-- .NET 9 -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
     <PackageVersion Include="Microsoft.AspNetCore.Components" Version="[9.0.11, 10.0.0)" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="[9.0.11, 10.0.0)" />
+      <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="[9.0.11, 10.0.0)" />
   </ItemGroup>
   <!-- Common packages for all frameworks -->
   <ItemGroup>

@@ -27,6 +27,10 @@
     </ItemGroup>
 
     <ItemGroup>
+        <InternalsVisibleTo Include="Tests.CodeOfChaos.Extensions.EntityFrameworkCore" />
+    </ItemGroup>
+
+    <ItemGroup>
         <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false" />
         <None Include="README.md" Pack="true" PackagePath="" />
         <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
