@@ -5,7 +5,7 @@ using JetBrains.Annotations;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 
-namespace Tests.CodeOfChaos.Extensions.EntityFrameworkCore;
+namespace Tests.CodeOfChaos.Extensions.EntityFrameworkCore.Linq;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
