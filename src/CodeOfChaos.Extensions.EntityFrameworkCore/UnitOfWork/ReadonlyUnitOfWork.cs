@@ -2,6 +2,7 @@
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace Microsoft.EntityFrameworkCore;
 // ---------------------------------------------------------------------------------------------------------------------
@@ -9,8 +10,9 @@ namespace Microsoft.EntityFrameworkCore;
 // ---------------------------------------------------------------------------------------------------------------------
 public class ReadonlyUnitOfWork<TDbContext>(
     IDbContextFactory<TDbContext> dbContextFactory,
-    AsyncServiceScope serviceScope
-) : UnitOfWork<TDbContext>(dbContextFactory, serviceScope), IReadonlyUnitOfWork<TDbContext>
+    AsyncServiceScope serviceScope,
+    ILogger<ReadonlyUnitOfWork<TDbContext>> logger
+) : UnitOfWork<TDbContext>(dbContextFactory, serviceScope, logger), IReadonlyUnitOfWork<TDbContext>
     where TDbContext : DbContext, IReadonlyCapableDbContext {
     
     public async override ValueTask<TDbContext> GetDbContextAsync(CancellationToken ct) {

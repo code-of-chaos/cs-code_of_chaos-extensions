@@ -9,14 +9,14 @@ namespace Microsoft.EntityFrameworkCore;
 // ---------------------------------------------------------------------------------------------------------------------
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
-public class UnitOfWorkFactory<TDbContext>(IDbContextFactory<TDbContext> dbContextFactory, IServiceProvider provider, ILogger<UnitOfWorkFactory<TDbContext>> logger) : IUnitOfWorkFactory<TDbContext> where TDbContext : DbContext {
+public class UnitOfWorkFactory<TDbContext>(IDbContextFactory<TDbContext> dbContextFactory, IServiceProvider provider, ILogger<UnitOfWorkFactory<TDbContext>> logger, ILoggerFactory loggerFactory) : IUnitOfWorkFactory<TDbContext> where TDbContext : DbContext {
     public IUnitOfWork<TDbContext> Create() {
         // Each unit of work should have their own scope which they pull their repositories from
         //      This, if the factory is used correctly, should enforce correct usage and limit dbcontext concurrency issues.
         AsyncServiceScope scope = provider.CreateAsyncScope();
 
         // Because our factory doesn't create the actual dbcontext, yet we are safe, and we can just inject it downwards.
-        return new UnitOfWork<TDbContext>(dbContextFactory, scope);
+        return new UnitOfWork<TDbContext>(dbContextFactory, scope, loggerFactory.CreateLogger<UnitOfWork<TDbContext>>());
     }
 
     public IUnitOfWork<TDbContext> CreateWithTransaction() {

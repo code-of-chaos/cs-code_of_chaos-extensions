@@ -4,6 +4,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using Tests.CodeOfChaos.Extensions.EntityFrameworkCore.UnitOfWork.Assets;
 
@@ -26,6 +27,7 @@ public class ReadonlyUnitOfWorkTests {
 
         // Create a real AsyncServiceScope from a ServiceCollection
         var services = new ServiceCollection();
+        services.AddLogging();
         services.AddSingleton(_serviceProvider.Object);
         ServiceProvider provider = services.BuildServiceProvider();
         _serviceScope = provider.CreateAsyncScope();
@@ -42,7 +44,8 @@ public class ReadonlyUnitOfWorkTests {
             .Setup(factory => factory.CreateDbContextAsync(It.IsAny<CancellationToken>()))
             .ReturnsAsync(_dbContext.Object);
 
-        _readonlyUnitOfWork = new ReadonlyUnitOfWork<MockDbContext>(_dbContextFactory.Object, _serviceScope);
+        var logger = new Mock<ILogger<ReadonlyUnitOfWork<MockDbContext>>>();
+        _readonlyUnitOfWork = new ReadonlyUnitOfWork<MockDbContext>(_dbContextFactory.Object, _serviceScope, logger.Object);
     }
 
     [After(Test)]
@@ -120,7 +123,8 @@ public class ReadonlyUnitOfWorkTests {
         ServiceProvider provider = services.BuildServiceProvider();
         var factory = new ReadonlyUnitOfWorkFactory<DefaultDbContext>(
             provider.GetRequiredService<IDbContextFactory<DefaultDbContext>>(),
-            provider
+            provider,
+            provider.GetRequiredService<ILoggerFactory>()
         );
         IReadonlyUnitOfWork<DefaultDbContext> readonlyUnitOfWork = factory.Create();
 

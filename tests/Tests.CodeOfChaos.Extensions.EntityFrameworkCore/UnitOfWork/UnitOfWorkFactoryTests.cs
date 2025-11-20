@@ -65,7 +65,13 @@ public class UnitOfWorkFactoryTests {
             .Returns(_serviceProvider.Object);
 
         // Create test factory
-        _factory = new UnitOfWorkFactory<MockDbContext>(_dbContextFactory.Object, _serviceProvider.Object, _logger.Object);
+        var loggerFactoryMock = new Mock<ILoggerFactory>();
+        _factory = new UnitOfWorkFactory<MockDbContext>(
+            _dbContextFactory.Object,
+            _serviceProvider.Object,
+            _logger.Object,
+            loggerFactoryMock.Object
+        );
     }
 
     // -----------------------------------------------------------------------------------------------------------------

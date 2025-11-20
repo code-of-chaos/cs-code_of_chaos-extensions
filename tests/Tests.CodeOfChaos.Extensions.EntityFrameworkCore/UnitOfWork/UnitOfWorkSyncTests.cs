@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 using Moq;
 using System.Diagnostics.CodeAnalysis;
 using Tests.CodeOfChaos.Extensions.EntityFrameworkCore.UnitOfWork.Assets;
@@ -68,7 +69,8 @@ public class UnitOfWorkSyncTests {
             .Setup(d => d.CreateDbContext())
             .Returns(_dbContext.Object);
 
-        _unitOfWork = new UnitOfWork<MockDbContext>(_dbContextFactory.Object, _serviceScope);
+        var logger = new Mock<ILogger<UnitOfWork<MockDbContext>>>();
+        _unitOfWork = new UnitOfWork<MockDbContext>(_dbContextFactory.Object, _serviceScope, logger.Object);
     }
 
     [After(Test)]
