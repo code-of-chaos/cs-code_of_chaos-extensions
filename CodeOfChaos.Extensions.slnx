@@ -21,6 +21,7 @@
     <Project Path="src/CodeOfChaos.Extensions.DependencyInjection.Generators/CodeOfChaos.Extensions.DependencyInjection.Generators.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.DependencyInjection/CodeOfChaos.Extensions.DependencyInjection.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.EntityFrameworkCore/CodeOfChaos.Extensions.EntityFrameworkCore.csproj" />
+    <Project Path="src/CodeOfChaos.Extensions.FastEndpoints.Generators/CodeOfChaos.Extensions.FastEndpoints.Generators.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.FastEndpoints/CodeOfChaos.Extensions.FastEndpoints.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.FluentValidation/CodeOfChaos.Extensions.FluentValidation.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.MicrosoftLogging/CodeOfChaos.Extensions.MicrosoftLogging.csproj" />

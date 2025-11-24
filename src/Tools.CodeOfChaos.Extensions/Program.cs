@@ -30,7 +30,9 @@ public static class Program {
             "CodeOfChaos.Extensions.DependencyInjection",
             "CodeOfChaos.Extensions.DependencyInjection.Generators",
             "CodeOfChaos.Extensions.FluentValidation",
-            "CodeOfChaos.Extensions.ObjectPool"
+            "CodeOfChaos.Extensions.ObjectPool",
+            "CodeOfChaos.Extensions.FastEndpoints",
+            "CodeOfChaos.Extensions.FastEndpoints.Generators"
         );
         
         // Finally, start executing

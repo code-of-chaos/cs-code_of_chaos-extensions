@@ -25,8 +25,6 @@ jobs:
             - name: Build
               run: dotnet build CodeOfChaos.Extensions.slnx --configuration Release --no-restore
             
-            # Ensure that the tests must pass 
-            # The job will fail automatically if any test fails because `dotnet test` exits with a non-zero code
             - name: Run tests
               run: dotnet test --solution CodeOfChaos.Extensions.slnx --configuration Release --no-restore --no-build
 
@@ -45,3 +43,5 @@ jobs:
                   dotnet nuget push src/CodeOfChaos.Extensions.DependencyInjection.Generators/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.FluentValidation/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
                   dotnet nuget push src/CodeOfChaos.Extensions.ObjectPool/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.FastEndpoints/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate
+                  dotnet nuget push src/CodeOfChaos.Extensions.FastEndpoints.Generators/bin/Release/*.nupkg --api-key $NUGET_API_KEY --source https://api.nuget.org/v3/index.json --skip-duplicate

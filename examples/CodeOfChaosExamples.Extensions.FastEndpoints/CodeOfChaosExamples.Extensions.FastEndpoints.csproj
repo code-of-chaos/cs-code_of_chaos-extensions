@@ -1,6 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
+        <OutputType>exe</OutputType>
         <TargetFramework>net10.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
@@ -8,6 +9,11 @@
 
     <ItemGroup>
       <PackageReference Include="FastEndpoints" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\CodeOfChaosExamples.Extensions.Analyzers\CodeOfChaosExamples.Extensions.Analyzers.csproj" />
+      <ProjectReference Include="..\CodeOfChaosExamples.Extensions.DependencyInjection\CodeOfChaosExamples.Extensions.DependencyInjection.csproj"  OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
     </ItemGroup>
 
 </Project>
