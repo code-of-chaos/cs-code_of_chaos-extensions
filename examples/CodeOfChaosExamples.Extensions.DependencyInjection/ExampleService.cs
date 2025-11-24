@@ -4,7 +4,7 @@
 using CodeOfChaos.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Examples.CodeOfChaos.Extensions.DependencyInjection;
+namespace CodeOfChaosExamples.Extensions.DependencyInjection;
 
 // ---------------------------------------------------------------------------------------------------------------------
 // Code

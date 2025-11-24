@@ -10,8 +10,9 @@
     <File Path=".github/workflows/workflow-todo.yml" />
   </Folder>
   <Folder Name="/examples/">
-    <Project Path="examples/Examples.CodeOfChaos.Extensions.Analyzers/Examples.CodeOfChaos.Extensions.Analyzers.csproj" />
-    <Project Path="examples/Examples.CodeOfChaos.Extensions.DependencyInjection/Examples.CodeOfChaos.Extensions.DependencyInjection.csproj" />
+    <Project Path="examples/CodeOfChaosExamples.Extensions.Analyzers/CodeOfChaosExamples.Extensions.Analyzers.csproj" />
+    <Project Path="examples/CodeOfChaosExamples.Extensions.DependencyInjection/CodeOfChaosExamples.Extensions.DependencyInjection.csproj" />
+    <Project Path="examples/CodeOfChaosExamples.Extensions.FastEndpoints/CodeOfChaosExamples.Extensions.FastEndpoints.csproj" />
   </Folder>
   <Folder Name="/src/">
     <Project Path="src/CodeOfChaos.Extensions.Analyzers/CodeOfChaos.Extensions.Analyzers.csproj" />
@@ -20,6 +21,7 @@
     <Project Path="src/CodeOfChaos.Extensions.DependencyInjection.Generators/CodeOfChaos.Extensions.DependencyInjection.Generators.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.DependencyInjection/CodeOfChaos.Extensions.DependencyInjection.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.EntityFrameworkCore/CodeOfChaos.Extensions.EntityFrameworkCore.csproj" />
+    <Project Path="src/CodeOfChaos.Extensions.FastEndpoints/CodeOfChaos.Extensions.FastEndpoints.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.FluentValidation/CodeOfChaos.Extensions.FluentValidation.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.MicrosoftLogging/CodeOfChaos.Extensions.MicrosoftLogging.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.ObjectPool/CodeOfChaos.Extensions.ObjectPool.csproj" />
