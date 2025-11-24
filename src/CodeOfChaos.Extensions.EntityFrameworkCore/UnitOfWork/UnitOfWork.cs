@@ -41,7 +41,7 @@ public class UnitOfWork<TDbContext>(IDbContextFactory<TDbContext> dbContextFacto
         }
     }
 
-    public virtual TDbContext GetDbContext() => _lazyDb.Value;
+    public virtual TDbContext GetDbContext() => _dbContext ??= _lazyDb.Value;
 
     public virtual bool TryCreateTransaction() {
         if (_transaction != null) return false;
