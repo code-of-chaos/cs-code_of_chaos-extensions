@@ -17,7 +17,7 @@
   </ItemGroup>
   <!-- Common packages for all frameworks -->
   <ItemGroup>
-    <PackageVersion Include="BenchmarkDotNet" Version="0.15.6" />
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.8" />
     <PackageVersion Include="Bogus" Version="35.6.5" />
     <PackageVersion Include="CodeOfChaos.Ansi" Version="1.2.4" />
     <PackageVersion Include="CodeOfChaos.CliArgsParser.Library" Version="5.1.3" />
