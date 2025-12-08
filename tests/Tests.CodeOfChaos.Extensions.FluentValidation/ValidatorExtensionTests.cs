@@ -54,7 +54,7 @@ public class ValidatorExtensionTests {
 
     [Test]
     public async Task TryValidate_InvalidInstance_ReturnsFalseAndFailures() {
-        bool result = _mockedValidator.TryValidate(InvalidInstance, out List<ValidationFailure>? failures);
+        bool result = _mockedValidator.TryValidate(InvalidInstance, out List<ValidationFailure> failures);
 
         await Assert.That(result).IsFalse();
         await Assert.That(failures).IsEquivalentTo(ValidationFailures);

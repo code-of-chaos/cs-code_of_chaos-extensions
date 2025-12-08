@@ -88,7 +88,7 @@ public class EventCallbackDebouncerGenericTests {
         await debouncer.FlushAsync();
 
         // Assert
-        await Assert.That(receivedValues).HasCount().EqualTo(1);
+        await Assert.That(receivedValues).Count().IsEqualTo(1);
         await debouncer.DisposeAsync();
     }
 

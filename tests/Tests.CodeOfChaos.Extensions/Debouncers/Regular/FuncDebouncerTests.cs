@@ -144,7 +144,7 @@ public class FuncDebouncerTests {
         await debouncer.FlushAsync();
 
         // Assert
-        await Assert.That(executionTimes).HasCount().EqualTo(1);
+        await Assert.That(executionTimes).Count().IsEqualTo(1);
     }
     
     [Test]

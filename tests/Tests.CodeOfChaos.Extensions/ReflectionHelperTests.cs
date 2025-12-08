@@ -1,6 +1,7 @@
 ﻿// ---------------------------------------------------------------------------------------------------------------------
 // Imports
 // ---------------------------------------------------------------------------------------------------------------------
+using System.Diagnostics.CodeAnalysis;
 using System.Reflection;
 
 namespace Tests.CodeOfChaos.Extensions;
@@ -9,7 +10,10 @@ namespace Tests.CodeOfChaos.Extensions;
 // ---------------------------------------------------------------------------------------------------------------------
 public class ReflectionHelperTests {
     private class TestClass {
-        public TestClass(string nonNullable, string? nullable, int valueType, int? nullableValueType) {}// ReSharper disable UnusedParameter.Local
+        [SuppressMessage("ReSharper", "UnusedParameter.Local")] 
+        public TestClass(string nonNullable, string? nullable, int valueType, int? nullableValueType) {}
+        
+        [SuppressMessage("ReSharper", "UnusedParameter.Local")] 
         public static void MethodWithNullability(
             string nonNullable,
             string? nullable,
