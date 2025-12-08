@@ -84,7 +84,7 @@ public class ThrottledDebouncerGenericTests {
         await debouncer.FlushAsync(); // Ensure second execution has completed
 
         // Assert
-        await Assert.That(receivedValues).HasCount().GreaterThanOrEqualTo(2);
+        await Assert.That(receivedValues).Count().IsGreaterThanOrEqualTo(2);
         await Assert.That(receivedValues[0].Value).IsEqualTo("first");
         await Assert.That(receivedValues[^1].Value).IsEqualTo("fourth");
 
@@ -123,7 +123,7 @@ public class ThrottledDebouncerGenericTests {
         
         // Assert
         await Assert.That(executionCount).IsGreaterThan(1);
-        await Assert.That(receivedValues).HasCount().EqualTo(executionCount);
+        await Assert.That(receivedValues).Count().IsEqualTo(executionCount);
     }
     
     [Test]
@@ -171,7 +171,7 @@ public class ThrottledDebouncerGenericTests {
         // Assert
         await Assert.That(executionCount).IsGreaterThanOrEqualTo(2);
         await Assert.That(executionCount).IsLessThanOrEqualTo(3);
-        await Assert.That(receivedValues).HasCount().EqualTo(executionCount);
+        await Assert.That(receivedValues).Count().IsEqualTo(executionCount);
 
     }
 
@@ -246,7 +246,7 @@ public class ThrottledDebouncerGenericTests {
         await debouncer.FlushAsync();
 
         // Assert
-        await Assert.That(executionTimes).HasCount().EqualTo(1);
+        await Assert.That(executionTimes).Count().IsEqualTo(1);
         double executionDelay = (executionTimes[0] - startTime).TotalMilliseconds;
         await Assert.That(executionDelay).IsGreaterThanOrEqualTo(95); // Account for timing variations
     }

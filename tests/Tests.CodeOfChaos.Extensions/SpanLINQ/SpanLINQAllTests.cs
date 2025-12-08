@@ -21,7 +21,7 @@ public class SpanLINQAllTests {
         bool result = span.All(static x => x % 2 == 0);
 
         // Assert
-        await Assert.That(result).IsTrue();;
+        await Assert.That(result).IsTrue();
     }
 
     [Test]

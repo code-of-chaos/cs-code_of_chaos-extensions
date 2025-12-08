@@ -27,7 +27,6 @@ public class TaskHelperTests {
     [Arguments(false, false)]
     public async Task FromTaskOrDefault_ShouldReturnExpected_ReferenceType(bool setAsDefault, bool expectedIsNull) {
         // Arrange
-        var expected = new TestClass();
         Task<TestClass?> task = Task.FromResult(setAsDefault ? null : new TestClass());
 
         // Act
