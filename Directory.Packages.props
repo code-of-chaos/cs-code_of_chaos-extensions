@@ -34,7 +34,7 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
-    <PackageVersion Include="TUnit" Version="1.12.3" />
+    <PackageVersion Include="TUnit" Version="1.12.53" />
     <PackageVersion Include="coverlet.collector" Version="6.0.4" />
     <!-- DO NOT UPDATE: Microsoft.CodeAnalysis packages locked at 4.14.0 due to compatibility requirements -->
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="[4.14.0,4.15.0)" />
