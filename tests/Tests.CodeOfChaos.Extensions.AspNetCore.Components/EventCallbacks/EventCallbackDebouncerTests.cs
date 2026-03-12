@@ -57,18 +57,18 @@ public class EventCallbackDebouncerTests {
             return Task.CompletedTask;
         });
 
-        const int customDebounceMs = 200;
+        const int customDebounceMs = 500;
 
         // Act
         await using var debouncer = EventCallbackDebouncer.FromEventCallback(callback, customDebounceMs);
         await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(150);// Less than debouncing time
+        await Task.Delay(100);// Less than debouncing time
 
         // Assert
         await Assert.That(callCount).IsEqualTo(0);
 
         // Wait for the remaining time
-        await Task.Delay(100);
+        await Task.Delay(450);
         await debouncer.FlushAsync();
         await Assert.That(callCount).IsEqualTo(1);
     }
@@ -161,5 +161,33 @@ public class EventCallbackDebouncerTests {
 
         // Assert
         await Assert.That(executionTimes).Count().IsEqualTo(1);
+    }
+
+    [Test]
+    public async Task FlushAsync_ShouldWaitForLatestPendingInvocation_EventCallback() {
+        // Arrange
+        int invocation = 0;
+        int completed = 0;
+        var firstInvocationStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+        EventCallback callback = EventCallback.Factory.Create(this, callback: async () => {
+            int current = Interlocked.Increment(ref invocation);
+            if (current == 1) firstInvocationStarted.TrySetResult();
+            await Task.Delay(current == 1 ? 50 : 300);
+            Interlocked.Increment(ref completed);
+        });
+
+        await using EventCallbackDebouncer debouncer = EventCallbackDebouncer.FromEventCallback(callback, debounceMs: 10);
+
+        // Act
+        await debouncer.InvokeDebouncedAsync();
+        await firstInvocationStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
+        await debouncer.InvokeDebouncedAsync();
+        await Task.Delay(80); // Callback 1 completes while callback 2 is still running
+
+        Task flushTask = debouncer.FlushAsync();
+        await flushTask;
+
+        // Assert
+        await Assert.That(completed).IsEqualTo(2);
     }
 }
