@@ -42,18 +42,18 @@ public class ActionDebouncerTests {
             Interlocked.Increment(ref callCount);
         };
 
-        const int customDebounceMs = 200;
+        const int customDebounceMs = 500;
 
         // Act
         await using Debouncer debouncer = Debouncer.FromDelegate(callback, customDebounceMs);
         await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(50);// Less than debouncing time
+        await Task.Delay(100);// Less than debouncing time
 
         // Assert
         await Assert.That(callCount).IsEqualTo(0);
 
         // Wait for the remaining time
-        await Task.Delay(100);
+        await Task.Delay(450);
         await debouncer.FlushAsync();
         await Assert.That(callCount).IsEqualTo(1);
     }
@@ -153,8 +153,10 @@ public class ActionDebouncerTests {
         // Arrange
         int invocation = 0;
         int completed = 0;
+        var firstInvocationStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         Func<Task> callback = async () => {
             int current = Interlocked.Increment(ref invocation);
+            if (current == 1) firstInvocationStarted.TrySetResult();
             await Task.Delay(current == 1 ? 50 : 300);
             Interlocked.Increment(ref completed);
         };
@@ -163,7 +165,7 @@ public class ActionDebouncerTests {
 
         // Act
         await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(20); // Ensure callback 1 has started
+        await firstInvocationStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         await debouncer.InvokeDebouncedAsync();
         await Task.Delay(80); // Callback 1 completes while callback 2 is still running
 

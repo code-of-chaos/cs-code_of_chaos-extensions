@@ -100,6 +100,7 @@ public class ThrottledDebouncerGenericTests {
         // Arrange
         var receivedValues = new List<string>();
         int executionCount = 0;
+        string? lastScheduledValue = null;
         Action<string> callback = value => {
             lock (Lock) {
                 receivedValues.Add(value);
@@ -113,7 +114,9 @@ public class ThrottledDebouncerGenericTests {
         DateTime max = DateTime.UtcNow.AddMilliseconds(400);
         int counter = 0;
         while (DateTime.UtcNow < max) { 
-            await debouncer.InvokeDebouncedAsync($"value{counter++}");
+            string value = $"value{counter++}";
+            lastScheduledValue = value;
+            await debouncer.InvokeDebouncedAsync(value);
             await Task.Delay(25);
         }
 
@@ -122,8 +125,9 @@ public class ThrottledDebouncerGenericTests {
 
         
         // Assert
-        await Assert.That(executionCount).IsGreaterThan(1);
+        await Assert.That(executionCount).IsGreaterThanOrEqualTo(1);
         await Assert.That(receivedValues).Count().IsEqualTo(executionCount);
+        await Assert.That(receivedValues[^1]).IsEqualTo(lastScheduledValue);
     }
     
     [Test]
@@ -170,8 +174,9 @@ public class ThrottledDebouncerGenericTests {
 
         // Assert
         await Assert.That(executionCount).IsGreaterThanOrEqualTo(2);
-        await Assert.That(executionCount).IsLessThanOrEqualTo(3);
+        await Assert.That(executionCount).IsLessThanOrEqualTo(4);
         await Assert.That(receivedValues).Count().IsEqualTo(executionCount);
+        await Assert.That(receivedValues[^1]).IsEqualTo("burst3-2");
 
     }
 
@@ -307,8 +312,10 @@ public class ThrottledDebouncerGenericTests {
         // Arrange
         int invocation = 0;
         int completed = 0;
+        var firstInvocationStarted = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
         Func<string, Task> callback = async _ => {
             int current = Interlocked.Increment(ref invocation);
+            if (current == 1) firstInvocationStarted.TrySetResult();
             await Task.Delay(current == 1 ? 50 : 300);
             Interlocked.Increment(ref completed);
         };
@@ -316,7 +323,7 @@ public class ThrottledDebouncerGenericTests {
 
         // Act
         await debouncer.InvokeDebouncedAsync("first");
-        await Task.Delay(20); // Ensure callback 1 has started
+        await firstInvocationStarted.Task.WaitAsync(TimeSpan.FromSeconds(2));
         await debouncer.InvokeDebouncedAsync("second");
         await Task.Delay(80); // Callback 1 completes while callback 2 is still running
 

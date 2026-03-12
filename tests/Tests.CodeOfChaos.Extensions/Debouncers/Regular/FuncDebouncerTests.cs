@@ -40,18 +40,18 @@ public class FuncDebouncerTests {
             return Task.CompletedTask;
         };
 
-        const int customDebounceMs = 200;
+        const int customDebounceMs = 500;
 
         // Act
         await using Debouncer debouncer = Debouncer.FromDelegate(callback, customDebounceMs);
         await debouncer.InvokeDebouncedAsync();
-        await Task.Delay(150);// Less than debouncing time
+        await Task.Delay(100);// Less than debouncing time
 
         // Assert
         await Assert.That(callCount).IsEqualTo(0);
 
         // Wait for the remaining time
-        await Task.Delay(100);
+        await Task.Delay(450);
         await debouncer.FlushAsync();
         await Assert.That(callCount).IsEqualTo(1);
     }
