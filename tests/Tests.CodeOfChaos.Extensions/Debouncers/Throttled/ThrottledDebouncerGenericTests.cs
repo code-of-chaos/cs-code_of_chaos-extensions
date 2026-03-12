@@ -301,4 +301,30 @@ public class ThrottledDebouncerGenericTests {
         // Assert
         await Assert.That(executionCount).IsEqualTo(2);
     }
+
+    [Test]
+    public async Task ThrottledDebouncer_FlushAsync_ShouldWaitForLatestPendingInvocation() {
+        // Arrange
+        int invocation = 0;
+        int completed = 0;
+        Func<string, Task> callback = async _ => {
+            int current = Interlocked.Increment(ref invocation);
+            await Task.Delay(current == 1 ? 50 : 300);
+            Interlocked.Increment(ref completed);
+        };
+        ThrottledDebouncer<string> debouncer = ThrottledDebouncer<string>.FromDelegate(callback, debounceMs: 10, throttleMs: 0);
+
+        // Act
+        await debouncer.InvokeDebouncedAsync("first");
+        await Task.Delay(20); // Ensure callback 1 has started
+        await debouncer.InvokeDebouncedAsync("second");
+        await Task.Delay(80); // Callback 1 completes while callback 2 is still running
+
+        Task flushTask = debouncer.FlushAsync();
+        await flushTask;
+
+        // Assert
+        await Assert.That(completed).IsEqualTo(2);
+        await debouncer.DisposeAsync();
+    }
 }

@@ -18,6 +18,7 @@ public abstract class DebouncerBase<T> : IAsyncDisposable, IDebouncerBase {
     private Task? _debounceTask;
     private bool _isDisposed;
     private T? _latestValue;
+    private int _debounceVersion;
 
     public abstract bool IsEmpty { get; }
     // -----------------------------------------------------------------------------------------------------------------
@@ -36,12 +37,15 @@ public abstract class DebouncerBase<T> : IAsyncDisposable, IDebouncerBase {
             _latestValue = value;
 
             ReplaceCancellationTokenSource();
-            _debounceTask = ExecuteDebounceTaskAsync(_latestValue, _cts.Token);
+            lock (_stateLock) {
+                _debounceVersion++;
+                _debounceTask = ExecuteDebounceTaskAsync(_latestValue, _debounceVersion, _cts.Token);
+            }
         }
         finally {
             _semaphore.Release();
         }
-
+        
         // Awaiting the debounce task is not done here to allow non-blocking execution of this method.
     }
 
@@ -57,13 +61,15 @@ public abstract class DebouncerBase<T> : IAsyncDisposable, IDebouncerBase {
         }
     }
 
-    private async Task ExecuteDebounceTaskAsync(T? capturedValue, CancellationToken debounceToken) {
+    private async Task ExecuteDebounceTaskAsync(T? capturedValue, int scheduledVersion, CancellationToken debounceToken) {
         try {
             await Task.Delay(DebounceMs, debounceToken);
 
             if (!debounceToken.IsCancellationRequested && capturedValue is not null) {
                 await InvokeCallbackAsync(capturedValue, debounceToken);
-                _debounceTask = null;
+                lock (_stateLock) {
+                    if (scheduledVersion == _debounceVersion) _debounceTask = null;
+                }
             }
         }
         catch (OperationCanceledException) {
@@ -73,7 +79,9 @@ public abstract class DebouncerBase<T> : IAsyncDisposable, IDebouncerBase {
     
     public Task FlushAsync(CancellationToken ct = default) {
         EnsureNotDisposed();
-        return _debounceTask ?? Task.CompletedTask;
+        lock (_stateLock) {
+            return _debounceTask ?? Task.CompletedTask;
+        }
     }
     
     private void EnsureNotDisposed() {
@@ -103,6 +111,8 @@ public abstract class DebouncerBase<T> : IAsyncDisposable, IDebouncerBase {
                     _cts.Dispose();
                     _cts = null;
                 }
+
+                _debounceTask = null;
             }
         }
         finally {

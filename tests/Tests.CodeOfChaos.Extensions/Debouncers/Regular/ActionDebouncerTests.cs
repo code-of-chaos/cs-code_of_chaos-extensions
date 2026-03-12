@@ -147,4 +147,30 @@ public class ActionDebouncerTests {
         // Assert
         await Assert.That(executionTimes).Count().IsEqualTo(1);
     }
+
+    [Test]
+    public async Task FlushAsync_ShouldWaitForLatestPendingInvocation() {
+        // Arrange
+        int invocation = 0;
+        int completed = 0;
+        Func<Task> callback = async () => {
+            int current = Interlocked.Increment(ref invocation);
+            await Task.Delay(current == 1 ? 50 : 300);
+            Interlocked.Increment(ref completed);
+        };
+
+        await using Debouncer debouncer = Debouncer.FromDelegate(callback, debounceMs: 10);
+
+        // Act
+        await debouncer.InvokeDebouncedAsync();
+        await Task.Delay(20); // Ensure callback 1 has started
+        await debouncer.InvokeDebouncedAsync();
+        await Task.Delay(80); // Callback 1 completes while callback 2 is still running
+
+        Task flushTask = debouncer.FlushAsync();
+        await flushTask;
+
+        // Assert
+        await Assert.That(completed).IsEqualTo(2);
+    }
 }

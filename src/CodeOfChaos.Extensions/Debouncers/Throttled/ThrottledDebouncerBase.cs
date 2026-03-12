@@ -22,6 +22,7 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable, IDebouncerBa
     private T? _latestValue;
     private DateTime _lastExecuteTime = DateTime.MinValue;
     private DateTime _firstCallTime = DateTime.MinValue;
+    private int _debounceVersion;
 
     public abstract bool IsEmpty { get; }
     // -----------------------------------------------------------------------------------------------------------------
@@ -38,10 +39,12 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable, IDebouncerBa
         try {
             _latestValue = value;
 
-            if (_firstCallTime == DateTime.MinValue) _firstCallTime = DateTime.UtcNow;
-
             ReplaceCancellationTokenSource();
-            _debounceTask = ExecuteDebounceTaskAsync(_latestValue, _cts.Token);
+            lock (_stateLock) {
+                if (_firstCallTime == DateTime.MinValue) _firstCallTime = DateTime.UtcNow;
+                _debounceVersion++;
+                _debounceTask = ExecuteDebounceTaskAsync(_latestValue, _debounceVersion, _cts.Token);
+            }
         }
         finally {
             _semaphore.Release();
@@ -62,7 +65,7 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable, IDebouncerBa
         }
     }
 
-    private async Task ExecuteDebounceTaskAsync(T? capturedValue, CancellationToken externalCt) {
+    private async Task ExecuteDebounceTaskAsync(T? capturedValue, int scheduledVersion, CancellationToken externalCt) {
         try {
             DateTime taskStartTime = DateTime.UtcNow;
 
@@ -74,33 +77,37 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable, IDebouncerBa
             double timeSinceReference = (taskStartTime - referenceTime).TotalMilliseconds;
 
             if (timeSinceReference >= ThrottleMs) {
-                await HandleDebounceExecution(capturedValue, externalCt, taskStartTime);
+                await HandleDebounceExecution(capturedValue, taskStartTime, externalCt);
                 return;
             }
 
-            await Task.Delay(DebounceMs, _cts!.Token);
+            await Task.Delay(DebounceMs, externalCt);
 
-            if (_cts.Token.IsCancellationRequested) return;
-            await HandleDebounceExecution(capturedValue, externalCt, taskStartTime);
+            if (externalCt.IsCancellationRequested) return;
+            await HandleDebounceExecution(capturedValue, taskStartTime, externalCt);
         }
         catch (OperationCanceledException) {
             // Ignore cancellation
         }
+
+        lock (_stateLock) {
+            if (scheduledVersion == _debounceVersion) _debounceTask = null;
+        }
     }
-    private async Task HandleDebounceExecution(T? capturedValue, CancellationToken externalCt, DateTime taskStartTime) {
+    private async Task HandleDebounceExecution(T? capturedValue, DateTime taskStartTime, CancellationToken externalCt) {
         lock (_stateLock) {
             _lastExecuteTime = taskStartTime;
         }
         if (capturedValue is null) return;
 
         await InvokeCallbackAsync(capturedValue, externalCt);
-        _debounceTask = null;
-
     }
     
     public Task FlushAsync(CancellationToken ct = default) {
         EnsureNotDisposed();
-        return _debounceTask ?? Task.CompletedTask;
+        lock (_stateLock) {
+            return _debounceTask ?? Task.CompletedTask;
+        }
     }
 
     private void EnsureNotDisposed() {
@@ -130,9 +137,12 @@ public abstract class ThrottledDebouncerBase<T> : IAsyncDisposable, IDebouncerBa
                     _cts.Dispose();
                     _cts = null;
                 }
+
+                _debounceTask = null;
             }
         }
         finally {
+            _semaphore.Release();
             _semaphore.Dispose();
         }
 
