@@ -30,7 +30,6 @@
   </Folder>
   <Folder Name="/tests/">
     <Project Path="tests/Benchmarks.CodeOfChaos.Extensions/Benchmarks.CodeOfChaos.Extensions.csproj" />
-    <Project Path="tests/Tests.CodeOfChaos.Extensions.Analyzers/Tests.CodeOfChaos.Extensions.Analyzers.csproj" />
     <Project Path="tests/Tests.CodeOfChaos.Extensions.AspNetCore.Components/Tests.CodeOfChaos.Extensions.AspNetCore.Components.csproj" />
     <Project Path="tests/Tests.CodeOfChaos.Extensions.AspNetCore/Tests.CodeOfChaos.Extensions.AspNetCore.csproj" />
     <Project Path="tests/Tests.CodeOfChaos.Extensions.DependencyInjection/Tests.CodeOfChaos.Extensions.DependencyInjection.csproj" />
