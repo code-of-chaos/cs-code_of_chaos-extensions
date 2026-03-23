@@ -11,6 +11,9 @@
 
     <ItemGroup>
         <PackageReference Include="CodeOfChaos.Testing.TUnit"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers"/>
+        <PackageReference Include="Microsoft.CodeAnalysis.Common" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" />
         <PackageReference Include="TUnit" />
     </ItemGroup>
 

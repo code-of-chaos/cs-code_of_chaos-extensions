@@ -5,15 +5,15 @@
   </PropertyGroup>
   <!-- .NET 10 -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net10.0'">
-    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="10.0.4" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.4" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.4" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="10.0.5" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="10.0.5" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="10.0.5" />
   </ItemGroup>
   <!-- .NET 9 -->
   <ItemGroup Condition="'$(TargetFramework)' == 'net9.0'">
-    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="[9.0.11, 10.0.0)" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="[9.0.11, 10.0.0)" />
-    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="[9.0.11, 10.0.0)" />
+    <PackageVersion Include="Microsoft.AspNetCore.Components" Version="[9.0.14, 10.0.0)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore" Version="[9.0.14, 10.0.0)" />
+    <PackageVersion Include="Microsoft.EntityFrameworkCore.InMemory" Version="[9.0.14, 10.0.0)" />
   </ItemGroup>
   <!-- Common packages for all frameworks -->
   <ItemGroup>
@@ -34,15 +34,10 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="10.0.0" />
     <PackageVersion Include="Serilog.Sinks.Async" Version="2.1.0" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="6.1.1" />
-<<<<<<< dependabot/nuget/coverlet.collector-8.0.1
-    <PackageVersion Include="TUnit" Version="1.19.57" />
+    <PackageVersion Include="TUnit" Version="1.21.6" />
     <PackageVersion Include="coverlet.collector" Version="8.0.1" />
-=======
-    <PackageVersion Include="TUnit" Version="1.21.0" />
-    <PackageVersion Include="coverlet.collector" Version="8.0.0" />
->>>>>>> core
     <PackageVersion Include="Microsoft.CodeAnalysis.Analyzers" Version="5.3.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" />
-    <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="5.0.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.CSharp" Version="5.3.0" />
+    <PackageVersion Include="Microsoft.CodeAnalysis.Common" Version="5.3.0" />
   </ItemGroup>
 </Project>
