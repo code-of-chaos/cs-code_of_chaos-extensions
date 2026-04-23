@@ -30,6 +30,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.AspNetCore.Components" />
+      <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" VersionOverride="10.0.7" />
     </ItemGroup>
 
     <ItemGroup>
