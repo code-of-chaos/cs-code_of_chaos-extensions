@@ -10,6 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="CodeOfChaos.CliArgsParser.Library" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" />
     </ItemGroup>
 
 </Project>
