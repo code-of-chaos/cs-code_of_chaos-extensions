@@ -1,0 +1,27 @@
+﻿{
+  "solution": {
+    "path": "CodeOfChaos.Extensions.slnx",
+    "projects": [
+      "src\\CodeOfChaos.Extensions.Analyzers\\CodeOfChaos.Extensions.Analyzers.csproj",
+      "src\\CodeOfChaos.Extensions.AspNetCore.Components\\CodeOfChaos.Extensions.AspNetCore.Components.csproj",
+      "src\\CodeOfChaos.Extensions.AspNetCore\\CodeOfChaos.Extensions.AspNetCore.csproj",
+      "src\\CodeOfChaos.Extensions.DependencyInjection.Generators\\CodeOfChaos.Extensions.DependencyInjection.Generators.csproj",
+      "src\\CodeOfChaos.Extensions.DependencyInjection\\CodeOfChaos.Extensions.DependencyInjection.csproj",
+      "src\\CodeOfChaos.Extensions.EntityFrameworkCore\\CodeOfChaos.Extensions.EntityFrameworkCore.csproj",
+      "src\\CodeOfChaos.Extensions.FluentValidation\\CodeOfChaos.Extensions.FluentValidation.csproj",
+      "src\\CodeOfChaos.Extensions.MicrosoftLogging\\CodeOfChaos.Extensions.MicrosoftLogging.csproj",
+      "src\\CodeOfChaos.Extensions.ObjectPool\\CodeOfChaos.Extensions.ObjectPool.csproj",
+      "src\\CodeOfChaos.Extensions.Serilog\\CodeOfChaos.Extensions.Serilog.csproj",
+      "src\\CodeOfChaos.Extensions\\CodeOfChaos.Extensions.csproj",
+      "tests\\CodeOfChaosBenchmarks.Extensions\\CodeOfChaosBenchmarks.Extensions.csproj",
+      "tests\\CodeOfChaosTests.Extensions.AspNetCore.Components\\CodeOfChaosTests.Extensions.AspNetCore.Components.csproj",
+      "tests\\CodeOfChaosTests.Extensions.AspNetCore\\CodeOfChaosTests.Extensions.AspNetCore.csproj",
+      "tests\\CodeOfChaosTests.Extensions.DependencyInjection\\CodeOfChaosTests.Extensions.DependencyInjection.csproj",
+      "tests\\CodeOfChaosTests.Extensions.EntityFrameworkCore\\CodeOfChaosTests.Extensions.EntityFrameworkCore.csproj",
+      "tests\\CodeOfChaosTests.Extensions.FluentValidation\\CodeOfChaosTests.Extensions.FluentValidation.csproj",
+      "tests\\CodeOfChaosTests.Extensions.ObjectPool\\CodeOfChaosTests.Extensions.ObjectPool.csproj",
+      "tests\\CodeOfChaosTests.Extensions.Serilog\\CodeOfChaosTests.Extensions.Serilog.csproj",
+      "tests\\CodeOfChaosTests.Extensions\\CodeOfChaosTests.Extensions.csproj"
+    ]
+  }
+}

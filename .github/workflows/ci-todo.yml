@@ -1,0 +1,29 @@
+name: "Run TODO to Issue"
+on:
+  push:
+    branches:
+      - core
+    paths-ignore:
+      - ".github/workflows/ci-todo.yml" # Exclude this specific workflow file
+jobs:
+  build:
+    runs-on: "ubuntu-latest"
+    steps:
+      - uses: actions/checkout@v6
+        
+      - name: TODO to Issue
+        uses: alstr/todo-to-issue-action@v5
+        with:
+          ISSUE_TEMPLATE: |
+            ### 📝 Todo : ** {{ title }} **
+            **Description:**  
+            {{ body }}
+
+            **Code Snippet:**
+            {{ snippet }}
+
+            **File:**  
+            {{ url }}
+
+          IDENTIFIERS: '[{"name": "TODO", "labels": ["todo"]}]'
+          CLOSE_ISSUES: "true"

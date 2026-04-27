@@ -1,32 +1,10 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
-        <LangVersion>latest</LangVersion>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-
-        <!-- Main package name -->
         <PackageId>CodeOfChaos.Extensions</PackageId>
-        <Version>0.90.0</Version>
-        <Authors>Anna Sas</Authors>
         <Description>A Library of broadly used extensions for dotnet in general</Description>
-        <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
         <PackageTags>extensions linq collections string</PackageTags>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <IncludeSymbols>true</IncludeSymbols>
-        <DebugType>embedded</DebugType>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
-
-    <ItemGroup>
-        <None Include="..\..\LICENSE" Pack="true" PackagePath="" Visible="false" />
-        <None Include="README.md" Pack="true" PackagePath="" />
-        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
-    </ItemGroup>
 
     <ItemGroup>
         <ProjectReference Include="..\CodeOfChaos.Extensions.Analyzers\CodeOfChaos.Extensions.Analyzers.csproj">

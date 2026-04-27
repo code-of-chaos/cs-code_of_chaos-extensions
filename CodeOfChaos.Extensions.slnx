@@ -3,19 +3,26 @@
     <File Path="Directory.Packages.props" />
     <File Path="global.json" />
     <File Path="README.md" />
-    <Project Path="src/Tools.CodeOfChaos.Extensions/Tools.CodeOfChaos.Extensions.csproj" />
   </Folder>
   <Folder Name="/.dev-tools/github/">
     <File Path=".github/dependabot.yml" />
-    <File Path=".github/workflows/onPullRequest-TestDotnet.yml" />
-    <File Path=".github/workflows/release.yml" />
-    <File Path=".github/workflows/workflow-todo.yml" />
+    <File Path=".github/PULL_REQUEST_TEMPLATE.md" />
+  </Folder>
+  <Folder Name="/.dev-tools/github/scripts/">
+    <File Path=".github/scripts/bump_version.py" />
+    <File Path=".github/scripts/test_bump_version.py" />
+  </Folder>
+  <Folder Name="/.dev-tools/github/workflows/">
+    <File Path=".github/workflows/ci-release.yml" />
+    <File Path=".github/workflows/ci-testing.yml" />
+    <File Path=".github/workflows/ci-todo.yml" />
   </Folder>
   <Folder Name="/examples/">
-    <Project Path="examples/Examples.CodeOfChaos.Extensions.Analyzers/Examples.CodeOfChaos.Extensions.Analyzers.csproj" />
-    <Project Path="examples/Examples.CodeOfChaos.Extensions.DependencyInjection/Examples.CodeOfChaos.Extensions.DependencyInjection.csproj" />
+    <Project Path="examples/CodeOfChaosExamples.Extensions.Analyzers/CodeOfChaosExamples.Extensions.Analyzers.csproj" />
+    <Project Path="examples/CodeOfChaosExamples.Extensions.DependencyInjection/CodeOfChaosExamples.Extensions.DependencyInjection.csproj" />
   </Folder>
   <Folder Name="/src/">
+    <File Path="src/Directory.Build.props" />
     <Project Path="src/CodeOfChaos.Extensions.Analyzers/CodeOfChaos.Extensions.Analyzers.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.AspNetCore.Components/CodeOfChaos.Extensions.AspNetCore.Components.csproj" />
     <Project Path="src/CodeOfChaos.Extensions.AspNetCore/CodeOfChaos.Extensions.AspNetCore.csproj" />
@@ -29,14 +36,14 @@
     <Project Path="src/CodeOfChaos.Extensions/CodeOfChaos.Extensions.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/Benchmarks.CodeOfChaos.Extensions/Benchmarks.CodeOfChaos.Extensions.csproj" />
-    <Project Path="tests/Tests.CodeOfChaos.Extensions.AspNetCore.Components/Tests.CodeOfChaos.Extensions.AspNetCore.Components.csproj" />
-    <Project Path="tests/Tests.CodeOfChaos.Extensions.AspNetCore/Tests.CodeOfChaos.Extensions.AspNetCore.csproj" />
-    <Project Path="tests/Tests.CodeOfChaos.Extensions.DependencyInjection/Tests.CodeOfChaos.Extensions.DependencyInjection.csproj" />
-    <Project Path="tests/Tests.CodeOfChaos.Extensions.EntityFrameworkCore/Tests.CodeOfChaos.Extensions.EntityFrameworkCore.csproj" />
-    <Project Path="tests/Tests.CodeOfChaos.Extensions.FluentValidation/Tests.CodeOfChaos.Extensions.FluentValidation.csproj" />
-    <Project Path="tests/Tests.CodeOfChaos.Extensions.ObjectPool/Tests.CodeOfChaos.Extensions.ObjectPool.csproj" />
-    <Project Path="tests/Tests.CodeOfChaos.Extensions.Serilog/Tests.CodeOfChaos.Extensions.Serilog.csproj" />
-    <Project Path="tests/Tests.CodeOfChaos.Extensions/Tests.CodeOfChaos.Extensions.csproj" />
+    <Project Path="tests/CodeOfChaosBenchmarks.Extensions/CodeOfChaosBenchmarks.Extensions.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Extensions.AspNetCore.Components/CodeOfChaosTests.Extensions.AspNetCore.Components.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Extensions.AspNetCore/CodeOfChaosTests.Extensions.AspNetCore.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Extensions.DependencyInjection/CodeOfChaosTests.Extensions.DependencyInjection.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Extensions.EntityFrameworkCore/CodeOfChaosTests.Extensions.EntityFrameworkCore.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Extensions.FluentValidation/CodeOfChaosTests.Extensions.FluentValidation.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Extensions.ObjectPool/CodeOfChaosTests.Extensions.ObjectPool.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Extensions.Serilog/CodeOfChaosTests.Extensions.Serilog.csproj" />
+    <Project Path="tests/CodeOfChaosTests.Extensions/CodeOfChaosTests.Extensions.csproj" />
   </Folder>
 </Solution>

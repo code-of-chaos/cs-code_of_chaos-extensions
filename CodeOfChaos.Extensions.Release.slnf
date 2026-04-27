@@ -1,0 +1,18 @@
+﻿{
+  "solution": {
+    "path": "CodeOfChaos.Extensions.slnx",
+    "projects": [
+      "src\\CodeOfChaos.Extensions.Analyzers\\CodeOfChaos.Extensions.Analyzers.csproj",
+      "src\\CodeOfChaos.Extensions.AspNetCore.Components\\CodeOfChaos.Extensions.AspNetCore.Components.csproj",
+      "src\\CodeOfChaos.Extensions.AspNetCore\\CodeOfChaos.Extensions.AspNetCore.csproj",
+      "src\\CodeOfChaos.Extensions.DependencyInjection.Generators\\CodeOfChaos.Extensions.DependencyInjection.Generators.csproj",
+      "src\\CodeOfChaos.Extensions.DependencyInjection\\CodeOfChaos.Extensions.DependencyInjection.csproj",
+      "src\\CodeOfChaos.Extensions.EntityFrameworkCore\\CodeOfChaos.Extensions.EntityFrameworkCore.csproj",
+      "src\\CodeOfChaos.Extensions.FluentValidation\\CodeOfChaos.Extensions.FluentValidation.csproj",
+      "src\\CodeOfChaos.Extensions.MicrosoftLogging\\CodeOfChaos.Extensions.MicrosoftLogging.csproj",
+      "src\\CodeOfChaos.Extensions.ObjectPool\\CodeOfChaos.Extensions.ObjectPool.csproj",
+      "src\\CodeOfChaos.Extensions.Serilog\\CodeOfChaos.Extensions.Serilog.csproj",
+      "src\\CodeOfChaos.Extensions\\CodeOfChaos.Extensions.csproj",
+    ]
+  }
+}

@@ -15,4 +15,3 @@
 - `src/CodeOfChaos.Extensions.MicrosoftLogging`: Microsoft.Extensions.Logging helpers
 - `src/CodeOfChaos.Extensions.ObjectPool`: ObjectPool extensions
 - `src/CodeOfChaos.Extensions.Serilog`: Serilog extensions
-- `src/Tools.CodeOfChaos.Extensions`: Internal tooling project
