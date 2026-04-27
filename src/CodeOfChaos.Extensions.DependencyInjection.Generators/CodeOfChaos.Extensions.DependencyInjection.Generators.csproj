@@ -1,7 +1,8 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
+        <!--suppress MsbuildTargetFrameworkTagInspection -->
+        <TargetFrameworks>netstandard2.0</TargetFrameworks>
         <IsPackable>false</IsPackable>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
@@ -13,27 +14,12 @@
         <IncludeBuildOutput>false</IncludeBuildOutput>
         <IncludeSymbols>false</IncludeSymbols>
         <SuppressDependenciesWhenPacking>true</SuppressDependenciesWhenPacking>
+        <GeneratePackageOnBuild>false</GeneratePackageOnBuild>
 
         <PackageId>CodeOfChaos.Extensions.DependencyInjection.Generators</PackageId> <!-- Main package name -->
-        <Version>0.90.0</Version> <!-- Package version -->
-        <Authors>Anna Sas</Authors>
         <Description>A small package allowing easy collection of dependency injection services</Description>
-        <PackageProjectUrl>https://github.com/code-of-chaos/cs-code_of_chaos-extensions</PackageProjectUrl>
         <PackageTags>dependency injection;di</PackageTags>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <DebugType>embedded</DebugType>
-        <PackageLicenseFile>LICENSE</PackageLicenseFile>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <PackageIcon>icon.png</PackageIcon>
     </PropertyGroup>
-
-
-    <ItemGroup>
-        <None Include="../../LICENSE" Pack="true" PackagePath="" Visible="false" />
-        <None Include="../../src/CodeOfChaos.Extensions.DependencyInjection/README.md" Pack="true" PackagePath="" />
-        <None Include="../../assets/icon.png" Pack="true" PackagePath="" Visible="false" />
-    </ItemGroup>
 
     <ItemGroup>
         <PackageReference Include="IsExternalInit">
