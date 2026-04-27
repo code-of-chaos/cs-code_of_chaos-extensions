@@ -4,10 +4,8 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics.CodeAnalysis;
-using System.Linq;
 
 namespace CodeOfChaos.Extensions.DependencyInjection.Generators;
 // ---------------------------------------------------------------------------------------------------------------------
