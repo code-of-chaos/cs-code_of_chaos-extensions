@@ -42,11 +42,11 @@ jobs:
                     dotnet-version: 10.x
 
             -   name: Restore dependencies
-                run: dotnet restore CodeOfChaos.Markdown.Testing.slnf
+                run: dotnet restore CodeOfChaos.Extensions.Testing.slnf
 
             -   name: Build
-                run: dotnet build CodeOfChaos.Markdown.Testing.slnf --configuration Release --no-restore
+                run: dotnet build CodeOfChaos.Extensions.Testing.slnf --configuration Release --no-restore
 
             -   name: Run tests
-                run: dotnet test --solution CodeOfChaos.Markdown.Testing.slnf --configuration Release --no-restore --no-build
+                run: dotnet test --solution CodeOfChaos.Extensions.Testing.slnf --configuration Release --no-restore --no-build
               

@@ -70,13 +70,13 @@ jobs:
                         10.x
 
             -   name: Restore dependencies
-                run: dotnet restore CodeOfChaos.Markdown.Testing.slnf
+                run: dotnet restore CodeOfChaos.Extensions.Testing.slnf
 
             -   name: Build
-                run: dotnet build CodeOfChaos.Markdown.Testing.slnf --configuration Release --no-restore
+                run: dotnet build CodeOfChaos.Extensions.Testing.slnf --configuration Release --no-restore
 
             -   name: Run tests
-                run: dotnet test --solution CodeOfChaos.Markdown.Testing.slnf --configuration Release --no-restore --no-build
+                run: dotnet test --solution CodeOfChaos.Extensions.Testing.slnf --configuration Release --no-restore --no-build
     
     bump-version:
         name: Bump Version
@@ -172,13 +172,13 @@ jobs:
                     dotnet-version: 10.x
 
             -   name: Restore dependencies
-                run: dotnet restore CodeOfChaos.Markdown.Release.slnf
+                run: dotnet restore CodeOfChaos.Extensions.Release.slnf
 
             -   name: Build
-                run: dotnet build CodeOfChaos.Markdown.Release.slnf --configuration Release --no-restore /p:SolutionDir=${{ github.workspace }}/
+                run: dotnet build CodeOfChaos.Extensions.Release.slnf --configuration Release --no-restore /p:SolutionDir=${{ github.workspace }}/
 
             -   name: Pack
-                run: dotnet pack CodeOfChaos.Markdown.Release.slnf --configuration Release -o ./release
+                run: dotnet pack CodeOfChaos.Extensions.Release.slnf --configuration Release -o ./release
 
             -   name: Upload NuGet Artifacts
                 uses: actions/upload-artifact@v7

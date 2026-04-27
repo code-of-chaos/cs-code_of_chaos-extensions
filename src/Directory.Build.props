@@ -12,7 +12,7 @@
         <DebugSymbols>true</DebugSymbols>
         
         <PublishRepositoryUrl>true</PublishRepositoryUrl>
-        <RepositoryUrl>https://github.com/code-of-chaos/Extensions.git</RepositoryUrl>
+        <RepositoryUrl>https://github.com/code-of-chaos/CodeOfChaos.Extensions.git</RepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         
         <Version>0.90.0</Version>
