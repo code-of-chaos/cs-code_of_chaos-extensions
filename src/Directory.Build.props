@@ -15,7 +15,7 @@
         <RepositoryUrl>https://github.com/code-of-chaos/CodeOfChaos.Extensions.git</RepositoryUrl>
         <EmbedUntrackedSources>true</EmbedUntrackedSources>
         
-        <Version>0.90.0</Version>
+        <Version>0.91.0</Version>
         <Authors>Anna Sas</Authors>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <PackageLicenseFile>LICENSE</PackageLicenseFile>
