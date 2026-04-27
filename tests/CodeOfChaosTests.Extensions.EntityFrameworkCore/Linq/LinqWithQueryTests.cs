@@ -8,13 +8,22 @@ namespace CodeOfChaosTests.Extensions.EntityFrameworkCore.Linq;
 // Code
 // ---------------------------------------------------------------------------------------------------------------------
 public class LinqWithQueryTests {
+    private static readonly string[] Input = ["a", "b", "c"];
+
+    // -----------------------------------------------------------------------------------------------------------------
+    // Methods
+    // -----------------------------------------------------------------------------------------------------------------
+    public static IEnumerable<Func<(string, string[])>> ConditionalInclude_ShouldReturnSourceAsIs_GetTestCases() {
+        yield return () => ("a", ["a"]);
+        yield return () => ("b", ["b"]);
+        yield return () => ("c", ["c"]);
+    }
+    
     [Test]
-    [Arguments("a", new[] { "a", "b", "c" }, new[] { "a" })]
-    [Arguments("b", new[] { "a", "b", "c" }, new[] { "b" })]
-    [Arguments("c", new[] { "a", "b", "c" }, new[] { "c" })]
-    public async Task ConditionalInclude_ShouldReturnSourceAsIs(string filter, IEnumerable<string> input, IEnumerable<string> expected) {
+    [MethodDataSource(nameof(ConditionalInclude_ShouldReturnSourceAsIs_GetTestCases))]
+    public async Task ConditionalInclude_ShouldReturnSourceAsIs(string filter, params string[] expected) {
         // Arrange
-        IQueryable<string> source = input.AsQueryable();
+        IQueryable<string> source = Input.AsQueryable();
 
         // Act
         IQueryable<string> output = source.With(WhereArg, filter);
@@ -28,13 +37,17 @@ public class LinqWithQueryTests {
         }
     }
 
+    public static IEnumerable<Func<(string, string, string[])>> ConditionalInclude_2Args_ShouldReturnSourceAsIs_GetTestCases() {
+        yield return () => ("a", "c", ["a", "c"]);
+        yield return () => ("b", "", ["b"]);
+        yield return () => ("c", "c", ["c"]);
+    }
+
     [Test]
-    [Arguments("a", "c", new[] { "a", "b", "c" }, new[] { "a", "c" })]
-    [Arguments("b", "", new[] { "a", "b", "c" }, new[] { "b" })]
-    [Arguments("c", "c", new[] { "a", "b", "c" }, new[] { "c" })]
-    public async Task ConditionalInclude_ShouldReturnSourceAsIs(string arg0, string arg1, IEnumerable<string> input, IEnumerable<string> expected) {
+    [MethodDataSource(nameof(ConditionalInclude_2Args_ShouldReturnSourceAsIs_GetTestCases))]
+    public async Task ConditionalInclude_2Args_ShouldReturnSourceAsIs(string arg0, string arg1, string[] expected) {
         // Arrange
-        IQueryable<string> source = input.AsQueryable();
+        IQueryable<string> source = Input.AsQueryable();
 
         // Act
         IQueryable<string> output = source.With(WhereArg, arg0, arg1);
